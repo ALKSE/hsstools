@@ -25,5 +25,5 @@ names(df) <- c("index", "gender", "location",
                      "singleresponse", "multiresponse",
                      "multi_option1", "multi_option2", "multi_option3")
 df[df$multiresponse == "No", 6:8] <- NA
-print(df)
+df
 }
