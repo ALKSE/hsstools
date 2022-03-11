@@ -4,10 +4,12 @@
 \alias{testdata}
 \title{Generates a dataframe for testing purposes.}
 \usage{
-testdata(rows = 500)
+testdata(rows = 500, seed = 1234)
 }
 \arguments{
 \item{rows}{An integer to set the number of rows to generate. Default is 500.}
+
+\item{seed}{Set the seed for random number generation. Default is 1234.}
 }
 \value{
 A dataframe

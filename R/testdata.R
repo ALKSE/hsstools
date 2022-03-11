@@ -1,13 +1,14 @@
 #' Generates a dataframe for testing purposes.
 #'
 #' @param rows An integer to set the number of rows to generate. Default is 500.
-#'
+#' @param seed Set the seed for random number generation. Default is 1234.
 #' @return A dataframe
 #' @export
 #'
 #' @examples
 #' df <- testdata(100)
-testdata <- function(rows = 500) {
+testdata <- function(rows = 500, seed = 1234) {
+  set.seed(seed)
 a <- seq_along(1:rows)
 b <- factor(sample(1:2, rows, replace = TRUE))
 levels(b) <- c("Gender 1", "Gender 2")
