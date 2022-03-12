@@ -26,11 +26,13 @@ hssmultitable_sub(df, question, valid, resp, group, percent = TRUE)
 A specific implementation of hssmultitable for sub-questions
 }
 \examples{
-data <-testdata()
-hssmultitable_sub(df = data,
-                  question = "multiresponse",
-                  valid = "Yes",
-                  resp = c("multi_option1", "multi_option2", "multi_option3"),
-                  group = "location",
-                  percent = TRUE)
+data <- testdata()
+hssmultitable_sub(
+  df = data,
+  question = "multiresponse",
+  valid = "Yes",
+  resp = c("multi_option1", "multi_option2", "multi_option3"),
+  group = "location",
+  percent = TRUE
+)
 }

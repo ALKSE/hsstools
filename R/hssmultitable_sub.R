@@ -11,15 +11,26 @@
 #' @export
 #'
 #' @examples
-#'data <-testdata()
-#' hssmultitable_sub(df = data,
-#'                   question = "multiresponse",
-#'                   valid = "Yes",
-#'                   resp = c("multi_option1", "multi_option2", "multi_option3"),
-#'                   group = "location",
-#'                   percent = TRUE)
+#' data <- testdata()
+#' hssmultitable_sub(
+#'   df = data,
+#'   question = "multiresponse",
+#'   valid = "Yes",
+#'   resp = c("multi_option1", "multi_option2", "multi_option3"),
+#'   group = "location",
+#'   percent = TRUE
+#' )
 hssmultitable_sub <- function(df, question, valid, resp, group, percent = TRUE) {
-  total <- if(percent == TRUE) {"mean"} else {"sum"}
+  if (is.factor(df[[group]]) == FALSE) {
+    warning("Grouping variable is not a factor. Missing levels may not appear in table")
+  }
+
+  total <- if (percent == TRUE) {
+    "mean"
+  } else {
+    "sum"
+  }
+
   addmargins(
     cross.multi.table(df[
       df[[question]] %in% valid,

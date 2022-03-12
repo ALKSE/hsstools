@@ -12,18 +12,23 @@
 #' data <- testdata()
 #' hssmultitable(data, c("multi_option1", "multi_option2", "multi_option3"), "gender")
 hssmultitable <- function(df, resp, group, percent = TRUE) {
+  if (is.factor(df[[group]]) == FALSE) {
+    warning("Grouping variable is not a factor. Missing levels may not appear in table")
+  }
+
   total <- if (percent == TRUE) {
     "mean"
   } else {
     "sum"
   }
+
   addmargins(
     cross.multi.table(df[!is.na(resp[1]), resp],
-                      crossvar = df[!is.na(resp[1])][[group]],
-                      freq = percent,
-                      tfreq = "col",
-                      n = FALSE,
-                      na.rm = TRUE
+      crossvar = df[!is.na(resp[1])][[group]],
+      freq = percent,
+      tfreq = "col",
+      n = FALSE,
+      na.rm = TRUE
     ),
     margin = 2,
     FUN = total
