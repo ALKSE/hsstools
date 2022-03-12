@@ -23,7 +23,7 @@ hssmultitable <- function(df, resp, group, percent = TRUE) {
   }
 
   addmargins(
-    cross.multi.table(df[!is.na(resp[1]), resp],
+    questionr::cross.multi.table(df[!is.na(resp[1]), resp],
       crossvar = df[!is.na(resp[1])][[group]],
       freq = percent,
       tfreq = "col",

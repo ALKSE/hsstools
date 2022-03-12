@@ -32,7 +32,7 @@ hssmultitable_sub <- function(df, question, valid, resp, group, percent = TRUE) 
   }
 
   addmargins(
-    cross.multi.table(df[
+    questionr::cross.multi.table(df[
       df[[question]] %in% valid,
       resp
     ],
