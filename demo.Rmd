@@ -1,0 +1,80 @@
+---
+title: "HSS Summary Report"
+author: "Renze Terpstra"
+date: "3/11/2022"
+output: 
+  word_document:
+  pdf_document:
+params:
+  location: Location
+  month: Month
+  year: 2022
+  language: 
+    label: "Select language"
+    value: en
+    input: select
+    choices: [en, ar]
+  grouping:
+    label: "Grouping"
+    value: location
+    input: select
+    choices: [location, gender] 
+  tables:
+    label: "Table type"
+    value: percent
+    input: select
+    choices: [percent, count] 
+  data: 
+    label: "Input dataset"
+    value: 
+    input: file
+
+  # add R objects by including !r before the name
+  # You could use output_file = paste0("Summary-", location, "-", month, "-", year, .docx)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(devtools)
+library(knitr)
+library(questionr)
+library(flextable)
+load_all()
+data <- testdata()
+```
+
+# `r params$location` - `r params$month` `r params$year`
+
+## This is an example of a contingency table
+
+```{r singleresponse, echo = FALSE}
+t <- hssfreqtable(data, "singleresponse", params$grouping)
+ p <- hsschisq(data, "singleresponse", params$grouping)
+ knitr::kable(t, format = "simple")
+```
+
+Chi-squared is `r if(p > 0.05) {"not"}` significant (p = `r round(p, digits = 3)`)
+
+## This is an example of a multi-response contingency table
+
+
+```{r multi, echo=FALSE}
+t <- hssmultitable(df = data, resp = c("multi_option1", "multi_option2", "multi_option3"), group = params$grouping)
+p <- hsschisq(data, c("multi_option1", "multi_option2", "multi_option3"), group = params$grouping)
+knitr::kable(t, format = "simple")
+```
+
+p values for multiresponse answers: `r round(p, digits = 3)`
+
+
+## This is an example of a contingency table with subsetting
+
+
+```{r subset, echo=FALSE}
+t <- hssfreqtable_sub(data, "multiresponse", "Yes", "singleresponse", params$grouping)
+p <- hsschisq(data, "singleresponse", params$grouping)
+knitr::kable(t, format = "simple")
+```
+
+p values for contingency table with subsetting: `r round(p, digits = 3)`
+NB: this still needs a bit of work!!
