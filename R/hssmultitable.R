@@ -22,7 +22,7 @@ hssmultitable <- function(df, resp, group, percent = TRUE) {
     "sum"
   }
 
-  addmargins(
+  x <- addmargins(
     questionr::cross.multi.table(df[!is.na(resp[1]), resp],
       crossvar = df[!is.na(resp[1])][[group]],
       freq = percent,
@@ -32,5 +32,18 @@ hssmultitable <- function(df, resp, group, percent = TRUE) {
     ),
     margin = 2,
     FUN = total
+  )
+  p <- sapply(
+    resp,
+    function(x) {
+      chisq.test(
+        table(df[[x]], df[[group]])
+      )[["p.value"]]
+    }
+  )
+  x <- cbind(
+    "Answer" = rownames(x),
+    as.data.frame.matrix(x, row.names = NULL),
+    p
   )
 }

@@ -30,7 +30,7 @@ params:
     input: file
 
   # add R objects by including !r before the name
-  # You could use output_file = paste0("Summary-", location, "-", month, "-", year, .docx)
+  # You could use output_file = paste0("Summary-", location, "-", month, "-", year, .docx) to automatically generate proper filenames
 ---
 
 ```{r setup, include=FALSE}
@@ -39,6 +39,7 @@ library(devtools)
 library(knitr)
 library(questionr)
 library(flextable)
+library(officer)
 load_all()
 data <- testdata()
 ```
@@ -49,32 +50,32 @@ data <- testdata()
 
 ```{r singleresponse, echo = FALSE}
 t <- hssfreqtable(data, "singleresponse", params$grouping)
- p <- hsschisq(data, "singleresponse", params$grouping)
- knitr::kable(t, format = "simple")
+p <- hsschisq(data, "singleresponse", params$grouping)
+t <- flextable(t)
+t <- hssformat(t)
+knit_print(t)
 ```
 
-Chi-squared is `r if(p > 0.05) {"not"}` significant (p = `r round(p, digits = 3)`)
+
+
+If we manually set the p-value to something else, the text will change accordingly
+```{r pval, echo = TRUE}
+p <- 0.001
+paste("Chi-squared is ", if(p > 0.05) {"not"}, " significant (p = ", p, ")", sep = "")
+
+```
 
 ## This is an example of a multi-response contingency table
 
 
 ```{r multi, echo=FALSE}
 t <- hssmultitable(df = data, resp = c("multi_option1", "multi_option2", "multi_option3"), group = params$grouping)
-p <- hsschisq(data, c("multi_option1", "multi_option2", "multi_option3"), group = params$grouping)
-knitr::kable(t, format = "simple")
+# p <- hsschisq(data, c("multi_option1", "multi_option2", "multi_option3"), group = params$grouping)
+t[1, "p"] <- 0.001
+t <- flextable(t)
+t <- hssformat_multi(t)
+t
 ```
 
-p values for multiresponse answers: `r round(p, digits = 3)`
 
 
-## This is an example of a contingency table with subsetting
-
-
-```{r subset, echo=FALSE}
-t <- hssfreqtable_sub(data, "multiresponse", "Yes", "singleresponse", params$grouping)
-p <- hsschisq(data, "singleresponse", params$grouping)
-knitr::kable(t, format = "simple")
-```
-
-p values for contingency table with subsetting: `r round(p, digits = 3)`
-NB: this still needs a bit of work!!

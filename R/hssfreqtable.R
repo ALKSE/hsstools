@@ -13,11 +13,11 @@
 #' hssfreqtable(data, "singleresponse", "gender")
 hssfreqtable <- function(df, var, group, percent = TRUE) {
   if (is.factor(df[[var]]) == FALSE | is.factor(df[[group]]) == FALSE) {
-    warning("Not all selected variables are factors. Missing levels may not appear in table")
+    warning("Missing levels may not appear in table")
   }
 
   if (percent == TRUE) {
-    addmargins(
+    x <- addmargins(
       proportions(
         addmargins(
           table(df[[var]], df[[group]]),
@@ -27,8 +27,15 @@ hssfreqtable <- function(df, var, group, percent = TRUE) {
       ),
       margin = 1
     )
+    x <- as.data.frame(
+      matrix(
+        sprintf("%.0f%%", x * 100),
+        nrow(x),
+        dimnames = dimnames(x)
+      )
+    )
   } else {
-    addmargins(
+    x <- addmargins(
       addmargins(
         table(df[[var]], df[[group]]),
         margin = 2
@@ -36,4 +43,9 @@ hssfreqtable <- function(df, var, group, percent = TRUE) {
       margin = 1
     )
   }
+  x <- cbind(
+    "Answer" = rownames(x),
+    as.data.frame.matrix(x, row.names = NULL)
+  )
+  x
 }
