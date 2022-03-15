@@ -11,10 +11,9 @@ hssformat <- function(x) {
   # header
   x <- bg(x, bg = "#E64F1A", part = "header")
   x <- color(x, color = "white", part = "header")
-  x <- add_header_row(x, values = "question", colwidth = ncol_keys(x))
   # body
   x <- bg(x, bg = "#F2F2F2", part = "body")
-  x <- autofit(x, part = c("header", "body"))
+  x <-set_table_properties(x, layout = "autofit")
   # footer
   x <- add_footer_row(
     x,

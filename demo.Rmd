@@ -16,9 +16,9 @@ params:
     choices: [en, ar]
   grouping:
     label: "Grouping"
-    value: location
+    value: district
     input: select
-    choices: [location, gender] 
+    choices: [district, gender] 
   tables:
     label: "Table type"
     value: percent
@@ -27,6 +27,14 @@ params:
   data: 
     label: "Input dataset"
     value: 
+    input: file
+  dictionary:
+    label: "Input XLS form"
+    value:
+    input: file
+  lookup:
+    label: "Input lookup (.do) file"
+    value:
     input: file
 
   # add R objects by including !r before the name
@@ -40,8 +48,12 @@ library(knitr)
 library(questionr)
 library(flextable)
 library(officer)
+library(readxl)
 load_all()
 data <- testdata()
+dict_var <- hssdict(params$dictionary, type = "vars")
+dict_val <- hssdict(params$dictionary, type = "vals")
+lookuplist <- hsslookup(params$lookup)
 ```
 
 # `r params$location` - `r params$month` `r params$year`
@@ -52,6 +64,7 @@ data <- testdata()
 t <- hssfreqtable(data, "singleresponse", params$grouping)
 p <- hsschisq(data, "singleresponse", params$grouping)
 t <- flextable(t)
+t <- hsslabel(t, "Q0_1_a", dict_var, dict_val, lang = params$language)
 t <- hssformat(t)
 knit_print(t)
 ```
