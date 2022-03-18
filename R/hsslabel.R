@@ -29,11 +29,13 @@ hsslabel <- function(table, variable, dict_var, dict_val, lang = "en", lookup = 
   )
   table
 }
+
 #' @rdname hsslabel
 hsslabel_var <- function(variable, dict_var, lang = "en", lookup = FALSE, lookuplist) {
   variable <- if(lookup == TRUE) {hssnamelookup(lookuplist, variable)} else {variable}
   dict_var[dict_var["name"] == variable, ][[lang]]
 }
+
 #' @rdname hsslabel
 hsslabel_val <- function(variable, dict_var, dict_val, lang = "en", lookup = FALSE, lookuplist) {
   variable <- if(lookup == TRUE) {hssnamelookup(lookuplist, variable)} else {variable}
