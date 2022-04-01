@@ -4,18 +4,18 @@
 \alias{hssmultiresponses}
 \title{Find response options for 'select multiple' questions}
 \usage{
-hssmultiresponses(variable, dict_var, dict_val, lookuplist, lookup = FALSE)
+hssmultiresponses(variable, lookup = TRUE)
 }
 \arguments{
 \item{variable}{The question for which response options should be returned. This is the "Q" number or, if lookup is set to TRUE, this is the new variable name.}
+
+\item{lookup}{Set to TRUE to use a lookup table for renamed variables.}
 
 \item{dict_var}{The dictionary object containing the variable names and labels.}
 
 \item{dict_val}{The dictionary object containing the value names and labels.}
 
 \item{lookuplist}{The object containing the lookup list.}
-
-\item{lookup}{Set to TRUE to use a lookup table for renamed variables.}
 }
 \value{
 

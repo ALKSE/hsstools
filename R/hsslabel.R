@@ -19,26 +19,35 @@
 #'
 #' @examples
 #' WIP
-hsslabel <- function(table, variable, dict_var, dict_val, lang = "en", lookup = FALSE, lookuplist) {
+hsslabel <- function(table, variable, dict_var, dict_val, lang = "english", lookup = TRUE, lookuplist) {
+  if(!is.na(hsslabel_var(variable, dict_var, lang, lookup, lookuplist)[1]) == TRUE) {
   table <- add_header_lines(table, values = hsslabel_var(variable, dict_var, lang, lookup, lookuplist))
+  }
+  if(!is.na(hsslabel_val(variable, dict_var, dict_val,lang, lookup, lookuplist)[1]) == TRUE) {
   table <-  mk_par(table, j = "Answer", value = as_paragraph(
     as_chunk(hsslabel_val(variable, dict_var, dict_val,lang, lookup, lookuplist)
-
     )
   )
   )
+  }
   table
 }
 
 #' @rdname hsslabel
-hsslabel_var <- function(variable, dict_var, lang = "en", lookup = FALSE, lookuplist) {
+hsslabel_var <- function(variable, dict_var, lang = "english", lookup = TRUE, lookuplist) {
   variable <- if(lookup == TRUE) {hssnamelookup(lookuplist, variable)} else {variable}
-  dict_var[dict_var["name"] == variable, ][[lang]]
+  dplyr::filter(dict_var, name == variable) %>%
+    dplyr::select(paste("label", lang, sep = "_")) %>%
+    as.character()
 }
 
 #' @rdname hsslabel
-hsslabel_val <- function(variable, dict_var, dict_val, lang = "en", lookup = FALSE, lookuplist) {
+hsslabel_val <- function(variable, dict_var, dict_val, lang = "english", lookup = TRUE, lookuplist) {
   variable <- if(lookup == TRUE) {hssnamelookup(lookuplist, variable)} else {variable}
-  x <- dict_var[dict_var["name"] == variable, ][[1]]
-  dict_val[dict_val["varname"] == x, ][[lang]]
+  x <-   dplyr::filter(dict_var, name == variable) %>%
+    dplyr::select(type) %>%
+    as.character()
+  dplyr::filter(dict_val, list_name == x) %>%
+    dplyr::select(paste("label", lang, sep = "_")) %>%
+    unlist(use.names = FALSE)
 }

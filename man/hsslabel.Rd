@@ -11,19 +11,19 @@ hsslabel(
   variable,
   dict_var,
   dict_val,
-  lang = "en",
-  lookup = FALSE,
+  lang = "english",
+  lookup = TRUE,
   lookuplist
 )
 
-hsslabel_var(variable, dict_var, lang = "en", lookup = FALSE, lookuplist)
+hsslabel_var(variable, dict_var, lang = "english", lookup = TRUE, lookuplist)
 
 hsslabel_val(
   variable,
   dict_var,
   dict_val,
-  lang = "en",
-  lookup = FALSE,
+  lang = "english",
+  lookup = TRUE,
   lookuplist
 )
 }

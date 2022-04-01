@@ -11,5 +11,5 @@
 #' WIP
 hssnamelookup <- function(list, lookup, reverse = FALSE) {
   pos <- if(reverse == TRUE) {2} else {1}
-  sapply(lookup, function(y) unlist(list[sapply(list, function(x) y %in% x)])[pos])
+  lapply(lookup, function(y) unlist(list[sapply(list, function(x) y %in% x)])[pos])
 }

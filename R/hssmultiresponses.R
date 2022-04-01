@@ -11,10 +11,10 @@
 #'
 #' @examples
 #' WIP
-hssmultiresponses <- function(variable, dict_var, dict_val, lookuplist, lookup = FALSE) {
+hssmultiresponses <- function(variable, lookup = TRUE) {
   variable <- if(lookup == TRUE) {hssnamelookup(lookuplist, variable)} else {variable}
   x <- dict_var[dict_var["name"] == variable, ][[1]]
-  y <- dict_val[dict_val["varname"] == x, ][[2]]
-  z <- sapply(y, function(x) paste(variable, x, sep = ""))
+  y <- dict_val[dict_val["list_name"] == x, ][[3]]
+  z <- lapply(y, function(x) paste(variable, x, sep = ""))
   hssnamelookup(lookuplist, z, reverse = TRUE)
 }

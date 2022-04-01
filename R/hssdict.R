@@ -10,16 +10,13 @@
 #' @rdname hssdict
 hssdict <- function(form, type = "vars") {
   if (type == "vars") {
-    x <- readxl::read_xls(path = form, sheet = 1)
+    x <- janitor::clean_names(readxl::read_xls(path = form, sheet = 1))
     x[["type"]] <- gsub(".+\\s", "", x[["type"]])
-    x <- x[, c("type", "name", "label::English", "label::Arabic")]
-    colnames(x) <- c("type", "name", "en", "ar")
     x <- x[!is.na(x[["name"]]), ]
     x
   } else if (type == "vals") {
-    x <- readxl::read_xls(path = form, sheet = 2)
-    colnames(x) <- c("varname", "level", "en", "ar", "stata", "governorate", "district")
-    x <- x[!is.na(x[["varname"]]), ]
+    x <- janitor::clean_names(readxl::read_xls(path = form, sheet = 2))
+    x <- x[!is.na(x[["list_name"]]), ]
     x
   } else {
     stop(paste(type, "is not a valid input type. Use \'vars\' or \'vals\'."))

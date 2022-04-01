@@ -9,8 +9,8 @@
 #' WIP
 hsslookup <- function(dofile) {
   x <- readLines(dofile)
-  x <- l[startsWith(l, "rename") == TRUE]
-  x <- gsub("rename\t+", "", l)
-  x <- strsplit(l, "\\t+")
+  x <- x[startsWith(x, "rename") == TRUE]
+  x <- gsub("rename\t+", "", x)
+  x <- strsplit(x, "\\t+")
   x
 }

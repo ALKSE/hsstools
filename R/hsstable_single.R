@@ -12,21 +12,14 @@
 #' data <- testdata()
 #' hssfreqtable(data, "singleresponse", "gender")
 hsstable_single <- function(df, var, group, percent = TRUE) {
-  if (is.factor(df[[var]]) == FALSE | is.factor(df[[group]]) == FALSE) {
-    warning("Missing levels may not appear in table")
-  }
-
   if (percent == TRUE) {
-    x <- addmargins(
-      proportions(
+    x <- proportions(
         addmargins(
-          table(df[[var]], df[[group]]),
+          table(as_factor(df[[var]]), as_factor(df[[group]])),
           margin = 2
         ),
         margin = 2
-      ),
-      margin = 1
-    )
+      )
     x <- as.data.frame(
       matrix(
         sprintf("%.0f%%", x * 100),
@@ -34,14 +27,13 @@ hsstable_single <- function(df, var, group, percent = TRUE) {
         dimnames = dimnames(x)
       )
     )
+   x <- dplyr::select(x, !contains("refused"))
   } else {
-    x <- addmargins(
+    x <-
       addmargins(
         table(df[[var]], df[[group]]),
         margin = 2
-      ),
-      margin = 1
-    )
+      )
   }
   x <- cbind(
     "Answer" = rownames(x),
@@ -60,23 +52,17 @@ hsstable_single_sub <- function(df, question, valid, var, group, percent = TRUE)
   }
 
   if (percent == TRUE) {
-    addmargins(
       proportions(
         addmargins(
           table(df[df[[question]] %in% valid, var], df[df[[question]] %in% valid, group]),
           margin = 2
         ),
         margin = 2
-      ),
-      margin = 1
-    )
+      )
   } else {
-    addmargins(
       addmargins(
         table(df[df[[question]] %in% valid, var], df[df[[question]] %in% valid, group]),
         margin = 2
-      ),
-      margin = 1
-    )
+      )
   }
 }
