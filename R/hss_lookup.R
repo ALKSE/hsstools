@@ -28,5 +28,5 @@ hss_lookup_val <- function(var, input_col, return_col) {
 #' @rdname hss_lookup
 hss_lookup_list <- function(var, reverse = FALSE) {
   pos <- if(reverse == TRUE) {2} else {1}
-  lapply(var, function(y) unlist(lookuplist[sapply(lookuplist, function(x) y %in% x)])[pos])
+  unlist(lapply(var, function(y) unlist(lookuplist[sapply(lookuplist, function(x) y %in% x)])[pos]))
 }

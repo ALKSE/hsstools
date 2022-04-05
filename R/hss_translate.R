@@ -5,7 +5,7 @@
 #' @return A dataframe containing Arabic text columns and their English translations.
 #' @export
 #'
-hss_translate <- function(df) {
+hss_translate <- function(df, apikey) {
   library(dplyr)
   library(stringr)
   library(translateR)

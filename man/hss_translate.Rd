@@ -4,7 +4,7 @@
 \alias{hss_translate}
 \title{Translate HSS content from Arabic to English}
 \usage{
-hss_translate(df)
+hss_translate(df, apikey)
 }
 \arguments{
 \item{df}{the dataframe containing Arabic text columns. These columns are expected to end in "_ar"}
