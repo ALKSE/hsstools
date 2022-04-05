@@ -12,6 +12,10 @@
 #' data <- testdata()
 #' hssfreqtable(data, "singleresponse", "gender")
 hsstable_single <- function(df, var, group, percent = TRUE) {
+
+# for determining sub-questions: this is determined in column 'relevant' of XLSform/dict_val
+  # in de vorm ${Q0_1} = '2'. Kan hier vraagnummer en antwoordnummer uithalen!!
+
   if (percent == TRUE) {
     x <- proportions(
         addmargins(
