@@ -9,17 +9,13 @@
 #' @export
 #'
 hss_table_single <- function(df, var, group, percent = TRUE) {
-
-  # for determining sub-questions: this is determined in column 'relevant' of XLSform/dict_val
-  # in de vorm ${Q0_1} = '2'. Kan hier vraagnummer en antwoordnummer uithalen!!
-
-  if (percent == TRUE) {
-    sub_var <- hss_lookup_var(hss_lookup_list(variable), 2, 8)
+    sub_var <- hss_lookup_var(hss_lookup_list(var), 2, 8)
     if (is.na(sub_var)) {
       sub_q <- str_match(sub_var, "Q.+(?=\\})")
       sub_a <- str_match(sub_var, "(?<=\\')\\d{1,2}(?=\\')")
       df <- df %>% filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
     }
+    if (percent == TRUE) {
     x <- proportions(
       addmargins(
         table(as_factor(df[[var]]), as_factor(df[[group]])),
@@ -36,12 +32,6 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
     )
     x <- dplyr::select(x, !contains("refused"))
   } else if (percent == FALSE) {
-    i <- hss_lookup_var(hss_lookup_list(variable), 2, 8)
-    if (is.na(i)) {
-      q <- str_match(i, "Q.+(?=\\})")
-      a <- str_match(i, "(?<=\\')\\d{1,2}(?=\\')")
-      df <- df %>% filter(.[hss_lookup_list(q, TRUE)] == !!as.numeric(a))
-    }
     x <-
       addmargins(
         table(df[[var]], df[[group]]),
