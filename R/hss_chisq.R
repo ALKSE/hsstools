@@ -5,13 +5,10 @@
 #' @param group The grouping (or disaggregation) variable.
 #' @param full should the full results be returned. If set to FALSE, only p.value is returned
 #'
-#' @return A list or vector containing the results of the chi-squared test.
+#' @return A vector containing the results of the chi-squared test for the selected variables.
 #' @export
 #'
-#' @examples
-#' data <- testdata()
-#' hsschisq(data, c("multi_option1", "multi_option2", "multi_option3"), "gender")
-hsschisq <- function(df, vars, group, full = FALSE) {
+hss_chisq <- function(df, vars, group, full = FALSE) {
   if (full == FALSE) {
     sapply(
       vars,
