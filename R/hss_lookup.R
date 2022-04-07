@@ -16,6 +16,9 @@
 #' @rdname hss_lookup
 hss_lookup_var <- function(var, input_col, return_col) {
   require(dplyr)
+  if(var %in% dict_var[[input_col]] == FALSE) {
+    stop("variable name \'", var, "\' not present in dict_var column: \'", names(dict_var[input_col]), "\'.")
+  }
   dict_var %>% dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
@@ -23,7 +26,10 @@ hss_lookup_var <- function(var, input_col, return_col) {
 #' @rdname hss_lookup
 hss_lookup_val <- function(var, input_col, return_col) {
   require(dplyr)
-  dict_val %>% dplyr::filter(.[[input_col]] == var) %>%
+  if(var %in% dict_val[[input_col]] == FALSE) {
+    stop("variable name \'", var, "\' not present in dict_val column: \'", names(dict_val[input_col]), "\'.")
+  }
+    dict_val %>% dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
 }

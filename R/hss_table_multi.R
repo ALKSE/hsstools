@@ -10,6 +10,7 @@
 hss_table_multi <- function(df, var, group, percent = TRUE) {
   require(dplyr)
   require(stringr)
+  require(forcats)
   resp <- hss_get_multi(var)
   sub_var <- hss_lookup_var(hss_lookup_list(var), 2, 8)
   if (is.na(sub_var)) {
@@ -24,7 +25,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   }
   x <- addmargins(
     questionr::cross.multi.table(df[!is.na(resp[1]), resp],
-                                 crossvar = df[!is.na(resp[1])][[group]],
+                                 crossvar = as_factor(df[!is.na(resp[1])][[group]]),
                                  freq = percent,
                                  tfreq = "col",
                                  n = FALSE,
