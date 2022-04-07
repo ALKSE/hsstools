@@ -12,4 +12,5 @@ hss_get_multi <- function(var, reverse = TRUE){
   y <- hss_lookup_val(x, 1, 2)
   z <- lapply(y, function(x) paste(hss_lookup_list(var), x, sep = ""))
   unlist(hss_lookup_list(z, reverse))
+  return(z)
 }

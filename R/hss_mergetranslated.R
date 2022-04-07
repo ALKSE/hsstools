@@ -26,4 +26,5 @@ hss_mergetranslated <- function(df, df_translated) {
       .after = gsub("_en", "_ar", i)
     )
   }
+  return(df_merged)
 }

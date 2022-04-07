@@ -9,16 +9,16 @@
 #' WIP
 #' @rdname hss_create_dict
 hss_create_dict <- function(form, type = "var") {
+  require(janitor)
   if (type == "var") {
     x <- janitor::clean_names(readxl::read_xls(path = form, sheet = 1))
     x[["type"]] <- gsub(".+\\s", "", x[["type"]])
     x <- x[!is.na(x[["name"]]), ]
-    x
   } else if (type == "val") {
     x <- janitor::clean_names(readxl::read_xls(path = form, sheet = 2))
     x <- x[!is.na(x[["list_name"]]), ]
-    x
   } else {
-    stop(paste(type, "is not a valid input type. Use \'var\' or \'val\'."))
+    stop(type, "is not a valid input type. Use \'var\' or \'val\'.")
   }
+  return(x)
 }

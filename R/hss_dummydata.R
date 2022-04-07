@@ -26,5 +26,5 @@ hss_dummydata <- function(rows = 500, seed = 1234) {
                  "singleresponse", "multiresponse",
                  "multi_option1", "multi_option2", "multi_option3")
   df[df$multiresponse == "No", 6:8] <- NA
-  df
+  return(df)
 }

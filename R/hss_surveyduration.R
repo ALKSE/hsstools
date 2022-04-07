@@ -1,20 +1,25 @@
-#' Convert columns to date-time and calculate survey duration
+#' Load raw HSS Data
+#' @description Loads raw HSS datafile and performs some basic cleaning: proper encoding of Arabic, dates formatted as date-time objects, calculate survey duration.
+#' @param path Path to the HSS data file. Expects a .csv file
+#' @param skip Number of rows to skip. Default is 0. Use this if you know how many rows contain test data.
 #'
-#' @param df A dataframe containing the Kobo survey results
-#'
-#' @return A dataframe with columns 'SubmissionDate', 'end' and 'start' converted to ymd_hms format; and a new column SurveyDuration as a duration in seconds.
+#' @return A dataframe with an added SurveyDuration column
 #' @export
 #'
-#' @examples
-#' WIP
-hss_surveyduration <- function(df) {
-  df <- df %>% mutate(
-    SubmissionDate = dmy_hms(SubmissionDate),
-    start = dmy_hms(start),
-    end = dmy_hms(end)
+hss_surveyduration <- function(path, skip = 0) {
+  require(readr)
+  require(lubridate)
+  require(dplyr)
+  df <- readr::read_csv(path, skip = skip)
+  # format date-time columns and add surveyduration column
+  if(!"start" %in% names(df) | !"end" %in% names(df)) {stop("Column 'start' or 'end' missing")}
+  df <- df %>% dplyr::mutate(
+    SubmissionDate = lubridate::dmy_hms(SubmissionDate),
+    start = lubridate::dmy_hms(start),
+    end = lubridate::dmy_hms(end)
   ) %>%
-    mutate(SurveyDuration = end - start)
-  df <- df %>% mutate(SurveyDuration = as.duration(SurveyDuration)) %>%
-    relocate(SurveyDuration, .after = end)
-  df
+    dplyr::mutate(SurveyDuration = end - start)
+  df <- df %>% dplyr::mutate(SurveyDuration = lubridate::as.duration(SurveyDuration)) %>%
+    dplyr::relocate(SurveyDuration, .after = end)
+  return(df)
 }

@@ -2,19 +2,18 @@
 % Please edit documentation in R/hss_surveyduration.R
 \name{hss_surveyduration}
 \alias{hss_surveyduration}
-\title{Convert columns to date-time and calculate survey duration}
+\title{Load raw HSS Data}
 \usage{
-hss_surveyduration(df)
+hss_surveyduration(path, skip = 0)
 }
 \arguments{
-\item{df}{A dataframe containing the Kobo survey results}
+\item{path}{Path to the HSS data file. Expects a .csv file}
+
+\item{skip}{Number of rows to skip. Default is 0. Use this if you know how many rows contain test data.}
 }
 \value{
-A dataframe with columns 'SubmissionDate', 'end' and 'start' converted to ymd_hms format; and a new column SurveyDuration as a duration in seconds.
+A dataframe with an added SurveyDuration column
 }
 \description{
-Convert columns to date-time and calculate survey duration
-}
-\examples{
-WIP
+Loads raw HSS datafile and performs some basic cleaning: proper encoding of Arabic, dates formatted as date-time objects, calculate survey duration.
 }

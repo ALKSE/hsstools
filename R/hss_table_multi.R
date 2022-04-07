@@ -8,6 +8,8 @@
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE) {
+  require(dplyr)
+  require(stringr)
   resp <- hss_get_multi(var)
   sub_var <- hss_lookup_var(hss_lookup_list(var), 2, 8)
   if (is.na(sub_var)) {
@@ -37,5 +39,5 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     as.data.frame.matrix(x, row.names = NULL),
     p
   )
-  x
+  return(x)
 }

@@ -15,12 +15,14 @@
 #'
 #' @rdname hss_lookup
 hss_lookup_var <- function(var, input_col, return_col) {
+  require(dplyr)
   dict_var %>% dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
 }
 #' @rdname hss_lookup
 hss_lookup_val <- function(var, input_col, return_col) {
+  require(dplyr)
   dict_val %>% dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)

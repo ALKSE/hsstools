@@ -10,7 +10,7 @@
 #'
 hss_chisq <- function(df, vars, group, full = FALSE) {
   if (full == FALSE) {
-    sapply(
+    x <- sapply(
       vars,
       function(x) {
         chisq.test(
@@ -19,7 +19,7 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
       }
     )
   } else {
-    sapply(
+    x <- sapply(
       vars,
       function(x) {
         chisq.test(
@@ -28,4 +28,5 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
       }
     )
   }
+  return(x)
 }

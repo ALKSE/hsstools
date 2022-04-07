@@ -12,5 +12,5 @@ hss_create_lookuplist <- function(dofile) {
   x <- x[startsWith(x, "rename") == TRUE]
   x <- gsub("rename\t+", "", x)
   x <- strsplit(x, "\\t+")
-  x
+  return(x)
 }

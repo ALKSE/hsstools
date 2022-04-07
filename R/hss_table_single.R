@@ -9,8 +9,10 @@
 #' @export
 #'
 hss_table_single <- function(df, var, group, percent = TRUE) {
+  require(dplyr)
+  require(stringr)
     sub_var <- hss_lookup_var(hss_lookup_list(var), 2, 8)
-    if (is.na(sub_var)) {
+    if (!is.na(sub_var)) {
       sub_q <- str_match(sub_var, "Q.+(?=\\})")
       sub_a <- str_match(sub_var, "(?<=\\')\\d{1,2}(?=\\')")
       df <- df %>% filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
@@ -44,5 +46,5 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
     "Answer" = rownames(x),
     as.data.frame.matrix(x, row.names = NULL)
   )
-  x
+  return(x)
 }
