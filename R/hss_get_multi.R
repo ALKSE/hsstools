@@ -6,11 +6,24 @@
 #' @return a character string with all associated 'select multiple' variable names.
 #' @export
 #'
-hss_get_multi <- function(var, reverse = TRUE){
-  var <- hss_lookup_list(var)
-  x <- hss_lookup_var(var, 2, 1)
-  y <- hss_lookup_val(x, 1, 2)
-  z <- lapply(y, function(x) paste(hss_lookup_list(var), x, sep = ""))
-  z <- unlist(hss_lookup_list(z, reverse))
-  return(z)
+hss_get_multi <- function(var, reverse = TRUE) {
+  if (var %in% dict_var$name == TRUE) {
+    var_old <- var
+    var_new <- hss_lookup_list(var, reverse = TRUE)
+  } else if (hss_lookup_list(var, reverse = FALSE) %in% dict_var$name == TRUE) {
+    var_old <- hss_lookup_list(var, reverse = FALSE)
+    var_new <- var
+  } else {
+    warning(var, " not in dictionary or lookup list.")
+  }
+
+  answers <- names(
+    select(
+      df,
+      starts_with(
+        str_replace(var_new, "_.+", "_")
+      )
+    )
+  )
+  return(answers)
 }
