@@ -11,8 +11,21 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   require(dplyr)
   require(stringr)
   require(forcats)
-  resp <- hss_get_multi(var)
-  sub_var <- hss_lookup_var(hss_lookup_list(var), 2, 8)
+
+  if (var %in% dict_var$name == TRUE) {
+    var_old <- var
+    var_new <- hss_lookup_list(var, reverse = TRUE)
+  } else if (hss_lookup_list(var, reverse = FALSE) %in% dict_var$name == TRUE) {
+    var_old <- hss_lookup_list(var, reverse = FALSE)
+    var_new <- var
+  } else {
+    warning(var, " not in dictionary or lookup list.")
+  }
+
+  resp <- hss_get_multi(var_old)
+
+  sub_var <- hss_lookup_var(var_old, 2, 8)
+
   if (is.na(sub_var)) {
     sub_q <- str_match(sub_var, "Q.+(?=\\})")
     sub_a <- str_match(sub_var, "(?<=\\')\\d{1,2}(?=\\')")
