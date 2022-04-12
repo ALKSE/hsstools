@@ -8,10 +8,6 @@
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE) {
-  require(dplyr)
-  require(stringr)
-  require(forcats)
-
   if (var %in% dict_var$name == TRUE) {
     var_old <- var
     var_new <- hss_lookup_list(var, reverse = TRUE)
@@ -27,9 +23,15 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   sub_var <- hss_lookup_var(var_old, 2, 8)
 
   if (!is.na(sub_var)) {
-    sub_q <- str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>% unlist() %>%  str_split(" ") %>% unlist()
-    sub_a <- str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>% unlist %>% str_split(" ") %>% unlist()
-    df <- df %>% filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
+    sub_q <- stringr::str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>%
+      unlist() %>%
+      stringr::str_split(" ") %>%
+      unlist()
+    sub_a <- stringr::str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>%
+      unlist() %>%
+      stringr::str_split(" ") %>%
+      unlist()
+    df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
   }
   total <- if (percent == TRUE) {
     "mean"
@@ -38,12 +40,12 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   }
   x <- addmargins(
     questionr::cross.multi.table(df[!is.na(resp[1]), resp],
-                                 crossvar = as_factor(df[!is.na(resp[1])][[group]]),
-                                 digits = 2,
-                                 freq = percent,
-                                 tfreq = "col",
-                                 n = FALSE,
-                                 na.rm = TRUE
+      crossvar = forcats::as_factor(df[!is.na(resp[1])][[group]]),
+      digits = 2,
+      freq = percent,
+      tfreq = "col",
+      n = FALSE,
+      na.rm = TRUE
     ),
     margin = 2,
     FUN = total

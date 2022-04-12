@@ -18,10 +18,10 @@ hss_get_multi <- function(var, reverse = TRUE) {
   }
 
   answers <- names(
-    select(
+    dplyr::select(
       df,
       starts_with(
-        str_replace(var_new, "_all", "_")
+        stringr::str_replace(var_new, "_all", "_")
       )
     )
   )

@@ -13,16 +13,16 @@ hss_translate <- function(df, apikey) {
   # source text as Arabic these warnings can be safely ignored.
   defaultW <- getOption("warn")
   options(warn = -1)
-  # select columns with ar answers & add index column
-  df_ar <- select(df, ends_with("_ar") & !where(is.logical)) %>%
-    mutate(index = seq.int(nrow(df)))
+  # dplyr::select columns with ar answers & add index column
+  df_ar <- dplyr::select(df, dplyr::ends_with("_ar") & !where(is.logical)) %>%
+    dplyr::mutate(index = seq.int(nrow(df)))
 
-  # newdata is copy of dataframe. All translated columns are appended to newdata
+  # df_translated is copy of dataframe. All translated columns are appended to this new df
   df_translated <- df_ar
 
-  for (i in names(select(df_ar, !index))) {
-    translated <- df_ar %>% filter(!is.na(!!rlang::sym(i)))
-    translated <- translate(
+  for (i in names(dplyr::select(df_ar, !index))) {
+    translated <- df_ar %>% dplyr::filter(!is.na(!!rlang::sym(i)))
+    translated <- translateR::translate(
       dataset = translated,
       content.field = i,
       google.api.key = apikey,

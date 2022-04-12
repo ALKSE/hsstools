@@ -9,9 +9,6 @@
 #' @export
 #'
 hss_table_single <- function(df, var, group, percent = TRUE) {
-  require(dplyr)
-  require(stringr)
-
   if (var %in% dict_var$name == TRUE) {
     var_old <- var
     var_new <- hss_lookup_list(var, reverse = TRUE)
@@ -22,14 +19,20 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
     warning(var, " not in dictionary or lookup list.")
   }
 
-    sub_var <- hss_lookup_var(var_old, 2, 8)
-    if (!is.na(sub_var) & !is.null(sub_var)) {
-      sub_q <- str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>% unlist() %>%  str_split(" ") %>% unlist()
-      sub_a <- str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>% unlist %>% str_split(" ") %>% unlist()
-      df <- df %>% filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
-    }
-    if (percent == TRUE) {
-    x <- table(as_factor(df[[var_new]]), as_factor(df[[group]])) %>%
+  sub_var <- hss_lookup_var(var_old, 2, 8)
+  if (!is.na(sub_var) & !is.null(sub_var)) {
+    sub_q <- stringr::str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>%
+      unlist() %>%
+      stringr::str_split(" ") %>%
+      unlist()
+    sub_a <- stringr::str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>%
+      unlist() %>%
+      stringr::str_split(" ") %>%
+      unlist()
+    df <- df %>% dply::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
+  }
+  if (percent == TRUE) {
+    x <- table(forcats::as_factor(df[[var_new]]), forcats::as_factor(df[[group]])) %>%
       addmargins(margin = 2) %>%
       proportions(margin = 2) %>%
       addmargins(margin = 1)
@@ -45,7 +48,7 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
   } else if (percent == FALSE) {
     x <- addmargins(
       addmargins(
-        table(as_factor(df[[var_new]]), as_factor(df[[group]])),
+        table(forcats::as_factor(df[[var_new]]), forcats::as_factor(df[[group]])),
         margin = 2
       ),
       margin = 1

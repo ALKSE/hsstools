@@ -6,11 +6,13 @@
 #' @export
 #'
 hss_create_question_list <- function(dict_path) {
-  questions <- read_excel(dict_path) %>%
-    select(type, name) %>%
-    mutate(type = str_replace(type, "\\s.+", "")) %>%
-    filter(str_starts(name, "Q"), str_starts(type, "select")) %>%
-    pull(name, type)
+
+
+  questions <- readxl::read_excel(dict_path) %>%
+    dplyr::select(type, name) %>%
+    mutate(type = stringr::str_replace(type, "\\s.+", "")) %>%
+    dplyr::filter(stringr::str_starts(name, "Q"), stringr::str_starts(type, "select")) %>%
+    dplyr::pull(name, type)
 
   return(questions)
 }

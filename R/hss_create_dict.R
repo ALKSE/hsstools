@@ -9,7 +9,7 @@
 #' WIP
 #' @rdname hss_create_dict
 hss_create_dict <- function(form, type = "var") {
-  require(janitor)
+
   if (type == "var") {
     x <- janitor::clean_names(readxl::read_xls(path = form, sheet = 1))
     x[["type"]] <- gsub(".+\\s", "", x[["type"]])

@@ -7,9 +7,9 @@
 #' @export
 #'
 hss_mergetranslated <- function(df, df_translated) {
-  library(dplyr)
+
   # adds empty _en column if missing from translated
-  for (i in names(select(df, ends_with("_ar")))) {
+  for (i in names(dplyr::select(df, dplyr::ends_with("_ar")))) {
     if (!gsub("_ar", "_en", i) %in% names(df_translated)) {
       df_translated$newcol <- df_translated[[i]]
     }
@@ -21,7 +21,7 @@ hss_mergetranslated <- function(df, df_translated) {
 
   # each translated column is relocated to the position after its original arabic
   # column. e.g. "Q1_en" after "Q1_ar" etc.
-  for (i in names(select(df_translated, ends_with("_en")))) {
+  for (i in names(dplyr::select(df_translated, dplyr::ends_with("_en")))) {
     df_merged <- dplyr::relocate(df_merged, all_of(i),
       .after = gsub("_en", "_ar", i)
     )

@@ -7,19 +7,20 @@
 #' @export
 #'
 hss_surveyduration <- function(path, skip = 0) {
-  require(readr)
-  require(lubridate)
-  require(dplyr)
   df <- readr::read_csv(path, skip = skip)
   # format date-time columns and add surveyduration column
-  if(!"start" %in% names(df) | !"end" %in% names(df)) {stop("Column 'start' or 'end' missing")}
-  df <- df %>% dplyr::mutate(
-    SubmissionDate = lubridate::dmy_hms(SubmissionDate),
-    start = lubridate::dmy_hms(start),
-    end = lubridate::dmy_hms(end)
-  ) %>%
+  if (!"start" %in% names(df) | !"end" %in% names(df)) {
+    stop("Column 'start' or 'end' missing")
+  }
+  df <- df %>%
+    dplyr::mutate(
+      SubmissionDate = lubridate::dmy_hms(SubmissionDate),
+      start = lubridate::dmy_hms(start),
+      end = lubridate::dmy_hms(end)
+    ) %>%
     dplyr::mutate(SurveyDuration = end - start)
-  df <- df %>% dplyr::mutate(SurveyDuration = lubridate::as.duration(SurveyDuration)) %>%
+  df <- df %>%
+    dplyr::mutate(SurveyDuration = lubridate::as.duration(SurveyDuration)) %>%
     dplyr::relocate(SurveyDuration, .after = end)
   return(df)
 }

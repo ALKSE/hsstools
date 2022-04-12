@@ -15,26 +15,30 @@
 #'
 #' @rdname hss_lookup
 hss_lookup_var <- function(var, input_col, return_col) {
-  require(dplyr)
-  if(var %in% dict_var[[input_col]] == FALSE) {
+  if (var %in% dict_var[[input_col]] == FALSE) {
     stop("variable name \'", var, "\' not present in dict_var column: \'", names(dict_var[input_col]), "\'.")
   }
-  dict_var %>% dplyr::filter(.[[input_col]] == var) %>%
+  dict_var %>%
+    dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
 }
 #' @rdname hss_lookup
 hss_lookup_val <- function(var, input_col, return_col) {
-  require(dplyr)
-  if(var %in% dict_val[[input_col]] == FALSE) {
+  if (var %in% dict_val[[input_col]] == FALSE) {
     stop("variable name \'", var, "\' not present in dict_val column: \'", names(dict_val[input_col]), "\'.")
   }
-    dict_val %>% dplyr::filter(.[[input_col]] == var) %>%
+  dict_val %>%
+    dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
 }
 #' @rdname hss_lookup
 hss_lookup_list <- function(var, reverse = FALSE) {
-  pos <- if(reverse == TRUE) {2} else {1}
+  pos <- if (reverse == TRUE) {
+    2
+  } else {
+    1
+  }
   unlist(lapply(var, function(y) unlist(lookuplist[sapply(lookuplist, function(x) y %in% x)])[pos]))
 }
