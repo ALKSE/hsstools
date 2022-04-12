@@ -39,8 +39,8 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     "sum"
   }
   x <- addmargins(
-    questionr::cross.multi.table(df[!is.na(resp[1]), resp],
-      crossvar = forcats::as_factor(df[!is.na(resp[1])][[group]]),
+    questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
+      crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]),][[group]]),
       digits = 2,
       freq = percent,
       tfreq = "col",

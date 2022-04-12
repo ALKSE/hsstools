@@ -29,7 +29,7 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
       unlist() %>%
       stringr::str_split(" ") %>%
       unlist()
-    df <- df %>% dply::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
+    df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
   }
   if (percent == TRUE) {
     x <- table(forcats::as_factor(df[[var_new]]), forcats::as_factor(df[[group]])) %>%
