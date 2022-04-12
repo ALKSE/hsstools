@@ -21,7 +21,7 @@ hss_get_multi <- function(var, reverse = TRUE) {
     select(
       df,
       starts_with(
-        str_replace(var_new, "_.+", "_")
+        str_replace(var_new, "_all", "_")
       )
     )
   )

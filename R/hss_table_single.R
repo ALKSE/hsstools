@@ -24,8 +24,8 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
 
     sub_var <- hss_lookup_var(var_old, 2, 8)
     if (!is.na(sub_var) & !is.null(sub_var)) {
-      sub_q <- str_match(sub_var, "Q.+(?=\\})")
-      sub_a <- str_match(sub_var, "(?<=\\')\\d{1,2}(?=\\')")
+      sub_q <- str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>% unlist() %>%  str_split(" ") %>% unlist()
+      sub_a <- str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>% unlist %>% str_split(" ") %>% unlist()
       df <- df %>% filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
     }
     if (percent == TRUE) {

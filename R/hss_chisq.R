@@ -9,13 +9,17 @@
 #' @export
 #'
 hss_chisq <- function(df, vars, group, full = FALSE) {
+
   if (full == FALSE) {
     x <- sapply(
       vars,
       function(x) {
+        return(tryCatch(
+        if(sum(!is.na(df[[x]])) > 0) {
         chisq.test(
           table(df[[x]], df[[group]])
         )[["p.value"]]
+        } else {0}, error = function(e) 0))
       }
     )
   } else {
