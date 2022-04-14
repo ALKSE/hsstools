@@ -7,14 +7,14 @@
 #' @return A named list of dataframes.
 #' @export
 #'
-hss_write_tables <- function(df, questions, group) {
+hss_write_tables <- function(df, questions, group, p = TRUE) {
   output_list <- lapply(questions, function(x) {
     tryCatch(
 
       if (names(questions[match(x, questions)]) == "select_one") {
-        x <- hss_table_single(df, x, group)
+        x <- hss_table_single(df, x, group, percent = p)
       } else if (names(questions[match(x, questions)]) == "select_multiple") {
-        x <- hss_table_multi(df, x, group)
+        x <- hss_table_multi(df, x, group, percent = p)
       },
       error = function(e) NULL
     )
