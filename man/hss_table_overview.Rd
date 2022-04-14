@@ -4,10 +4,14 @@
 \alias{hss_table_overview}
 \title{Create overview table}
 \usage{
-hss_table_overview(vars)
+hss_table_overview(df, vars, type)
 }
 \arguments{
+\item{df}{the data frame to use}
+
 \item{vars}{a character vector with relevant variable strings.}
+
+\item{type}{'single' or 'multi'}
 }
 \value{
 a dataframe
