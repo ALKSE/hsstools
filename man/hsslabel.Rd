@@ -6,39 +6,24 @@
 \alias{hsslabel_val}
 \title{Apply English or Arabic labels to a flextable object.}
 \usage{
-hsslabel(
-  table,
-  variable,
-  dict_var,
-  dict_val,
-  lang = "english",
-  lookup = TRUE,
-  lookuplist
-)
+hsslabel(table, lang = "english", lookup = TRUE)
 
-hsslabel_var(variable, dict_var, lang = "english", lookup = TRUE, lookuplist)
+hsslabel_var(variable, lang = "english", lookup = TRUE)
 
-hsslabel_val(
-  variable,
-  dict_var,
-  dict_val,
-  lang = "english",
-  lookup = TRUE,
-  lookuplist
-)
+hsslabel_val(variable, lang = "english", lookup = TRUE)
 }
 \arguments{
 \item{table}{A flextable object.}
+
+\item{lang}{The language to return. Accepts "en" or "ar".}
+
+\item{lookup}{Set to TRUE to use a lookup table for renamed variables.}
 
 \item{variable}{The variable name}
 
 \item{dict_var}{The dictionary object containing the variable names and labels.}
 
 \item{dict_val}{The dictionary object containing the value names and labels.}
-
-\item{lang}{The language to return. Accepts "en" or "ar".}
-
-\item{lookup}{Set to TRUE to use a lookup table for renamed variables.}
 
 \item{lookuplist}{If lookup is set to TRUE, provide object containing the lookup list.}
 }

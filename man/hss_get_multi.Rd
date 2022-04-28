@@ -4,7 +4,7 @@
 \alias{hss_get_multi}
 \title{Find 'select multiple' response variables associated with a question variable.}
 \usage{
-hss_get_multi(var, reverse = TRUE)
+hss_get_multi(var)
 }
 \arguments{
 \item{var}{The variable for which 'select multiple' response variable are needed.}
