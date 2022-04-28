@@ -4,7 +4,7 @@
 \alias{hss_write_tables}
 \title{Write tables to a list for selected variables}
 \usage{
-hss_write_tables(df, questions, group, p = TRUE)
+hss_write_tables(df, questions, group, percent = TRUE)
 }
 \arguments{
 \item{df}{The dataframe containing relevant variables}
