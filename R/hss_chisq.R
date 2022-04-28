@@ -10,15 +10,18 @@
 #'
 hss_chisq <- function(df, vars, group, full = FALSE) {
 
+
   if (full == FALSE) {
     x <- sapply(
       vars,
       function(x) {
         return(tryCatch(
+
         if(sum(!is.na(df[[x]])) > 0) {
+          round(
         chisq.test(
           table(df[[x]], df[[group]])
-        )[["p.value"]]
+        )[["p.value"]], digits = 3)
         } else {0}, error = function(e) 0))
       }
     )
@@ -26,9 +29,12 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
     x <- sapply(
       vars,
       function(x) {
-        chisq.test(
-          table(df[[x]], df[[group]])
-        )
+        return(tryCatch(
+          if(sum(!is.na(df[[x]])) > 0) {
+            chisq.test(
+              table(df[[x]], df[[group]])
+            )
+          } else {0}, error = function(e) 0))
       }
     )
   }
