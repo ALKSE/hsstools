@@ -50,6 +50,15 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     margin = 2,
     FUN = total
   )
+  if(percent == TRUE) {
+  x <- as.data.frame(
+    matrix(
+      sprintf("%1.2f%%", x),
+      nrow(x),
+      dimnames = dimnames(x)
+    )
+    )
+  }
   p <- hss_chisq(df, resp, group, full = FALSE)
   x <- cbind(
     "Answer" = rownames(x),
