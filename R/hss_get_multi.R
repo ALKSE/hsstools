@@ -6,7 +6,7 @@
 #' @return a character string with all associated 'select multiple' variable names.
 #' @export
 #'
-hss_get_multi <- function(var, reverse = TRUE) {
+hss_get_multi <- function(var) {
   if (var %in% dict_var$name == TRUE) {
     var_old <- var
     var_new <- hss_lookup_list(var, reverse = TRUE)
