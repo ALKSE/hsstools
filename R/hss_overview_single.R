@@ -8,6 +8,8 @@
 #' @export
 #'
 hss_overview_single <- function(df, vars, percent = TRUE) {
+  library(dplyr)
+  library(stringr)
   vars <- names(df %>% select(contains(vars) & !contains("_what")))
 
   if (percent == TRUE) {
