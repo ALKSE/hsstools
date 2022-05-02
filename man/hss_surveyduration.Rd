@@ -2,18 +2,19 @@
 % Please edit documentation in R/hss_surveyduration.R
 \name{hss_surveyduration}
 \alias{hss_surveyduration}
-\title{Load raw HSS Data}
+\title{Calculate survey duration}
 \usage{
 hss_surveyduration(path, skip = 0)
 }
 \arguments{
 \item{path}{Path to the HSS data file. Expects a .csv file}
 
-\item{skip}{Number of rows to skip. Default is 0. Use this if you know how many rows contain test data.}
+\item{skip}{Number of rows to skip. Default is 0. Use this if you know how many rows contain test answers.}
 }
 \value{
 A dataframe with an added SurveyDuration column
 }
 \description{
-Loads raw HSS datafile and performs some basic cleaning: proper encoding of Arabic, dates formatted as date-time objects, calculate survey duration.
+Loads raw HSS datafile and performs some basic cleaning: proper encoding of
+Arabic, dates formatted as date-time objects, calculate survey duration.
 }

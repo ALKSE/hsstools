@@ -1,5 +1,9 @@
 #' Find 'select multiple' response variables associated with a question variable.
 #'
+#' This function returns all associated answer variables with
+#' a 'select-multiple' question variable. As of now, the only way to retrieve these variables
+#' is by inputting the "_all" variable name.
+#'
 #' @param var The variable for which 'select multiple' response variable are needed.
 #' @param reverse If set to TRUE returns the new variable names. FALSE returns old names.
 #'

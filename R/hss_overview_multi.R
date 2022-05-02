@@ -1,10 +1,14 @@
-#' Get overview table for 'select-multiple' questions
+#' Create overview table for 'select-multiple' questions
 #'
-#' @param df The dataframe containing the questions
-#' @param vars Selected based on a string that identifies all relevant variables
-#' @param percent T/F
+#' This creates overview tables for multiple questions that contain the same response options.
+#' For example when the same question is repeated for different events. This implementation is specifically for
+#' 'select-multiple' questions. For 'select-one' questions see \code{\link{hss_overview_single}}
 #'
-#' @return
+#' @param df The dataframe containing the questions.
+#' @param vars A commom character string that is shared between all relevant variables.
+#' @param percent Set to TRUE to display percentages, set to FALSE to display counts. Default is TRUE
+#'
+#' @return A dataframe with responses for the selected variables.
 #' @export
 #'
 hss_overview_multi <- function(df, vars, percent = TRUE) {

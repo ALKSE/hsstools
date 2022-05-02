@@ -23,4 +23,5 @@ hssformat_multi <- function(x) {
   x <- autofit(x, part = c("header", "body"))
   x <- hline(x, border = fp_border(color = "black", style = "solid", width = 1), part = "all")
   x <- hline_top(x, border = fp_border(color = "black", style = "solid", width = 1), part = "all")
+  return(x)
 }

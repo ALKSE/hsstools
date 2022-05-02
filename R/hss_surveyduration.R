@@ -1,7 +1,10 @@
-#' Load raw HSS Data
-#' @description Loads raw HSS datafile and performs some basic cleaning: proper encoding of Arabic, dates formatted as date-time objects, calculate survey duration.
+#' Calculate survey duration
+#'
+#' Loads raw HSS datafile and performs some basic cleaning: proper encoding of
+#' Arabic, dates formatted as date-time objects, calculate survey duration.
+#'
 #' @param path Path to the HSS data file. Expects a .csv file
-#' @param skip Number of rows to skip. Default is 0. Use this if you know how many rows contain test data.
+#' @param skip Number of rows to skip. Default is 0. Use this if you know how many rows contain test answers.
 #'
 #' @return A dataframe with an added SurveyDuration column
 #' @export

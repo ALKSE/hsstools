@@ -9,13 +9,15 @@ hss_overview_single(df, vars, percent = TRUE)
 \arguments{
 \item{df}{The dataframe containing the questions}
 
-\item{vars}{Selected based on a string that identifies all relevant variables}
+\item{vars}{A commom character string that is shared between all relevant variables.}
 
-\item{percent}{T/F}
+\item{percent}{Set to TRUE to display percentages, set to FALSE to display counts. Default is TRUE}
 }
 \value{
-A dataframe with the selected questions.
+A dataframe with responses for the selected variables.
 }
 \description{
-Create overview table for a group of similar 'select-one' questions
+This creates overview tables for multiple questions that contain the same response options.
+For example when the same question is repeated for different events. This implementation is specifically for
+'select-one' questions. For 'select-multiple' questions see \code{\link{hss_overview_multi}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hss_mergetranslated.R
 \name{hss_mergetranslated}
 \alias{hss_mergetranslated}
-\title{Merges HSS dataframe with dataframe containing translated columns}
+\title{Merges HSS dataframe with dataframe containing translated columns.}
 \usage{
 hss_mergetranslated(df, df_translated)
 }
@@ -15,5 +15,7 @@ hss_mergetranslated(df, df_translated)
 A merged dataframe containing HSS data and all translated columns.
 }
 \description{
-Merges HSS dataframe with dataframe containing translated columns
+Merge the translated columns with the original dataframe. All translated columns are
+appended after their associated original column. Currently this only works for
+Arabic -> English translation.
 }

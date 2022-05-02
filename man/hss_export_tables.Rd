@@ -2,7 +2,7 @@
 % Please edit documentation in R/hss_export_tables.R
 \name{hss_export_tables}
 \alias{hss_export_tables}
-\title{Exports a list of data tables to .csv}
+\title{Exports a list of data tables to CSV}
 \usage{
 hss_export_tables(df_list, path)
 }
@@ -12,8 +12,10 @@ hss_export_tables(df_list, path)
 \item{path}{Where to store the .csv output.}
 }
 \value{
-
+A CSV file stored at the provided location.
 }
 \description{
-Exports a list of data tables to .csv
+Exports a list of HSS tables to CSV. This function uses sink() to write multiple
+tables to the same file. If an error occurs during execution of the function
+you may need to close the sink with sink() before proceeding.
 }

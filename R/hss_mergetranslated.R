@@ -1,4 +1,8 @@
-#' Merges HSS dataframe with dataframe containing translated columns
+#' Merges HSS dataframe with dataframe containing translated columns.
+#'
+#' Merge the translated columns with the original dataframe. All translated columns are
+#' appended after their associated original column. Currently this only works for
+#' Arabic -> English translation.
 #'
 #' @param df The original HSS dataframe
 #' @param df_translated The dataframe containing "_ar" and translated "_en" columns

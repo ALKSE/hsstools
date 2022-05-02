@@ -2,20 +2,22 @@
 % Please edit documentation in R/hss_overview_multi.R
 \name{hss_overview_multi}
 \alias{hss_overview_multi}
-\title{Get overview table for 'select-multiple' questions}
+\title{Create overview table for 'select-multiple' questions}
 \usage{
 hss_overview_multi(df, vars, percent = TRUE)
 }
 \arguments{
-\item{df}{The dataframe containing the questions}
+\item{df}{The dataframe containing the questions.}
 
-\item{vars}{Selected based on a string that identifies all relevant variables}
+\item{vars}{A commom character string that is shared between all relevant variables.}
 
-\item{percent}{T/F}
+\item{percent}{Set to TRUE to display percentages, set to FALSE to display counts. Default is TRUE}
 }
 \value{
-
+A dataframe with responses for the selected variables.
 }
 \description{
-Get overview table for 'select-multiple' questions
+This creates overview tables for multiple questions that contain the same response options.
+For example when the same question is repeated for different events. This implementation is specifically for
+'select-multiple' questions. For 'select-one' questions see \code{\link{hss_overview_single}}
 }

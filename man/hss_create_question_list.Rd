@@ -10,8 +10,9 @@ hss_create_question_list(dict_path)
 \item{dict_path}{Path to the XLS form}
 }
 \value{
-a named character vector with question type as name and the question/variable name as value.
+A named character vector with question type as name and the question/variable name as value.
 }
 \description{
-Create a list of questions from XLS form
+This function reads the XLS form and provides a list of all questions in the form as well as
+the type of question.
 }

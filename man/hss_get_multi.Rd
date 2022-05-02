@@ -15,5 +15,7 @@ hss_get_multi(var)
 a character string with all associated 'select multiple' variable names.
 }
 \description{
-Find 'select multiple' response variables associated with a question variable.
+This function returns all associated answer variables with
+a 'select-multiple' question variable. As of now, the only way to retrieve these variables
+is by inputting the "_all" variable name.
 }

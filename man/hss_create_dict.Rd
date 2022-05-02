@@ -7,7 +7,7 @@
 hss_create_dict(form, type = "var")
 }
 \arguments{
-\item{form}{Location of the XLS form}
+\item{form}{Path to the XLS form.}
 
 \item{type}{Use "var" to create a dictionary of variable names and labels. Use "val" to create a dictionary of value names and labels.}
 }
@@ -15,8 +15,6 @@ hss_create_dict(form, type = "var")
 A dataframe containing variable or value names and their associated text labels.
 }
 \description{
-Create a dictionary of HSS variable or value labels
-}
-\examples{
-WIP
+Create a dictionary from an XLS form. The dictionary is stored as a dataframe.
+This function needs to be run separately for variable- and value dictionaries.
 }
