@@ -10,47 +10,29 @@
 #'
 hss_table_single <- function(df, var, group, percent = TRUE) {
   # retrieve old and new variable names
-  if (var %in% dict_var$name == TRUE) {
-    var_old <- var
-    var_new <- hss_lookup_list(var, reverse = TRUE)
-  } else if (hss_lookup_list(var, reverse = FALSE) %in% dict_var$name == TRUE) {
-    var_old <- hss_lookup_list(var, reverse = FALSE)
-    var_new <- var
-  } else {
-    warning(var, " not in dictionary or lookup list.")
-  }
+var <- .get_oldnew_varname(var)
+
 # retrieve sub-setting variable and filter df
-  sub_var <- hss_lookup_var(var_old, 2, 8)
-  if (!is.na(sub_var) & !is.null(sub_var)) {
-    sub_q <- stringr::str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    sub_a <- stringr::str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
-  }
+
 # tables
   if (percent == TRUE) {
-    x <- table(forcats::as_factor(df[[var_new]]), forcats::as_factor(df[[group]])) %>%
+    table <- table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])) %>%
       addmargins(margin = 2) %>%
       proportions(margin = 2) %>%
       addmargins(margin = 1)
 
-    x <- as.data.frame(
+    table <- as.data.frame(
       matrix(
-        sprintf("%1.2f%%", x * 100),
-        nrow(x),
-        dimnames = dimnames(x)
+        sprintf("%1.2f%%", table * 100),
+        nrow(table),
+        dimnames = dimnames(table)
       )
     )
-    x <- dplyr::select(x, !contains("refused"))
+    table <- dplyr::select(table, !contains("refused"))
   } else if (percent == FALSE) {
-    x <- addmargins(
+    table <- addmargins(
       addmargins(
-        table(forcats::as_factor(df[[var_new]]), forcats::as_factor(df[[group]])),
+        table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])),
         margin = 2
       ),
       margin = 1
@@ -58,10 +40,13 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
   } else {
     stop("Invalid input for percent:", percent)
   }
-  x <- cbind(
-    "Answer" = rownames(x),
-    as.data.frame.matrix(x, row.names = NULL)
-  )%>%
+  table <- dplyr::bind_cols(
+    "Answer" = rownames(table),
+    as.data.frame.matrix(table, row.names = NULL),
+  ) %>%
     dplyr::select(!contains("Refused"))
-  return(x)
+
+  rownames(table) <- NULL
+
+  return(table)
 }
