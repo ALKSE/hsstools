@@ -37,4 +37,5 @@ pval_multi <- hss_chisq(test, multi_options, "gender")
 
 # Chi-squared test with full output
 full <- hss_chisq(f, "singleresponse", full = TRUE)
+
 }
