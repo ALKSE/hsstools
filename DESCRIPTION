@@ -8,4 +8,12 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
-    magrittr
+    dplyr,
+    flextable,
+    forcats,
+    lubridate,
+    magrittr,
+    officer,
+    questionr,
+    stringr,
+    tidyr
