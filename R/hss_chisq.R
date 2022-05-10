@@ -40,17 +40,10 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
       vars,
       function(vars_element) {
         return(tryCatch(
-
-          if (sum(!is.na(df[[vars_element]])) > 0) {
-            round(
-              chisq.test(
-                table(df[[vars_element]], df[[group]])
-              )[["p.value"]],
-              digits = 3
-            )
-          } else {
-            NA
-          },
+          round(
+            stats::chisq.test(df[[vars_element]], df[[group]])[["p.value"]],
+            digits = 3
+          ),
           error = function(e) NA
         ))
       }
@@ -60,13 +53,7 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
       vars,
       function(vars_element) {
         return(tryCatch(
-          if (sum(!is.na(df[[vars_element]])) > 0) {
-            chisq.test(
-              table(df[[vars_element]], df[[group]])
-            )
-          } else {
-            NA
-          },
+          stats::chisq.test(df[[vars_element]], df[[group]]),
           error = function(e) NA
         ))
       }
