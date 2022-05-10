@@ -8,33 +8,41 @@
 #'
 #' @rdname hss_combine_questions
 hss_combine_single <- function(df, var) {
-  dat <- df %>% select(contains(var)) %>%
+  dat <- df %>%
+    dplyr::select(contains(var)) %>%
     tidyr::pivot_longer(cols = everything(), names_to = "answers") %>%
     na.exclude()
 
-  dat[1] <- str_replace_all(unlist(dat[1]),
-                            paste("\\w+_(?=", var, ")", sep = ""), "")
+  dat[1] <- stringr::str_replace_all(
+    unlist(dat[1]),
+    paste("\\w+_(?=", var, ")", sep = ""),
+    ""
+  )
 
   dat <- dat %>%
-    group_by(value) %>%
-    summarise(count = n())
+    dplyr::group_by(value) %>%
+    dplyr::summarise(count = n())
   return(dat)
 }
 
 #' @rdname hss_combine_questions
 hss_combine_multi <- function(df, var) {
   dat <- df %>%
-    select(contains(var) & !contains("what")) %>%
+    dplyr::select(contains(var) & !contains("what")) %>%
     tidyr::pivot_longer(
       cols = everything(),
       names_to = "answers"
     ) %>%
     na.exclude()
 
-  dat[1] <- str_replace_all(unlist(dat[1]),
-                            paste("\\w+_(?=", var, ")", sep = ""), "")
+  dat[1] <- stringr::str_replace_all(
+    unlist(dat[1]),
+    paste("\\w+_(?=", var, ")", sep = ""),
+    ""
+  )
 
-  dat <- dat %>% group_by(answers) %>%
-    summarise(count = sum(value))
+  dat <- dat %>%
+    dplyr::group_by(answers) %>%
+    dplyr::summarise(count = sum(value))
   return(dat)
 }

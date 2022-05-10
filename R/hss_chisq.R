@@ -25,35 +25,52 @@
 #'
 #' # Chi-squared test with full output
 #' full <- hss_chisq(f, "singleresponse", full = TRUE)
-
+#'
 hss_chisq <- function(df, vars, group, full = FALSE) {
+  if (!is.logical(full)) {
+    stop("argument 'full' is not logical")
+  }
+
+  # The call to chisq.test is wrapped in a trycatch() function to ensure the function
+  # always returns something, even when provided unexpected input. Usually this occurs
+  # when input is all zeroes.
 
   if (full == FALSE) {
-    x <- sapply(
+    chisq_output <- sapply(
       vars,
-      function(x) {
+      function(vars_element) {
         return(tryCatch(
 
-        if(sum(!is.na(df[[x]])) > 0) {
-          round(
-        chisq.test(
-          table(df[[x]], df[[group]])
-        )[["p.value"]], digits = 3)
-        } else {NA}, error = function(e) NA))
-      }
-    )
-  } else if(full == TRUE){
-    x <- lapply(
-      vars,
-      function(x) {
-        return(tryCatch(
-          if(sum(!is.na(df[[x]])) > 0) {
+          if (sum(!is.na(df[[vars_element]])) > 0) {
+            round(
               chisq.test(
-                table(df[[x]], df[[group]])
-              )
-          } else {NA}, error = function(e) NA))
+                table(df[[vars_element]], df[[group]])
+              )[["p.value"]],
+              digits = 3
+            )
+          } else {
+            NA
+          },
+          error = function(e) NA
+        ))
       }
     )
-  } else {stop("Invalid input for full: ", full)}
-  return(x)
+  } else if (full == TRUE) {
+    chisq_output <- lapply(
+      vars,
+      function(vars_element) {
+        return(tryCatch(
+          if (sum(!is.na(df[[vars_element]])) > 0) {
+            chisq.test(
+              table(df[[vars_element]], df[[group]])
+            )
+          } else {
+            NA
+          },
+          error = function(e) NA
+        ))
+      }
+    )
+  }
+  return(chisq_output)
 }

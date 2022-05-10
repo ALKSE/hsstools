@@ -12,17 +12,22 @@
 #' @export
 #'
 hss_overview_multi <- function(df, vars, percent = TRUE) {
-  vars <- names(df %>% select(contains(vars))) %>%
+  grps <- names(df %>% select(matches(vars))) %>%
     str_replace(paste(vars, "_.+", sep = ""), vars) %>%
+    unique()
+  resp <- names(df %>% select(contains(vars))) %>%
+    str_replace(paste(".+_", vars, sep = ""), vars) %>%
     unique()
 
   if (percent == TRUE) {
-    tables <- lapply(vars, function(x) {
-      questionr::multi.table(df %>% select(starts_with(x)), freq = TRUE)[, 2] %>%
+    tables <- lapply(grps, function(x) {
+      questionr::multi.table(df %>% select(starts_with(x)) %>%
+                               filter(rowSums(is.na(.)) != ncol(.)),
+                             freq = TRUE)[, 2] %>%
         sprintf("%1.2f%%", .)
     })
   } else if (percent == FALSE) {
-    tables <- lapply(vars, function(x) {
+    tables <- lapply(grps, function(x) {
       questionr::multi.table(df %>% select(starts_with(x)), freq = FALSE) %>%
         as.data.frame() %>%
         select(Freq)
@@ -31,7 +36,9 @@ hss_overview_multi <- function(df, vars, percent = TRUE) {
     stop("Invalid input for percent:", percent)
   }
 
-  tables <- as.data.frame(tables)
-  names(tables) <- vars
+  tables <- bind_cols(resp,
+                  as.data.frame(tables)
+  )
+  names(tables) <- c("answer", grps)
   return(tables)
 }

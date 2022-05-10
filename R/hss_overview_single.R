@@ -12,21 +12,19 @@
 #' @export
 #'
 hss_overview_single <- function(df, vars, percent = TRUE) {
-  library(dplyr)
-  library(stringr)
-  vars <- names(df %>% select(contains(vars) & !contains("_what")))
+  vars <- names(df %>% dplyr::select(matches(vars) & !contains("_what")))
 
   if (percent == TRUE) {
     tables <- lapply(vars, function(x) {
-      table(forcats::as_factor(df[[x]])) %>%
+      table(forcats::as_factor(df[[x]]), useNA = "no") %>%
         proportions() %>%
         addmargins(margin = 1) %>%
-        as.data.frame() %>%
-        select(Freq)
+        sprintf("%1.2f%%", .)
     })
+
   } else if (percent == FALSE) {
     tables <- lapply(vars, function(x) {
-      table(forcats::as_factor(df[[x]])) %>%
+      table(forcats::as_factor(df[[x]]), useNA = "no") %>%
         addmargins(margin = 1) %>%
         as.data.frame() %>%
         select(Freq)
@@ -36,7 +34,7 @@ hss_overview_single <- function(df, vars, percent = TRUE) {
   }
   labels <- c(levels(forcats::as_factor(df[[vars[[1]]]])), "Total")
 
-  tables <- bind_cols(labels, tables)
+  tables <- dplyr::bind_cols(labels, tables)
 
   names(tables) <- c("Answer", vars)
 

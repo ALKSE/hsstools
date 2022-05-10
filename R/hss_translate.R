@@ -6,14 +6,11 @@
 #' @export
 #'
 hss_translate <- function(df, apikey) {
-  library(dplyr)
-  library(stringr)
-  library(translateR)
   # translateR gives warnings about source language, since we both define and expect
   # source text as Arabic these warnings can be safely ignored.
   defaultW <- getOption("warn")
   options(warn = -1)
-  # dplyr::select columns with ar answers & add index column
+
   df_ar <- dplyr::select(df, dplyr::ends_with("_ar") & !where(is.logical)) %>%
     dplyr::mutate(index = seq.int(nrow(df)))
 
@@ -31,10 +28,13 @@ hss_translate <- function(df, apikey) {
     )
     # all.x must be set to true to make sure the entire index is present in the new dataframe.
     df_translated <- merge(df_translated, translated, all.x = TRUE)
-    # rename translated to original colname with "_en" suffix
+
     names(df_translated)[names(df_translated) == "translatedContent"] <- sub("_ar", "_en", i)
   }
+
   df_translated <- df_translated[, stringr::str_sort(names(df_translated), numeric = TRUE)]
+
   options(warn = defaultW)
+
   return(df_translated)
 }
