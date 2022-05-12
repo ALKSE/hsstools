@@ -41,7 +41,7 @@ var <- .get_oldnew_varname(var)
     stop("Invalid input for percent:", percent)
   }
   table <- dplyr::bind_cols(
-    "Answer" = rownames(table),
+    !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
     dplyr::select(!contains("Refused"))

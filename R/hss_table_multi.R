@@ -8,23 +8,8 @@
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE) {
-var <- .get_oldnew_varname(var)
-
+  var <- .get_oldnew_varname(var)
   resp <- .get_multi_valname(var$new)
-
-  sub_var <- hss_lookup_var(var$old, 2, 8)
-
-  if (!is.na(sub_var)) {
-    sub_q <- stringr::str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    sub_a <- stringr::str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
-  }
 
   total <- if (percent == TRUE) {
     "mean"
@@ -57,10 +42,10 @@ var <- .get_oldnew_varname(var)
 
   p <- hss_chisq(df, resp, group, full = FALSE)
 
-  table <- cbind(
-    "Answer" = rownames(table),
+  table <- bind_cols(
+    !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
-    p
+    "p" = p
   )
 
   rownames(table) <- NULL

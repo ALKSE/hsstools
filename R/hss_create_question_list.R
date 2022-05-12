@@ -11,7 +11,8 @@
 hss_create_question_list <- function(dict_path) {
 
   questions <- readxl::read_excel(dict_path) %>%
-    dplyr::select(type, name) %>%
+    janitor::clean_names() %>%
+    dplyr::select(type, name, r_name) %>%
     dplyr::mutate(
       type = stringr::str_replace(type, "\\s.+", "")
     ) %>%
@@ -19,7 +20,7 @@ hss_create_question_list <- function(dict_path) {
       stringr::str_starts(name, "Q"),
       stringr::str_starts(type, "select")
     ) %>%
-    dplyr::pull(name, type)
+    dplyr::pull(r_name, type)
 
   return(questions)
 }
