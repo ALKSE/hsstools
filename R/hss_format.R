@@ -9,14 +9,22 @@
 hss_format_single <- function(table) {
   # load formatting options
   format <- .get_format_options()
-  # convert to flextable
+  # Check if table was already converted to flextable object.
+  if(!inherits(table, "flextable")) {
+    table <- flextable::flextable(table)
+  }
+  # applies formatting
   table <- .hss_format(table)
   return(table)
 }
 #' @rdname hss_format
 hss_format_multi <- function(table) {
   format <- .get_format_options()
-  # convert to flextable
+  # Check if table was already converted to flextable object.
+  if(!inherits(table, "flextable")) {
+    table <- flextable::flextable(table)
+  }
+  # applies formatting
   table <- .hss_format(table) %>%
     flextable::bg(i = ~ p <= 0.05, bg = format$body_bg_emph, part = "body") %>%
     flextable::bold(i = ~p <= 0.05, part = "body") %>%
@@ -34,14 +42,12 @@ hss_format_group <- function() {
 .hss_format <- function(table) {
   # load formatting options
   format <- .get_format_options()
-  # convert table to flextable object
-  table <- flextable::flextable(table)
+
   # apply formatting
   table <- table %>%
     # format header
     flextable::bg(bg = format$header_bg, part = "header") %>%
     flextable::color(color = format$header_text, part = "header") %>%
-    flextable::add_header_row(values = "question", colwidth = ncol_keys(table)) %>%
     # format body
     flextable::bg(bg = format$body_bg, part = "body") %>%
     flextable::set_table_properties(layout = "autofit") %>%

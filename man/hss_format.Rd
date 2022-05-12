@@ -8,7 +8,7 @@
 \usage{
 hss_format_single(table)
 
-hss_format_multi()
+hss_format_multi(table)
 
 hss_format_group()
 }
