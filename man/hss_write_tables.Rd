@@ -12,6 +12,8 @@ hss_write_tables(df, questions, group, percent = TRUE)
 \item{questions}{A named character vector containing variable names and the table type required.}
 
 \item{group}{The desired grouping/disaggregation variable.}
+
+\item{percent}{Logical vector if the table should be created with percentage values. If set to FALSE, counts are shown.}
 }
 \value{
 A named list of dataframes.
