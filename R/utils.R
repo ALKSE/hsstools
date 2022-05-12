@@ -64,7 +64,7 @@ var <- .get_oldnew_varname(var)
       df,
       starts_with(
         stringr::str_replace(var$new, "_all", "_")
-      )
+      ) & !ends_with("_what")
     )
   )
   return(answers)
@@ -88,4 +88,30 @@ var <- .get_oldnew_varname(var)
     df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
   }
 }
-# -------------------------------------------------------------------------
+
+# Calculate N for 'select one' tables -------------------------------------
+.get_nval_single <- function(df, var, group) {
+  nval <- df %>%
+    select(!!var, !!group) %>%
+    group_by(across(!!group)) %>%
+    na.omit() %>%
+    summarise(n = n()) %>%
+    select(-!!group) %>%
+    unlist()
+  nval <- c(nval, total = sum(nval))
+  return(nval)
+}
+
+# Calculate N for 'select multiple' tables --------------------------------
+.get_nval_multi <- function(df, var, group) {
+  var <- .get_multi_valname(var)
+  nval <-df %>% select(!!group, !!var) %>%
+    filter(if_all(-!!group, ~ !is.na(.x))) %>%
+    group_by(across(!!group)) %>%
+    count(.) %>%
+    ungroup() %>%
+    select(-!!group) %>%
+    unlist %>%
+    c(., total = sum(.))
+  return(nval)
+}
