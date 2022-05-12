@@ -18,8 +18,7 @@ var <- .get_oldnew_varname(var)
   if (percent == TRUE) {
     table <- table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])) %>%
       addmargins(margin = 2) %>%
-      proportions(margin = 2) %>%
-      addmargins(margin = 1)
+      proportions(margin = 2)
 
     table <- as.data.frame(
       matrix(
@@ -30,13 +29,8 @@ var <- .get_oldnew_varname(var)
     )
     table <- dplyr::select(table, !contains("refused"))
   } else if (percent == FALSE) {
-    table <- addmargins(
-      addmargins(
-        table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])),
-        margin = 2
-      ),
-      margin = 1
-    )
+    table <- table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])) %>%
+      addmargins(margin = 2)
   } else {
     stop("Invalid input for percent:", percent)
   }
