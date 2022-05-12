@@ -15,7 +15,7 @@ hss_write_tables <- function(df, questions, group, percent = TRUE) {
       if (names(questions[match(x, questions)]) == "select_one") {
         x <- rbind(
           hss_table_single(df, x, group, percent = percent),
-          c("Pval", hss_chisq(df, hss_lookup_list(x, TRUE), group, full = FALSE))
+          c("Pval", hss_chisq(df, x, group, full = FALSE))
         )
       } else if (names(questions[match(x, questions)]) == "select_multiple") {
         x <- hss_table_multi(df, x, group, percent = percent)
@@ -24,7 +24,7 @@ hss_write_tables <- function(df, questions, group, percent = TRUE) {
     )
   })
 
-  names(output_list) <- hss_lookup_list(questions, reverse = TRUE)
+  names(output_list) <- questions
 
   return(output_list)
 }
