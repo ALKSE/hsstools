@@ -80,14 +80,14 @@
     dplyr::filter(r_name == var) %>%
     dplyr::select(relevant, dplyr::starts_with("r_relevant"))
 
-  questions <- stringr::str_extract(rel, "\\$\\{.+\\}") %>%
+  questions <- stringr::str_extract(relevant, "\\$\\{.+\\}") %>%
     stringr::str_replace_all(c("\\$\\{" = "", "\\}" = "")) %>%
     na.omit()
 
-  questions_r <- lapply(q, function(x) .get_dict_varname(x, "name", "r_name")) %>%
+  questions_r <- lapply(questions, function(x) .get_dict_varname(x, "name", "r_name")) %>%
     unlist()
 
-  answers <- stringr::str_extract(rel, ".?=.+") %>%
+  answers <- stringr::str_extract(relevant, ".?=.+") %>%
     stringr::str_replace_all("\\s=", "==") %>%
     stringr::str_remove_all("'") %>%
     na.omit()
@@ -104,7 +104,7 @@
 .subset_vars <- function(df, var) {
   var <- .get_oldnew_varname(var)
 
-  sub_vars <- .get_subsetting_var(var$new)
+  sub_vars <- .get_subset_vars(var$new)
 
   questions <- sub_vars$questions[which(sub_vars$questions %in% names(df))]
   answers <- sub_vars$answers[which(sub_vars$questions %in% names(df))]
