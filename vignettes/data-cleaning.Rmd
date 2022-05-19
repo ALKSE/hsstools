@@ -1,0 +1,27 @@
+---
+title: "data-cleaning"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-cleaning}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Data cleaning
+
+## converting dates
+To convert date columns to more user-friendly date-time objects, use the hss_surveyduration()
+function. This function converts columns and creates a new column with the survey duration. This column is inserted after the survey_start and survey_end columns.
+
+```{r}
+"TBD"
+```
+
+# Automated translation
+Two functions are relevant for the translation of Arabic text columns to English: hss_translate() and hss_merge_translated().
+
+## Translation of Arabic text columns
+hss_translate() takes Arabic text columns and appends English translated columns. The function makes use of Google Cloud Services for automated translation. Note that an account for GCS and a valid API key is required to use thi function. The output of hss_translate() is a dataframe containing all Arabic text columns and their English translated columns. The function skips empty columns.
+
+## Merging translated columns with the original dataframe
+The second function takes the dataframe with Arabic and English translated column and merges the translated columns with the original dataframe. and English translated columns are inserted after their Arabic counterparts, otherwise the order of columns in the dataframe is maintained.

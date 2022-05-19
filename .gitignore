@@ -50,3 +50,5 @@ rsconnect/
 
 # Specific testing files
 test*
+inst/doc
+docs
