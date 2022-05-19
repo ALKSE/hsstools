@@ -13,6 +13,7 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
 var <- .get_oldnew_varname(var)
 
 # retrieve sub-setting variable and filter df
+df <- df %>% .subset_vars(var$new)
 
 # tables
   if (percent == TRUE) {

@@ -8,15 +8,21 @@
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE) {
+  # retrieve old&new variable name, and retrieve response options.
   var <- .get_oldnew_varname(var)
   resp <- .get_multi_valname(var[["new"]])
 
+  # retrieve sub-setting variable and filter df
+  df <- df %>% .subset_vars(var$new)
+
+  # set options depending on percentage/count setting.
   total <- if (percent == TRUE) {
     "mean"
   } else if (percent == FALSE) {
     "sum"
   }
 
+  # create table
   table <- addmargins(
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
       crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]),][[group]]),
