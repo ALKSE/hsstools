@@ -2,30 +2,35 @@
 #'
 #' This functions runs chi-squared significance tests for one or more variables
 #' in a dataframe with a single cross-variable. Variable names can be passed as a
-#' single object or as a character string.
+#' single object or as a character string. hss_chisq_formatted returns a formatted character string
+#' containing a verbose explanation of the p-value.
 #'
 #' @param df The dataframe containing the variable(s) of interest
-#' @param vars The variable(s) of interest. Accepts a single value or character string.
+#' @param var The variable(s) of interest. Accepts a single value or character string.
 #' @param group The grouping (or disaggregation) variable.
 #' @param full should the full results be returned. If set to FALSE, only p.value is returned
+#' @param multi Set to FALSE if used for a 'select-one' question. Set to TRUE if used for a
+#' 'select-multiple question to look up the corresponding response options.
 #'
 #' @return A vector containing the results of the chi-squared test for the selected
 #' variables. If full is set to TRUE this will be a list, otherwise an atomic numeric vector.
+#' For hss_chisq_formatted the output is a character vector of length 1.
 #' @export
 #' @examples
-#' # Generate dummy data
-#' df <- hss_dummydata()
-#'
+#' # Create dummy dictionary
+#' dict_var <- dummy_var
+#' dict_val <- dummy_val
 #' # Calculte p-value for chi-squared test on a 'select-one' question.
-#' pval_single <- hss_chisq(test, "singleresponse", "gender")
+#' hss_chisq(dummydata, "migr_nr", "gender")
 #'
 #' # Calculate p-value for chi-squared test on a 'select-multiple' question.
-#' multi_options <- c("multi_option1", "multi_option2", "multi_option3")
-#' pval_multi <- hss_chisq(test, multi_options, "gender")
+#' hss_chisq(dummydata, "migr_why_all", "gender", multi = TRUE)
 #'
 #' # Chi-squared test with full output
-#' full <- hss_chisq(f, "singleresponse", full = TRUE)
+#' hss_chisq(dummydata, "migr_nr", full = TRUE)
 #'
+#'# Formatted output
+#' hss_chisq_formatted(dummydata, "migr_nr", "gender")
 hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
   if (!is.logical(full)) {
     stop("argument 'full' is not logical")
@@ -69,4 +74,23 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
     )
   }
   return(chisq_output)
+}
+
+#'@rdname hss_chisq
+hss_chisq_formatted <- function(df, var, group) {
+
+  chisq_formatted <- hss_chisq(df, var, group, full = FALSE, multi = FALSE) %>%
+    paste(
+      "Chi-squared is",
+      if (is.na(.)) {
+        "not applicable:"
+      } else if (. >= 0.05) {
+        "not significant:"
+      } else {
+        "significant:"
+      },
+      "p =",
+      .
+    )
+  return(chisq_formatted)
 }
