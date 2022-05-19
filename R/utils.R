@@ -120,8 +120,11 @@
   return(df_filtered)
 }
 
-# Calculate N for 'select one' tables -------------------------------------
+# Calculate N for contingency tables --------------------------------------
+# Calculating N works differently for 'select-one' and 'select-multiple' tables.
+# make sure to use appropriate function.
 .get_nval_single <- function(df, var, group) {
+  # calculate N for selected grouping.
   nval <- df %>%
     select(!!var, !!group) %>%
     group_by(across(!!group)) %>%
@@ -130,12 +133,19 @@
     select(-!!group) %>%
     unlist()
   nval <- c(nval, total = sum(nval))
-  return(nval)
+
+  # create N-value labels to add to table headers. Needs empty value in first
+  # position to ensure no N-value is added to question name.
+  nval_labs <- paste0(" N = (", nval, ")") %>%
+    c("", .)
+
+  return(nval_labs)
 }
 
-# Calculate N for 'select multiple' tables --------------------------------
 .get_nval_multi <- function(df, var, group) {
+  # retrieve repsonse options
   var <- .get_multi_valname(var)
+  # calculate N for selected grouping
   nval <- df %>%
     select(!!group, !!var) %>%
     filter(if_all(-!!group, ~ !is.na(.x))) %>%
@@ -145,5 +155,11 @@
     select(-!!group) %>%
     unlist() %>%
     c(., total = sum(.))
-  return(nval)
+
+  # create N-value labels to add to table headers. Needs empty value in first and
+  # last position to ensure no N-values are added to question name and p-value.
+  nval_labs <- paste0(" N = (", nval, ")") %>%
+    c("", ., "")
+
+  return(nval_labs)
 }
