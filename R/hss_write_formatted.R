@@ -9,15 +9,18 @@
 #' @export
 #'
 hss_write_formatted <- function(df, questions, group, percent = TRUE) {
-  out <- lapply(questions, function(x) {
+  out <- lapply(questions, function(questions_element) {
     tryCatch(
-      if (names(questions[match(x, questions)]) == "select_one") {
-        hss_table_single(df, x, group, percent) %>%
-          hss_label(x) %>%
-          hss_format_single()
-      } else if (names(questions[match(x, questions)]) == "select_multiple") {
-        hss_table_multi(df, x, group, percent) %>%
-          hss_label(x) %>%
+      if (names(questions[match(questions_element, questions)]) == "select_one") {
+        hss_table_single(df, questions_element, group, percent) %>%
+          hss_label(questions_element) %>%
+          hss_format_single() %>%
+          flextable::add_footer_lines(
+            values = hss_chisq_formatted(df, questions_element, group)
+          )
+      } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
+        hss_table_multi(df, questions_element, group, percent) %>%
+          hss_label(questions_element) %>%
           hss_format_multi()
       },
       error = function(e) NULL

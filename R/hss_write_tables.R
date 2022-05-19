@@ -15,19 +15,7 @@ hss_write_tables <- function(df, questions, group, percent = TRUE) {
       if (names(questions[match(questions_element, questions)]) == "select_one") {
         table <- list(
           table = hss_table_single(df, questions_element, group, percent = percent),
-          p = hss_chisq(df, questions_element, group) %>%
-            paste(
-              "Chi-squared is",
-              if (is.na(.)) {
-                "not applicable:"
-              } else if (. >= 0.05) {
-                "not significant:"
-              } else {
-                "significant:"
-              },
-              "p =",
-              .
-            )
+          p = hss_chisq_formatted(df, questions_element, group)
         )
       } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
         table <- hss_table_multi(df, questions_element, group, percent = percent)
