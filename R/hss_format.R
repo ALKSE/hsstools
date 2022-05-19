@@ -52,9 +52,9 @@ hss_format_group <- function() {
     flextable::bg(bg = format$body_bg, part = "body") %>%
     flextable::set_table_properties(layout = "autofit") %>%
     # format footer
-    flextable::add_footer_row(values = "", colwidth = ncol_keys(table)) %>%
+    flextable::add_footer_row(values = "", colwidth = flextable::ncol_keys(table)) %>%
     # general formatting
-    flextable::hline(border = fp_border(color = format$border_color, style = format$border_style, width = format$border_width), part = "all") %>%
-    flextable::hline_top(border = fp_border(color = format$border_color, style = format$border_style, width = format$border_width), part = "all")
+    flextable::hline(border = officer::fp_border(color = format$border_color, style = format$border_style, width = format$border_width), part = "all") %>%
+    flextable::hline_top(border = officer::fp_border(color = format$border_color, style = format$border_style, width = format$border_width), part = "all")
   return(table)
 }

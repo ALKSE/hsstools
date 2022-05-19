@@ -15,9 +15,9 @@ hss_label <- function(table, var) {
   }
   # apply labels
   table <- table %>%
-    add_header_lines(values = labels$question) %>%
-    mk_par(j = var, value = as_paragraph(
-      as_chunk(labels$answers)
+    flextable::add_header_lines(values = labels$question) %>%
+    flextable::mk_par(j = var, value = flextable::as_paragraph(
+      flextable::as_chunk(labels$answers)
     ))
   return(table)
 }
