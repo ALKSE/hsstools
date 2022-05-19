@@ -1,2 +1,67 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # hsstools
-Package of functions for HSS data analysis
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The HSS Tools package is intended to automate and simplify the Human
+Security Survey’s data cleaning and analysis process.
+
+## Installation
+
+You can install the hsstools package from [GitHub](https://github.com/)
+with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("RenRMT/hsstools")
+```
+
+## Usage
+
+The hsstools package automates a number of time-consuming steps in the
+data cleaning and analysis process.
+
+### Cleaning
+
+-   `hss_surveyduration()` quickly calculates survey durations
+-   `hss_translate()` and `hss_mergetranslated()` add AR-EN translated
+    text columns.
+
+### Analysis
+
+-   `hss_table_single()` and `hss_table_multi()` generate contingency
+    tables for the corresponding question types.
+-   `hss_format()` and `hss_label()` apply formatting and labelling of
+    questions and response options based on information provided in the
+    XLS form (in either English or Arabic).
+-   `hss_write_*()` and `hss_export_()` functions provide automation to
+    create and export contingency tables based on a list questions taken
+    from the XLS form.
+    -   `hss_write_tables()` and `hss_export_tables()` create an .xlsx
+        file with tables and chi2 test outcomes.
+    -   `hss_write_formatted()` and `hss_export_formatted()` create a
+        .docx (or .html) file with tables, chi2 outcomes, and
+        appropriate formatting and labelling of questions and response
+        options.
+
+For an introduction to functions related to creating and exporting
+contingency tables see vignette(“generating-tables”). For an
+introduction to functions related to data cleaning and wrangling see
+vignette(“data-cleaning”)
+
+The hsstools package relies on a number of other packages. These package
+dependencies will be downloaded and installed automatically with the
+hsstools package. Additional packages installed are:
+
+    #> dplyr,
+    #> flextable,
+    #> forcats,
+    #> lubridate,
+    #> magrittr,
+    #> officer,
+    #> questionr,
+    #> stringr,
+    #> tidyr

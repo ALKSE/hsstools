@@ -2,40 +2,49 @@
 % Please edit documentation in R/hss_chisq.R
 \name{hss_chisq}
 \alias{hss_chisq}
+\alias{hss_chisq_formatted}
 \title{Runs chi-squared test on selected variables}
 \usage{
-hss_chisq(df, vars, group, full = FALSE)
+hss_chisq(df, var, group, full = FALSE, multi = FALSE)
+
+hss_chisq_formatted(df, var, group)
 }
 \arguments{
 \item{df}{The dataframe containing the variable(s) of interest}
 
-\item{vars}{The variable(s) of interest. Accepts a single value or character string.}
+\item{var}{The variable(s) of interest. Accepts a single value or character string.}
 
 \item{group}{The grouping (or disaggregation) variable.}
 
 \item{full}{should the full results be returned. If set to FALSE, only p.value is returned}
+
+\item{multi}{Set to FALSE if used for a 'select-one' question. Set to TRUE if used for a
+'select-multiple question to look up the corresponding response options.}
 }
 \value{
 A vector containing the results of the chi-squared test for the selected
 variables. If full is set to TRUE this will be a list, otherwise an atomic numeric vector.
+For hss_chisq_formatted the output is a character vector of length 1.
 }
 \description{
 This functions runs chi-squared significance tests for one or more variables
 in a dataframe with a single cross-variable. Variable names can be passed as a
-single object or as a character string.
+single object or as a character string. hss_chisq_formatted returns a formatted character string
+containing a verbose explanation of the p-value.
 }
 \examples{
-# Generate dummy data
-df <- hss_dummydata()
-
+# Create dummy dictionary
+dict_var <- dummy_var
+dict_val <- dummy_val
 # Calculte p-value for chi-squared test on a 'select-one' question.
-pval_single <- hss_chisq(test, "singleresponse", "gender")
+hss_chisq(dummydata, "migr_nr", "gender")
 
 # Calculate p-value for chi-squared test on a 'select-multiple' question.
-multi_options <- c("multi_option1", "multi_option2", "multi_option3")
-pval_multi <- hss_chisq(test, multi_options, "gender")
+hss_chisq(dummydata, "migr_why_all", "gender", multi = TRUE)
 
 # Chi-squared test with full output
-full <- hss_chisq(f, "singleresponse", full = TRUE)
+hss_chisq(dummydata, "migr_nr", full = TRUE)
 
+# Formatted output
+hss_chisq_formatted(dummydata, "migr_nr", "gender")
 }
