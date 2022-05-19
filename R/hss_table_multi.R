@@ -16,13 +16,13 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   df <- df %>% .subset_vars(var$new)
 
   # set options depending on percentage/count setting.
-  total <- if (percent == TRUE) {
+  Total <- if (percent == TRUE) {
     "mean"
   } else if (percent == FALSE) {
     "sum"
   }
 
-  # create contingency table with 'total' column
+  # create contingency table with 'Total' column
   table <- addmargins(
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
       crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
@@ -33,7 +33,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
       na.rm = TRUE
     ),
     margin = 2,
-    FUN = total
+    FUN = Total
   )
   # convert proportions to percentages
   if (percent == TRUE) {

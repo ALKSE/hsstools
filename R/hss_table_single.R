@@ -45,12 +45,13 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
     stop("Invalid input for percent:", percent)
   }
 
-  # add rownames (response options) as column and convert to dataframe
+  # add rownames (response options) as column and convert to dataframe and rename sum col
   table <- dplyr::bind_cols(
     !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
-    dplyr::select(!contains("Refused"))
+    dplyr::select(!contains("Refused")) %>%
+    dplyr::rename(Total = Sum)
 
   rownames(table) <- NULL
 
