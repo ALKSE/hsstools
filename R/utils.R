@@ -36,7 +36,6 @@
 # function to remove ambiguity in variable names. Takes variable name (old or new) as input
 # and returns a list containing both the old and new variable name.
 .get_oldnew_varname <- function(var) {
-
   if (var %in% dict_var[[2]] == TRUE) {
     var_old <- var
     var_new <- .get_dict_varname(var, 2, 3)
@@ -57,7 +56,7 @@
 
 # Get select-multiple valnames --------------------------------------------
 .get_multi_valname <- function(var) {
-var <- .get_oldnew_varname(var)
+  var <- .get_oldnew_varname(var)
 
   answers <- names(
     dplyr::select(
@@ -72,21 +71,53 @@ var <- .get_oldnew_varname(var)
 
 
 # Sub-set by variable -----------------------------------------------------
+# A helper function for .subset-vars. Extracts all elements in 'relevant'
+# and 'r_relevant' columns. These are split into questions (The 'Q' part, later converted
+# to the new names) and the answers answers/values (The '= X' part). Returns a list
+# with two elements: questions and answers
+.get_subset_vars <- function(var) {
+  relevant <- dict_var %>%
+    dplyr::filter(r_name == var) %>%
+    dplyr::select(relevant, dplyr::starts_with("r_relevant"))
 
-.get_dict_subvar <- function(var) {
-  asdf <- hss_lookup_var(var_old, 2, 8)
+  questions <- stringr::str_extract(rel, "\\$\\{.+\\}") %>%
+    stringr::str_replace_all(c("\\$\\{" = "", "\\}" = "")) %>%
+    na.omit()
 
-  if (!is.na(sub_var)) {
-    sub_q <- stringr::str_extract_all(sub_var, "Q.{1,5}(?=\\})") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    sub_a <- stringr::str_extract_all(sub_var, "(?<=\\')\\d{1,2}(?=\\')") %>%
-      unlist() %>%
-      stringr::str_split(" ") %>%
-      unlist()
-    df <- df %>% dplyr::filter(.[hss_lookup_list(sub_q, TRUE)] == !!as.numeric(sub_a))
-  }
+  questions_r <- lapply(q, function(x) .get_dict_varname(x, "name", "r_name")) %>%
+    unlist()
+
+  answers <- stringr::str_extract(rel, ".?=.+") %>%
+    stringr::str_replace_all("\\s=", "==") %>%
+    stringr::str_remove_all("'") %>%
+    na.omit()
+
+  sub_vars <- list(questions = questions_r, answers = answers)
+
+  return(sub_vars)
+}
+
+# A function to subset a dataframe based on 'relevant' columns in the XLS form.
+# Checks first if the sub-setting questions exist in the dataframe (and filters nonexistent)
+# and then creates input for dplyr::filter based on the sub-setting questions. Returns
+# a filtered dataframe.
+.subset_vars <- function(df, var) {
+  var <- .get_oldnew_varname(var)
+
+  sub_vars <- .get_subsetting_var(var$new)
+
+  questions <- sub_vars$questions[which(sub_vars$questions %in% names(df))]
+  answers <- sub_vars$answers[which(sub_vars$questions %in% names(df))]
+
+  subsetting <- paste(questions, answers, sep = " ")
+  # # NB: currently this part silently fails (i.e. it does not filter) if a single
+  # element of the vector [t] is invalid. The part above should make this redundant.
+  df_filtered <- df %>% try(
+    filter(
+      !!!rlang::parse_exprs(sub_vars)
+    )
+  )
+  return(df_filtered)
 }
 
 # Calculate N for 'select one' tables -------------------------------------
@@ -105,13 +136,14 @@ var <- .get_oldnew_varname(var)
 # Calculate N for 'select multiple' tables --------------------------------
 .get_nval_multi <- function(df, var, group) {
   var <- .get_multi_valname(var)
-  nval <-df %>% select(!!group, !!var) %>%
+  nval <- df %>%
+    select(!!group, !!var) %>%
     filter(if_all(-!!group, ~ !is.na(.x))) %>%
     group_by(across(!!group)) %>%
     count(.) %>%
     ungroup() %>%
     select(-!!group) %>%
-    unlist %>%
+    unlist() %>%
     c(., total = sum(.))
   return(nval)
 }
