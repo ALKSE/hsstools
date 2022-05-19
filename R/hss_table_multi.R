@@ -9,7 +9,7 @@
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE) {
   var <- .get_oldnew_varname(var)
-  resp <- .get_multi_valname(var$new)
+  resp <- .get_multi_valname(var[["new"]])
 
   total <- if (percent == TRUE) {
     "mean"
