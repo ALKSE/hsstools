@@ -9,16 +9,28 @@
 #' @export
 #'
 hss_write_tables <- function(df, questions, group, percent = TRUE) {
-  output_list <- lapply(questions, function(x) {
+  output_list <- lapply(questions, function(questions_element) {
     tryCatch(
 
-      if (names(questions[match(x, questions)]) == "select_one") {
-        x <- rbind(
-          hss_table_single(df, x, group, percent = percent),
-          c("Pval", hss_chisq(df, x, group, full = FALSE))
+      if (names(questions[match(questions_element, questions)]) == "select_one") {
+        table <- list(
+          table = hss_table_single(df, questions_element, group, percent = percent),
+          p = hss_chisq(df, questions_element, group) %>%
+            paste(
+              "Chi-squared is",
+              if (is.na(.)) {
+                "not applicable:"
+              } else if (. >= 0.05) {
+                "not significant:"
+              } else {
+                "significant:"
+              },
+              "p =",
+              .
+            )
         )
-      } else if (names(questions[match(x, questions)]) == "select_multiple") {
-        x <- hss_table_multi(df, x, group, percent = percent)
+      } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
+        table <- hss_table_multi(df, questions_element, group, percent = percent)
       },
       error = function(e) NULL
     )

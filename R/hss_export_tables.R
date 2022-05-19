@@ -19,11 +19,22 @@ hss_export_tables <- function(df_list, path) {
   sink(path)
 
   for (i in names(df_list)) {
-    cat(i, strrep(";", ncol(df_list[[i]])), "\n", sep = "")
+    if (names(questions[match(i, questions)]) == "select_one") {
+
+      cat(strrep(";", ncol(df_list[[i]])), "\n", sep = "")
+
+      write.table(df_list[[i]]$table, sep = ";", dec = ",", row.names = FALSE)
+      cat(df_list[[i]]$p)
+
+      cat(strrep(";", ncol(df_list[[i]])), "\n", sep = "")
+
+    } else if (names(questions[match(i, questions)]) == "select_multiple") {
+    cat(strrep(";", ncol(df_list[[i]])), "\n", sep = "")
 
     write.table(df_list[[i]], sep = ";", dec = ",", row.names = FALSE)
 
     cat(strrep(";", ncol(df_list[[i]])), "\n", sep = "")
+    }
   }
 
   sink()
