@@ -46,7 +46,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     )
   }
   # calculate p values for each response option.
-  p <- hss_chisq(df, resp, group, full = FALSE)
+  p <- hss_chisq(df, var$new, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
   table <- bind_cols(
     !!var$new := rownames(table),

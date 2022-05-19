@@ -26,9 +26,18 @@
 #' # Chi-squared test with full output
 #' full <- hss_chisq(f, "singleresponse", full = TRUE)
 #'
-hss_chisq <- function(df, vars, group, full = FALSE) {
+hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
   if (!is.logical(full)) {
     stop("argument 'full' is not logical")
+  }
+  var <- .get_oldnew_varname(var)
+
+  # subset dataframe by sub-seting variables
+  df <- df %>% .subset_vars(var$new)
+
+  # if used for select-multiple question, retrieve response options.
+  if (multi == TRUE) {
+    var$new <- .get_multi_valname(var$new)
   }
 
   # The call to chisq.test is wrapped in a trycatch() function to ensure the function
@@ -37,11 +46,11 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
 
   if (full == FALSE) {
     chisq_output <- sapply(
-      vars,
-      function(vars_element) {
+      var$new,
+      function(var_element) {
         return(tryCatch(
           round(
-            stats::chisq.test(df[[vars_element]], df[[group]])[["p.value"]],
+            stats::chisq.test(df[[var_element]], df[[group]])[["p.value"]],
             digits = 3
           ),
           error = function(e) NA
@@ -50,10 +59,10 @@ hss_chisq <- function(df, vars, group, full = FALSE) {
     )
   } else if (full == TRUE) {
     chisq_output <- lapply(
-      vars,
-      function(vars_element) {
+      var$new,
+      function(var_element) {
         return(tryCatch(
-          stats::chisq.test(df[[vars_element]], df[[group]]),
+          stats::chisq.test(df[[var_element]], df[[group]]),
           error = function(e) NA
         ))
       }
