@@ -22,10 +22,10 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     "sum"
   }
 
-  # create table
+  # create contingency table with 'total' column
   table <- addmargins(
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
-      crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]),][[group]]),
+      crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
       digits = 2,
       freq = percent,
       tfreq = "col",
@@ -35,19 +35,19 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
     margin = 2,
     FUN = total
   )
-
-  if(percent == TRUE) {
+  # convert proportions to percentages
+  if (percent == TRUE) {
     table <- as.data.frame(
-    matrix(
-      sprintf("%1.2f%%", table),
-      nrow(table),
-      dimnames = dimnames(table)
-    )
+      matrix(
+        sprintf("%1.2f%%", table),
+        nrow(table),
+        dimnames = dimnames(table)
+      )
     )
   }
-
+  # calculate p values for each response option.
   p <- hss_chisq(df, resp, group, full = FALSE)
-
+  # add row names as columns and convert to dataframe. P values added as column
   table <- bind_cols(
     !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
@@ -55,6 +55,12 @@ hss_table_multi <- function(df, var, group, percent = TRUE) {
   )
 
   rownames(table) <- NULL
+
+  # apply N value labels to column headers
+  names(table) <- paste0(
+    names(table),
+    .get_nval_multi(df, var$new, group)
+  )
 
   return(table)
 }

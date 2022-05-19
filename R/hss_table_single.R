@@ -10,17 +10,21 @@
 #'
 hss_table_single <- function(df, var, group, percent = TRUE) {
   # retrieve old and new variable names
-var <- .get_oldnew_varname(var)
+  var <- .get_oldnew_varname(var)
 
-# retrieve sub-setting variable and filter df
-df <- df %>% .subset_vars(var$new)
+  # retrieve sub-setting variable and filter df
+  df <- df %>% .subset_vars(var$new)
 
-# tables
+  # create table
   if (percent == TRUE) {
-    table <- table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])) %>%
+    # creates contingency table with 'total' column
+    table <- table(
+      forcats::as_factor(df[[var$new]]),
+      forcats::as_factor(df[[group]])
+    ) %>%
       addmargins(margin = 2) %>%
       proportions(margin = 2)
-
+    # converts values from proportions to percentage
     table <- as.data.frame(
       matrix(
         sprintf("%1.2f%%", table * 100),
@@ -28,13 +32,20 @@ df <- df %>% .subset_vars(var$new)
         dimnames = dimnames(table)
       )
     )
+    # removes 'refused to answer' category from grouping variable if present
     table <- dplyr::select(table, !contains("refused"))
   } else if (percent == FALSE) {
-    table <- table(forcats::as_factor(df[[var$new]]), forcats::as_factor(df[[group]])) %>%
+    # create contingency table with 'total' column
+    table <- table(
+      forcats::as_factor(df[[var$new]]),
+      forcats::as_factor(df[[group]])
+    ) %>%
       addmargins(margin = 2)
   } else {
     stop("Invalid input for percent:", percent)
   }
+
+  # add rownames (response options) as column and convert to dataframe
   table <- dplyr::bind_cols(
     !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
@@ -42,6 +53,12 @@ df <- df %>% .subset_vars(var$new)
     dplyr::select(!contains("Refused"))
 
   rownames(table) <- NULL
+
+  # apply N value labels to column headers
+  names(table) <- paste0(
+    names(table),
+    .get_nval_single(df, var$new, group)
+  )
 
   return(table)
 }
