@@ -8,7 +8,7 @@
 #'
 hss_export_formatted <- function(list, path = NULL) {
   # select all successfully written tables
-  list <- list[-which(sapply(list, is.null))]
+  list <- list[which(sapply(list, function(list_element) !is.null(list_element)))]
 
   flextable::save_as_docx(values = list, path = path)
 }
