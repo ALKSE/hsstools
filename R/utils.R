@@ -61,9 +61,9 @@
   answers <- names(
     dplyr::select(
       df,
-      starts_with(
+      dplyr::starts_with(
         stringr::str_replace(var$new, "_all", "_")
-      ) & !ends_with("_what")
+      ) & !dplyr::ends_with("_what")
     )
   )
   return(answers)
@@ -126,17 +126,17 @@
 .get_nval_single <- function(df, var, group) {
   # calculate N for selected grouping.
   nval <- df %>%
-    select(!!var, !!group) %>%
-    group_by(across(!!group)) %>%
+    dplyr::select(!!var, !!group) %>%
+    dplyr::group_by(across(!!group)) %>%
     na.omit() %>%
-    summarise(n = n()) %>%
-    select(-!!group) %>%
+    dplyr::summarise(n = dplyr::n()) %>%
+    dplyr::select(-!!group) %>%
     unlist()
   nval <- c(nval, total = sum(nval))
 
   # create N-value labels to add to table headers. Needs empty value in first
   # position to ensure no N-value is added to question name.
-  nval_labs <- paste0(" N = (", nval, ")") %>%
+  nval_labs <- paste0("\n(N = ", nval, ")") %>%
     c("", .)
 
   return(nval_labs)
@@ -147,18 +147,18 @@
   var <- .get_multi_valname(var)
   # calculate N for selected grouping
   nval <- df %>%
-    select(!!group, !!var) %>%
-    filter(if_all(-!!group, ~ !is.na(.x))) %>%
-    group_by(across(!!group)) %>%
-    count(.) %>%
-    ungroup() %>%
-    select(-!!group) %>%
+    dplyr::select(!!group, !!var) %>%
+    dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
+    dplyr::group_by(dplyr::across(!!group)) %>%
+    dplyr::count(.) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-!!group) %>%
     unlist() %>%
     c(., total = sum(.))
 
   # create N-value labels to add to table headers. Needs empty value in first and
   # last position to ensure no N-values are added to question name and p-value.
-  nval_labs <- paste0(" N = (", nval, ")") %>%
+  nval_labs <- paste0(" (\nN = ", nval, ")") %>%
     c("", ., "")
 
   return(nval_labs)
