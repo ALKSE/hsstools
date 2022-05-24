@@ -12,12 +12,16 @@
 hss_create_dict <- function(form, type = "var") {
 
   if (type == "var") {
-    dict <- janitor::clean_names(readxl::read_xls(path = form, sheet = 1))
-    dict[["type"]] <- gsub(".+\\s", "", dict[["type"]])
-    dict <- dict[!is.na(dict[["name"]]), ]
+    dict <- readxl::read_xls(path = form, sheet = 1) %>%
+      janitor::clean_names() %>%
+      tidyr::separate(col = type,
+                      into = c("q_type", "type"),
+                      sep = " ",
+                      fill = "left"
+                      )
   } else if (type == "val") {
-    dict <- janitor::clean_names(readxl::read_xls(path = form, sheet = 2))
-    dict <- dict[!is.na(dict[["list_name"]]), ]
+    dict <- readxl::read_xls(path = form, sheet = 2) %>%
+      janitor::clean_names()
   } else {
     stop(type, "is not a valid input type. Use \'var\' or \'val\'.")
   }
