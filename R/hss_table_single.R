@@ -4,11 +4,13 @@
 #' @param var A character string with the variable name of interest.
 #' @param group A character string with the grouping (or disaggregation) variable.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts.
+#' @param digits The number of (significant) digits to display. Trailing zeroes are
+#' always removed.
 #'
 #' @return A contingency table with the variable of interest and grouping variable.
 #' @export
 #'
-hss_table_single <- function(df, var, group, percent = TRUE) {
+hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
   # retrieve old and new variable names
   var <- .get_oldnew_varname(var)
 
@@ -23,15 +25,19 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
       forcats::as_factor(df[[group]])
     ) %>%
       addmargins(margin = 2) %>%
-      proportions(margin = 2)
-    # converts values from proportions to percentage
-    table <- as.data.frame(
+      # display as proportions and convert to percentage
+      proportions(margin = 2) * 100
+    # format percentage to show specified digits, add % sign. (this converts all
+    # values to character)
+    table <- table %>%
+      formatC(digits = digits, format = "fg") %>%
+      sprintf("%s%%", .) %>%
       matrix(
-        sprintf("%1.2f%%", table * 100),
         nrow(table),
         dimnames = dimnames(table)
-      )
-    )
+      ) %>%
+      as.data.frame()
+
     # removes 'refused to answer' category from grouping variable if present
     table <- dplyr::select(table, !contains("refused"))
   } else if (percent == FALSE) {
@@ -47,7 +53,7 @@ hss_table_single <- function(df, var, group, percent = TRUE) {
 
   # add rownames (response options) as column and convert to dataframe and rename sum col
   table <- dplyr::bind_cols(
-    !!var$new := rownames(table),
+    Response = rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
     dplyr::select(!contains("Refused")) %>%
