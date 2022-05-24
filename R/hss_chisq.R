@@ -54,9 +54,9 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
       var$new,
       function(var_element) {
         return(tryCatch(
-          round(
+          format(
             stats::chisq.test(df[[var_element]], df[[group]])[["p.value"]],
-            digits = 3
+            digits = 3, scientific = FALSE
           ),
           error = function(e) NA
         ))
@@ -78,19 +78,18 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
 
 #'@rdname hss_chisq
 hss_chisq_formatted <- function(df, var, group) {
-
-  chisq_formatted <- hss_chisq(df, var, group, full = FALSE, multi = FALSE) %>%
-    paste(
+  chisq <- hss_chisq(df, var, group, full = FALSE, multi = FALSE)
+  chisq_formatted <- paste(
       "Chi-squared is",
-      if (is.na(.)) {
+      if (is.na(chisq)) {
         "not applicable:"
-      } else if (. >= 0.05) {
+      } else if (chisq >= 0.05) {
         "not significant:"
       } else {
         "significant:"
       },
-      "p =",
-      .
+      "p",
+      if (chisq > 0.0005) { paste0("= ", round(chisq, digits = 3))} else {"< 0.001"}
     )
   return(chisq_formatted)
 }
