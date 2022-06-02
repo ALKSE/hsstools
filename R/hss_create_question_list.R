@@ -9,18 +9,13 @@
 #' @export
 #'
 hss_create_question_list <- function(dict_path) {
-
-  questions <- readxl::read_excel(dict_path) %>%
-    janitor::clean_names() %>%
-    dplyr::select(type, name, r_name) %>%
-    dplyr::mutate(
-      type = stringr::str_replace(type, "\\s.+", "")
-    ) %>%
+  dict <- hss_create_dict(dict_path, "var")
+  questions <- dplyr::select(dict, q_type, name, r_name) %>%
     dplyr::filter(
       stringr::str_starts(name, "Q"),
-      stringr::str_starts(type, "select")
+      stringr::str_starts(q_type, "select")
     ) %>%
-    dplyr::pull(r_name, type)
+    dplyr::pull(r_name, q_type)
 
   return(questions)
 }
