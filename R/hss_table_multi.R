@@ -5,14 +5,16 @@
 #' @param group A grouping (or disaggregation) variable.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts
 #' @param digits The number of (significant) digits to display. Trailing zeroes are
-#' always removed.
+#' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
 #'
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
+  # get scipen default options, then set to make sure no scientific notation is used
+
   # retrieve old&new variable name, and retrieve response options.
   var <- .get_oldnew_varname(var)
-  resp <- .get_multi_valname(var[["new"]])
+  resp <- .get_multi_valname(var$new, df)
 
   # retrieve sub-setting variable and filter df
   df <- df %>% .subset_vars(var$new)
@@ -28,7 +30,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   table <- addmargins(
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
       crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
-      digits = 2,
+      digits = digits,
       freq = percent,
       tfreq = "col",
       n = FALSE,
@@ -42,7 +44,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   if (percent == TRUE) {
 
     table <- table %>%
-      formatC(digits = digits, format = "fg") %>%
+      signif(digits = digits) %>%
       sprintf("%s%%", .) %>%
       matrix(
         nrow(table),
@@ -53,7 +55,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # calculate p values for each response option.
   p <- hss_chisq(df, var$new, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
-  table <- bind_cols(
+  table <- dplyr::bind_cols(
     Response = rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
     "p" = p
@@ -66,6 +68,5 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
     names(table),
     .get_nval_multi(df, var$new, group)
   )
-
-  return(table)
+return(table)
 }

@@ -5,7 +5,7 @@
 #' @param group A character string with the grouping (or disaggregation) variable.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts.
 #' @param digits The number of (significant) digits to display. Trailing zeroes are
-#' always removed.
+#' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
 #'
 #' @return A contingency table with the variable of interest and grouping variable.
 #' @export
@@ -30,7 +30,7 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
     # format percentage to show specified digits, add % sign. (this converts all
     # values to character)
     table <- table %>%
-      formatC(digits = digits, format = "fg") %>%
+      signif(digits = digits) %>%
       sprintf("%s%%", .) %>%
       matrix(
         nrow(table),
