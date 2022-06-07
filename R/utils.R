@@ -2,12 +2,12 @@
 # Look for a value in the specified input column and return the value in the
 # correspoding return column. Only takes a single input, but can return vectors
 # of length >1.
-.get_dict_varname <- function(var, input_col, return_col) {
-  if (!var %in% dict_var[[input_col]]) {
-    warning("variable name \'", var, "\' not present in column: \'", names(dict_var[input_col]), "\'.")
+.get_dict_varname <- function(var, input_col, return_col, dvar = dict_var) {
+  if (!var %in% dvar[[input_col]]) {
+    warning("variable name \'", var, "\' not present in column: \'", names(dvar[input_col]), "\'.")
   }
 
-  varname <- dict_var %>%
+  varname <- dvar %>%
     dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(all_of(return_col)) %>%
     unlist(use.names = FALSE)
@@ -17,14 +17,14 @@
 
 # dict_val lookup function ------------------------------------------------
 # Look for a value in the specified input column and return the value in the
-# correspoding return column. Only takes a single input, but can return vectors
+# corresponding return column. Only takes a single input, but can return vectors
 # of length >1.
-.get_dict_valname <- function(var, input_col, return_col) {
-  if (!var %in% dict_val[[input_col]]) {
-    warning("variable name \'", var, "\' not present in column: \'", names(dict_val[input_col]), "\'.")
+.get_dict_valname <- function(var, input_col, return_col, dvar = dict_var, dval = dict_val) {
+  if (!var %in% dval[[input_col]]) {
+    warning("variable name \'", var, "\' not present in column: \'", names(dval[[input_col]]), "\'.")
   }
 
-  valname <- dict_val %>%
+  valname <- dval %>%
     dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
@@ -35,16 +35,14 @@
 # Get old & new varname ---------------------------------------------------
 # function to remove ambiguity in variable names. Takes variable name (old or new) as input
 # and returns a list containing both the old and new variable name.
-.get_oldnew_varname <- function(var) {
-  if (var %in% dict_var[[2]] == TRUE) {
+.get_oldnew_varname <- function(var, dict = dict_var) {
+  if (var %in% dict[["name"]] == TRUE) {
     var_old <- var
-    var_new <- .get_dict_varname(var, 2, 3)
-  } else if (var %in% dict_var[[3]] == TRUE) {
-    var_old <- .get_dict_varname(var, 3, 2)
+    var_new <- .get_dict_varname(var, "name", "r_name")
+  } else if (var %in% dict[["r_name"]] == TRUE) {
+    var_old <- .get_dict_varname(var, "r_name", "name")
     var_new <- var
-  } else {
-    warning(var, " not in dictionary.")
-  }
+  } else {warning(var, " not in dictionary.")}
   var <- list(
     old = var_old,
     new = var_new
@@ -55,7 +53,7 @@
 
 
 # Get select-multiple valnames --------------------------------------------
-.get_multi_valname <- function(var) {
+.get_multi_valname <- function(var, df) {
   var <- .get_oldnew_varname(var)
 
   answers <- names(
@@ -75,8 +73,8 @@
 # and 'r_relevant' columns. These are split into questions (The 'Q' part, later converted
 # to the new names) and the answers answers/values (The '= X' part). Returns a list
 # with two elements: questions and answers
-.get_subset_vars <- function(var) {
-  relevant <- dict_var %>%
+.get_subset_vars <- function(var, dvar = dict_var) {
+  relevant <- dvar %>%
     dplyr::filter(r_name == var) %>%
     dplyr::select(relevant, dplyr::starts_with("r_relevant"))
 
@@ -144,7 +142,7 @@
 
 .get_nval_multi <- function(df, var, group) {
   # retrieve repsonse options
-  var <- .get_multi_valname(var)
+  var <- .get_multi_valname(var, df)
   # calculate N for selected grouping
   nval <- df %>%
     dplyr::select(!!group, !!var) %>%
@@ -158,7 +156,7 @@
 
   # create N-value labels to add to table headers. Needs empty value in first and
   # last position to ensure no N-values are added to question name and p-value.
-  nval_labs <- paste0(" (\nN = ", nval, ")") %>%
+  nval_labs <- paste0(" \n(N = ", nval, ")") %>%
     c("", ., "")
 
   return(nval_labs)
