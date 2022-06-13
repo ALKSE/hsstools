@@ -4,15 +4,16 @@
 \alias{hss_export_formatted}
 \title{Exports a formatted list of tables to .docx}
 \usage{
-hss_export_formatted(list, path = NULL, type = "docx")
+hss_export_formatted(list, file = NULL, type = "word")
 }
 \arguments{
 \item{list}{A list containing flextable objects}
 
-\item{path}{The file path to save to}
+\item{file}{The file path to save to}
 }
 \value{
-
+Outputs the selected flextable objects to a .docx file. Depending on the number of tables to export, this may take a long time.
+NOTE: running this function while the chosen output file is opened in another program will cause the R session to abort.
 }
 \description{
 Exports a formatted list of tables to .docx

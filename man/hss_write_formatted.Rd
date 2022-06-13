@@ -4,7 +4,14 @@
 \alias{hss_write_formatted}
 \title{Write formatted tables to a list for selected variables}
 \usage{
-hss_write_formatted(df, questions, group, percent = TRUE)
+hss_write_formatted(
+  df,
+  questions,
+  group,
+  percent = TRUE,
+  digits = "1",
+  lang = "en"
+)
 }
 \arguments{
 \item{df}{The dataframe containing relevant variables}

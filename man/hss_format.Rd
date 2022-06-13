@@ -16,6 +16,6 @@ hss_format_group()
 
 }
 \description{
-Converts table to a flextable and applies formatting. Formattin preferences
+Converts table to a flextable and applies formatting. Formatting preferences
 are stored in \link{TBD}
 }

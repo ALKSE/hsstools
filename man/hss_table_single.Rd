@@ -4,7 +4,7 @@
 \alias{hss_table_single}
 \title{HSS Data Table Generation}
 \usage{
-hss_table_single(df, var, group, percent = TRUE)
+hss_table_single(df, var, group, percent = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{A dataframe containing the variable of interest and grouping variable.}
@@ -14,6 +14,9 @@ hss_table_single(df, var, group, percent = TRUE)
 \item{group}{A character string with the grouping (or disaggregation) variable.}
 
 \item{percent}{Set to TRUE to show percentages. Set to FALSE to show counts.}
+
+\item{digits}{The number of (significant) digits to display. Trailing zeroes are
+always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'}
 }
 \value{
 A contingency table with the variable of interest and grouping variable.

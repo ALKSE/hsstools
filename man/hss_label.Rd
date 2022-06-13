@@ -4,7 +4,7 @@
 \alias{hss_label}
 \title{Apply text labels to tables.}
 \usage{
-hss_label(table, var)
+hss_label(table, var, grouping, lang = "en")
 }
 \arguments{
 \item{table}{the table}
