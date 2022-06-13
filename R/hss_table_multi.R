@@ -29,7 +29,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # create contingency table with 'Total' column
   table <- addmargins(
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
-      crossvar = forcats::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
+      crossvar = haven::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
       digits = digits,
       freq = percent,
       tfreq = "col",
@@ -44,8 +44,9 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   if (percent == TRUE) {
 
     table <- table %>%
-      signif(digits = digits) %>%
-      sprintf("%s%%", .) %>%
+      formatC(digits = digits, format = "fg", mode = "real") %>%
+      as.double() %>%
+      sprintf("%s%%", .)%>%
       matrix(
         nrow(table),
         dimnames = dimnames(table)

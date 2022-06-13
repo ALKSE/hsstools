@@ -21,8 +21,8 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
   if (percent == TRUE) {
     # creates contingency table with 'total' column
     table <- table(
-      forcats::as_factor(df[[var$new]]),
-      forcats::as_factor(df[[group]])
+      haven::as_factor(df[[var$new]]),
+      haven::as_factor(df[[group]])
     ) %>%
       addmargins(margin = 2) %>%
       # display as proportions and convert to percentage
@@ -30,7 +30,8 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
     # format percentage to show specified digits, add % sign. (this converts all
     # values to character)
     table <- table %>%
-      signif(digits = digits) %>%
+      formatC(digits = digits, format = "fg", mode = "real") %>%
+      as.double() %>%
       sprintf("%s%%", .) %>%
       matrix(
         nrow(table),
@@ -43,8 +44,8 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
   } else if (percent == FALSE) {
     # create contingency table with 'total' column
     table <- table(
-      forcats::as_factor(df[[var$new]]),
-      forcats::as_factor(df[[group]])
+      haven::as_factor(df[[var$new]]),
+      haven::as_factor(df[[group]])
     ) %>%
       addmargins(margin = 2)
   } else {
