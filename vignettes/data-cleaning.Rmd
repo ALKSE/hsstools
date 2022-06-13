@@ -21,7 +21,7 @@ function. This function converts columns and creates a new column with the surve
 Two functions are relevant for the translation of Arabic text columns to English: hss_translate() and hss_merge_translated().
 
 ## Translation of Arabic text columns
-hss_translate() takes Arabic text columns and appends English translated columns. The function makes use of Google Cloud Services for automated translation. Note that an account for GCS and a valid API key is required to use thi function. The output of hss_translate() is a dataframe containing all Arabic text columns and their English translated columns. The function skips empty columns.
+hss_translate() takes Arabic text columns and appends English translated columns. The function makes use of Google Cloud Services for automated translation. Note that an account for GCS and a valid API key is required to use this function. The output of hss_translate() is a dataframe containing all Arabic text columns and their English translated columns. The function skips empty columns.
 
 ## Merging translated columns with the original dataframe
 The second function takes the dataframe with Arabic and English translated column and merges the translated columns with the original dataframe. and English translated columns are inserted after their Arabic counterparts, otherwise the order of columns in the dataframe is maintained.

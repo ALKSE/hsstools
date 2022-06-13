@@ -1,0 +1,55 @@
+---
+title: "API connecties met httr"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+chitchat_user <- Sys.getenv("chitchat_username")
+chitchat_pw <- Sys.getenv("chitchat_password")
+```
+
+## APIs gebruiken
+
+In hoofdlijnen bestaat een verbinding met een API uit een (HTTP) request van de gebruiker en de bijbehorende respons van de API.
+
+API's accepteren meerdere soorten requests. De meest gangbare zijn GET, POST, PUT, en DELETE. Doorgaans gebruik je vooral de eerste twee. GET wordt gebruikt om data op te vragen van de API. POST wordt gebruikt om data mee te sturen waar de API een bewerking op uitvoert.
+
+API's geven responses volgens HTTP status codes. Een statuscode van 200 betekent dat de API werkt en dat communicatie met de API correct werkt. Statuscodes in de reeks 5XX duiden op fouten aan de server-side. Statuscodes in de reeks 4XX duiden op een fout aan de client-side. Belangrijkste: 404 (meestal door een verkeerde url of API endpoint), 403 (meestal door ontbrekende credentials) en 401 (meestal door onjuiste credentials).
+
+## httr package
+Voor veel gangbare APIs zijn er bestaande R packages die het makkelijk maken om data op te vragen van de API. Denk bijvoorbeeld aan de translateR package of de package voor Google Analytics API.
+
+Als er geen specifieke package is voor de API waar je mee wil verbinden, of als je wil verbinden met een API die je zelf hebt ontwikkeld, dan kun je gebruik maken van de httr package. 
+
+httr is een algemene package voor het werken met URLs en HTTP. Dus ook als je niet specifiek met APIs gaat werken loont het om te begrijpen hoe je httr kan gebruiken. Een goede introductie van httr is te vinden op: https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
+
+### Een GET request met httr
+GET requests zijn de meest voorkomende verzoeken die je aan een API kunt doen. Je verstuurt een GET request - eventueel met een of meerdere parameters - en de API geeft een response.
+
+De onderstaande code bevat bijvoorbeeld een GET request naar endpoint "db/channel". Deze geeft een overzicht terug van de verschillende chabot kanalen die op het account bestaan. Omdat de server beveiligd is, moeten we nog wel gebruikersnaam en wachtwoord meegeven met het verzoek. Dit kan met de httr functie authenticate() binnen de GET functie.
+```{r }
+req <- httr::GET(url = "https://survey.protectionofcivilians.org/api/v1/db/channel",
+        httr::authenticate(user = chitchat_user, password = chitchat_pw)
+        )
+print(req)
+```
+
+Het resultaat van bovenstaande GET request is nog niet meteen inzichtelijk, omdat de response van de API veel meer informatie meestuurt dan enkel wat was opgevraagd. Om de inhoud van de response te zien gebruik je de httr functie content(). Hiermee zien we dat er momenteel 2 chitchat channels zijn.
+
+```{r }
+content <- httr::content(req)
+print(content)
+```
+
+Soms is het nodig om bij een GET request nog extra parameters toe te voegen. Om bijvoorbeeld de chatbot data van een specifiek kanaal te kunnen downloaden, is het nodig om de naam van dat kanaal mee te geven in je request. Dit kan door een named list op te geven als waarde voor query. De GET request naar endpoint "/db/conversation/export" ziet er dan zo uit.
+
+```{r}
+httr::GET(url = "https://survey.protectionofcivilians.org/api/v1/db/conversation/export",
+        httr::authenticate(user = chitchat_user, password = chitchat_pw),
+        query = list(channel = content[1])
+        )
+```
+

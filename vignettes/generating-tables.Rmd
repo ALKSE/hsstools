@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include = FALSE}
-library(hsstools)
+# library(hsstools)
 library(devtools)
 load_all()
 ```
@@ -65,12 +65,13 @@ There are two functions to create a fully formatted tables, one for adding the a
 dummydata %>% hss_table_single("occupation", "gender") %>% 
   hss_format_single() %>%
   hss_label("occupation")
-
-hss_table_multi(dummydata, "migr_why_all", "county") %>% 
-  hss_format_single() %>% 
-  hss_label("migr_why_all")
 ```
 
+```{r}
+dummydata %>% hss_table_multi("migr_why_all", "county") %>%
+  hss_format_single() %>%
+  hss_label("migr_why_all")
+```
 # Automation
 There are two groups of functions used to create and export tables based on a provided list of question variable names.
 

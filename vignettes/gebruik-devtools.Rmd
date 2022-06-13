@@ -1,0 +1,102 @@
+---
+title: "Werken met devtools"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Package management met devtools
+
+## Installatie als gebruiker
+```{r}
+# github install code
+```
+
+## Gebruik van package als developer
+Wanneer je als ontwikkelaar bezig bent met het HSS Tools package is het zinnig om gebruik te maken van de devtools package. Dit package biedt een aantal functie om het (door)ontwikkelen van je package eenvoudiger te maken, en zorgt ervoor dat updates op de juiste wijze worden toegevoegd.
+
+
+``` {r}
+# install.packages("devtools")
+library(devtools)
+load_all()
+```
+
+## Worflow met devtools
+Normaal gesproken ben je scripts waarschijnlijk interactief aan het ontwikkelen. Dwz. je creërt en updatet je script, runt (delen van) je script af en toe om te checken of alles werkt, en slaat het uiteindelijk op als .R bestand.
+
+In de HSS Tools package is alles opgedeeld in functies, die ieder een deel van het data-anylse proces uitvoeren. Dit is vooral handig voor dingen die je misschien meerdere keren wil doen. Als je een script hebt dat je vaker wil gaan gebruiken loont het dus om dit op te delen in functies en in de HSS Tools package op te slaan.
+
+Op de lange termijn is het zinnig om scripts om te schrijven naar (en eventueel op te delen in) functies. Op die manier is je code makkelijk herbruikbaar.
+
+Als je eenmaal je functies hebt gecreëerd en getest, kun je ze opslaan in de HSS Tools package. Dit is het moment waarop devtools heel nuttig is om het proces te vereenvoudigen.
+
+### Voorbeeld workflow met devtools
+Je hebt onderstaande functie gemaakt die de lengte van een string berekent, maar alleen als het tekst bevat. Bij andere types geeft deze een foutmelding. Deze wil je graag toevoegen aan je package.
+
+```{r}
+char_length <- function(string) {
+is_chr <- is.character(string)
+
+if(is_chr == TRUE) {
+  length <- stringr::str_length(string)
+} else {stop(string, " is of type ", typeof(string))}
+
+return(length)
+}
+```
+
+Met de `use_r()` functie kun je de functie aan je package toevoegen. Hiermee wordt automatisch een .R bestand aangemaakt in de juiste map (de R folder in de package). Vervolgens kun je je functiedefinitie in het nieuw geopende bestand plakken.
+
+```{r, echo = TRUE}
+use_r("char_length")
+```
+
+Een tweede voordeel van devtools is dat je automatisch functiedocumentatie kunt aanmaken met behulp van Roxygen2. Deze documentatie sla je op dmv. roxygen comments in hetzelfde bestand als dat van je functie, en kun je vervolgens automatisch laten converteren naar een documentatiebestand. Dit gebeurt door zogen. roxygen comments in je functie toe te voegen waarin je o.a. de functienaam & -beschrijving zet, de beschrijving van functieparameters, de ouput en eventuele voorbeelden.
+
+Je kan eenvoudig een standaard template toevoegen door ergens in je functiecode te klikken, en vervolgens in de toolbar van Rstudio te klikken op Code > Insert roxygen skeleton. (Of met shortcut Ctrl + Alt + Shift + R). Hiermee wordt automatisch een basis toegevoegd waarop je voortbouwen. Het eindresultaat zal er dan ong. zo uitzien.
+```{r, eval = FALSE}
+#' Return length of character strings only.
+#'
+#' This function returns the length of a given string, but only for character 
+#' strings. For other data types the function returns an error message.
+#' 
+#' @param string The string for which you want to check the length.
+#'
+#' @return numeric vector containing the length of the character string.
+#' @export
+#'
+#' @examples
+#' char_length("Hello World!)
+#' char_length(15)
+char_length <- function(string) {
+  is_chr <- is.character(string)
+  
+  if(is_chr == TRUE) {
+    length <- stringr::str_length(string)
+  } else {stop(string, " is of type " typeof(string))}
+  
+  return(length)
+}
+
+```
+
+Als je je functiedocumentatie hebt toegevoegd kun je de documentatiebestanden updaten dmv. `document()`. Vervolgens laad je de functies van je package weer in met `load_all()`. Je functiedocumentatie is nu te bekijken met `?char_length()`.
+
+# Best practices bij aanmaken van functies
+Verwijs bij het gebruik van functies uit  externe packages altijd naar functies via `package::function()`. Binnen je functiedefinitie maak je geen gebruik van `library()` of `require()`. 
+
+Als je zeker wil weten dat de gebruiken van het package alle andere externe packages heeft geïnstalleerd kune je de packages toevoegen aan het DESCRIPTION bestand. Dit bestand bevat de regel @Imports waarin alle packages genoemd staan waarvan jouw package gebruik maakt. Bij installatie van je package worden al deze externe packages ook geïnstalleerd (indien nodig).
+
+devtools heeft de use_package() functie om dit eenvoudig te doen. In de voorbeeldfunctie hierboven wordt. bijv. gebruik gemaakt van een functie uit stringr. Het is dus goed om deze aan Imports toe te voegen.
+```{r}
+use_package("stringr")
+```
+
+
+## Huidige packages in Imports
+```{r, echo = FALSE}
+writeLines(packageDescription("hsstools", fields = "Imports"))
+```
