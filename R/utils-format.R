@@ -25,10 +25,15 @@
     # footer (chi-sq message, etc)
     footer_bg     = "white",
     footer_text   = "black",
+    #header labels
+    total_en      = "Total",
+    # Heel erg lelijke hack om unicode correct weer te geven. Dit moet ooit beter
+    total_ar      = c("0627", "0644", "0645", "062C", "0645", "0648", "0639") %>% paste0("\\u", .) %>% stringi::stri_unescape_unicode() %>% stringr::str_flatten(),
     # misc.
     border_color  = "black",
     border_style  = "solid",
-    border_width  = 1
+    border_width  = 1,
+    font          = "PT Sans"
   )
   return(out)
 }

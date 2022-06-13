@@ -4,7 +4,7 @@
 \alias{hss_export_formatted}
 \title{Exports a formatted list of tables to .docx}
 \usage{
-hss_export_formatted(list, path = NULL)
+hss_export_formatted(list, path = NULL, type = "docx")
 }
 \arguments{
 \item{list}{A list containing flextable objects}
