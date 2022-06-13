@@ -42,7 +42,7 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
 
   # if used for select-multiple question, retrieve response options.
   if (multi == TRUE) {
-    var$new <- .get_multi_valname(var$new)
+    var$new <- .get_multi_valname(var$new, df)
   }
 
   # The call to chisq.test is wrapped in a trycatch() function to ensure the function
@@ -54,9 +54,9 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
       var$new,
       function(var_element) {
         return(tryCatch(
-          format(
+          signif(
             stats::chisq.test(df[[var_element]], df[[group]])[["p.value"]],
-            digits = 3, scientific = FALSE
+            digits = 3
           ),
           error = function(e) NA
         ))
