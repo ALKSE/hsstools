@@ -1,9 +1,16 @@
 #' Apply text labels to tables.
 #'
-#' @param table the table
-#' @param var the variable name
+#' Apply text labels to the specified table. Labels are taken from the dictionaries
+#' created from the XLS forms. This converts the table to a flextable object. Works for EN or AR text labels.
+#' If used with AR text labels some optional formatting is applied to correctly display text.
 #'
-#' @return
+#' @param table the table for which labels should be applied
+#' @param var the variable name. Used to determine the question label and to look up the appropriate
+#' response labels.
+#' @param grouping the grouping variable. Will be used to apply appropriate column headers
+#' @param language To determine the language of labels to be applied.
+#'
+#' @return A flextable object with the original table values and appropriate question & response labels.
 #' @export
 #'
 hss_label <- function(table, var, grouping, lang = "en") {
