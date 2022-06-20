@@ -1,5 +1,10 @@
 #' Combine multiple questions with the same response options
 #'
+#' The HSS data contains several questions that are repeated a number of times (for
+#' example to ask the same question for several different actors/topics). These
+#' questions can be represented with individual tables for each questions, but for some
+#' publications it might be preferable to combine these questions in a single overview table.
+#'
 #' @param df The dataframe containing the questions
 #' @param var The shared element in all of the question/variable names
 #'

@@ -3,19 +3,22 @@
 \name{hss_format_single}
 \alias{hss_format_single}
 \alias{hss_format_multi}
-\alias{hss_format_group}
 \title{Format tables using HSS style preferences}
 \usage{
 hss_format_single(table)
 
 hss_format_multi(table)
-
-hss_format_group()
 }
 \value{
-
+A flextable object with formatting applied.
 }
 \description{
-Converts table to a flextable and applies formatting. Formatting preferences
-are stored in \link{TBD}
+Format tables created with \verb{hss_table_*}, according to set preferences. The table
+this function is applied to, will be converted to a flextable object. Both the formatting
+functions and the \code{hss_label} function check the table type before converting. The
+functions load a list of formatting preferences stored in the internal \code{.get_format_options()}
+function. This function should not be run separately, but any changes to the preferred
+formatting can be set int there. There are two separate functions for single-response
+and multiple-response question tables, and these are not interchangeable.
+Neither one needs any further arguments.
 }

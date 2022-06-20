@@ -1,8 +1,8 @@
 #' Exports a list of data tables to CSV
 #'
-#' Exports a list of HSS tables to CSV. This function uses sink() to write multiple
-#' tables to the same file. If an error occurs during execution of the function
-#' you may need to close the sink with sink() before proceeding.
+#' Exports a list of HSS tables created with `hss_write_tables()` to a CSV file in
+#' the specified location. Note that this function uses sink() to write multiple
+#' tables to the same file.
 #'
 #' @param df_list A named list containing the data tables. The output of hss_write_tables() usually.
 #' @param path Where to store the .csv output.

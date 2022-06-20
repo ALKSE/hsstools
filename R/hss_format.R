@@ -1,8 +1,13 @@
 #' Format tables using HSS style preferences
 #'
-#' Converts table to a flextable and applies formatting, according to set preferences. There are two
-#' separate functions for single-response and multiple-response question tables. Neither one needs any
-#' further arguments.
+#' Format tables created with `hss_table_*`, according to set preferences. The table
+#' this function is applied to, will be converted to a flextable object. Both the formatting
+#' functions and the `hss_label` function check the table type before converting. The
+#' functions load a list of formatting preferences stored in the internal `.get_format_options()`
+#' function. This function should not be run separately, but any changes to the preferred
+#' formatting can be set int there. There are two separate functions for single-response
+#' and multiple-response question tables, and these are not interchangeable.
+#' Neither one needs any further arguments.
 #'
 #' @return A flextable object with formatting applied.
 #' @export
@@ -29,15 +34,12 @@ hss_format_multi <- function(table) {
   table <- .hss_format(table) %>%
     flextable::bg(i = ~ p <= 0.05, bg = format$body_bg_emph, part = "body") %>%
     # flextable::mk_par()
-  flextable::void(j = "p", part = "all")
+    flextable::void(j = "p", part = "all")
 
   return(table)
 }
 
-#' @rdname hss_format
-hss_format_group <- function() {
 
-}
 #' helper function for hss_format functions. Don't run separately.
 #' @keywords internal
 .hss_format <- function(table) {
@@ -48,11 +50,19 @@ hss_format_group <- function() {
   # apply formatting
   table <- table %>%
     flextable::hline(
-      border = officer::fp_border(color = format$border_color, style = format$border_style, width = format$border_width),
+      border = officer::fp_border(
+        color = format$border_color,
+        style = format$border_style,
+        width = format$border_width
+      ),
       part = "all"
     ) %>%
     flextable::hline_top(
-      border = officer::fp_border(color = format$border_color, style = format$border_style, width = format$border_width),
+      border = officer::fp_border(
+        color = format$border_color,
+        style = format$border_style,
+        width = format$border_width
+      ),
       part = "all"
     ) %>%
     # format header

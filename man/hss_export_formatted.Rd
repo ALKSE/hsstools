@@ -4,7 +4,7 @@
 \alias{hss_export_formatted}
 \title{Exports a formatted list of tables to .docx}
 \usage{
-hss_export_formatted(list, file = NULL, type = "word")
+hss_export_formatted(list, file = NULL)
 }
 \arguments{
 \item{list}{A list containing flextable objects}
@@ -12,9 +12,11 @@ hss_export_formatted(list, file = NULL, type = "word")
 \item{file}{The file path to save to}
 }
 \value{
-Outputs the selected flextable objects to a .docx file. Depending on the number of tables to export, this may take a long time.
-NOTE: running this function while the chosen output file is opened in another program will cause the R session to abort.
+Outputs the selected flextable objects to a .docx file.
 }
 \description{
-Exports a formatted list of tables to .docx
+Exports the list of formatted tables created by \code{hss_write_formatted()} to a
+.docx file in the specified location. One thing to keep in mind: the duration
+of this process increase exponentially with the number of tables to write. Exporting
+around 200 tables could take up to 10 minutes.
 }

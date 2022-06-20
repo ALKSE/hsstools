@@ -2,9 +2,9 @@
 % Please edit documentation in R/hss_table_single.R
 \name{hss_table_single}
 \alias{hss_table_single}
-\title{HSS Data Table Generation}
+\title{Create contingency table for single-response question}
 \usage{
-hss_table_single(df, var, group, percent = TRUE, digits = 2)
+hss_table_single(df, var, group, percent = TRUE, digits = 1)
 }
 \arguments{
 \item{df}{A dataframe containing the variable of interest and grouping variable.}
@@ -22,5 +22,12 @@ always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will 
 A contingency table with the variable of interest and grouping variable.
 }
 \description{
-HSS Data Table Generation
+Create contingency tables for HSS questions with a single response option and
+a cross-variable. Tables can be created with either counts or percentages and the number
+of significant digits for percentages can be set. Tables created with this function
+come with a couple of additions according to HSS preferences. Most notably: sums are
+added over columns, and N-values are added to column headers.
+}
+\seealso{
+\code{hss_table_multi}
 }

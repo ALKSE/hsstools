@@ -15,9 +15,9 @@ hss_export_tables(df_list, path)
 A CSV file stored at the provided location.
 }
 \description{
-Exports a list of HSS tables to CSV. This function uses sink() to write multiple
-tables to the same file. If an error occurs during execution of the function
-you may need to close the sink with sink() before proceeding.
+Exports a list of HSS tables created with \code{hss_write_tables()} to a CSV file in
+the specified location. Note that this function uses sink() to write multiple
+tables to the same file.
 }
 \seealso{
 hss_write_tables()

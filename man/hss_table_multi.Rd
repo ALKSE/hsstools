@@ -2,12 +2,14 @@
 % Please edit documentation in R/hss_table_multi.R
 \name{hss_table_multi}
 \alias{hss_table_multi}
-\title{Generate contingency table for multiresponse questions}
+\title{Create contingency table for multiresponse question}
 \usage{
 hss_table_multi(df, var, group, percent = TRUE, digits = 1)
 }
 \arguments{
 \item{df}{The dataframe containing the multiresponse questions}
+
+\item{var}{The name of the question variable.}
 
 \item{group}{A grouping (or disaggregation) variable.}
 
@@ -15,12 +17,17 @@ hss_table_multi(df, var, group, percent = TRUE, digits = 1)
 
 \item{digits}{The number of (significant) digits to display. Trailing zeroes are
 always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'}
-
-\item{resp}{A character string of all response variables to include}
 }
 \value{
 A contingency table containing the multiresponse answers and a grouping variable
 }
 \description{
-Generate contingency table for multiresponse questions
+Create contingency tables for HSS questions with multiple response options and
+a cross-variable. This function requires only a single question variable as input
+and looks up the corresponding response variables. Tables can be created with
+either counts or percentages and the number of significant digits for percentages
+can be set. Tables created with this function come with a couple of additions
+according to HSS preferences. Most notably: sums are added over columns, N-values
+are added to column headers, and a column containing p-values for chi-squared
+statistical test for each response option is added.
 }

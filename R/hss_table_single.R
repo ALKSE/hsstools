@@ -1,4 +1,10 @@
-#' HSS Data Table Generation
+#' Create contingency table for single-response question
+#'
+#' Create contingency tables for HSS questions with a single response option and
+#' a cross-variable. Tables can be created with either counts or percentages and the number
+#' of significant digits for percentages can be set. Tables created with this function
+#' come with a couple of additions according to HSS preferences. Most notably: sums are
+#' added over columns, and N-values are added to column headers.
 #'
 #' @param df A dataframe containing the variable of interest and grouping variable.
 #' @param var A character string with the variable name of interest.
@@ -8,6 +14,7 @@
 #' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
 #'
 #' @return A contingency table with the variable of interest and grouping variable.
+#' @seealso `hss_table_multi`
 #' @export
 #'
 hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {

@@ -20,11 +20,30 @@ hss_write_formatted(
 
 \item{group}{The desired grouping/disaggregation variable.}
 
-\item{percent}{Logical vector if the table should be created with percentage values. If set to FALSE, counts are shown.}
+\item{percent}{TRUE/FALSE if the table should be created with percentage values.
+If set to FALSE, counts are shown.}
+
+\item{digits}{The number of (significant) digits to display for percentages.
+Set to 1 by default.}
+
+\item{lang}{The language to use for labelling of questions and response options.
+Set to "en" for english by default. Can be set to "ar" for Arabic.}
 }
 \value{
-A named list of flextable objects
+A named list of flextable objects containing formatted contingency tables
+for the specified questions from the HSS.
 }
 \description{
-Write formatted tables to a list for selected variables
+Write formatted tables to a list for all variable/question names contained in a
+questions list. A question list for all questions in the current survey can be
+made  with the \code{hss_create_question_list} function. This function silently skips
+any questions that cause errors during creation of the contingency table,
+labeling or formatting, and returns a list item of length NULL instead. This
+is useful to automatically omit any question variables that have been removed
+during data cleaning, but might in some cases lead to unexpected behavior. The
+list of flextables created with this function can be used as input for the
+\code{hss_export_formatted} function to write all tables to a .docx file.
+}
+\seealso{
+\code{hss_export_formatted}, \code{hss_create_question_list}
 }

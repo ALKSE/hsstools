@@ -11,7 +11,12 @@ hss_translate(df, apikey)
 }
 \value{
 A dataframe containing Arabic text columns and their English translations.
+#@seealso \code{hss_merge_translated}
 }
 \description{
-Translate HSS content from Arabic to English
+Translate the content of Arabic text columns from the HSS dataset to English. This function
+uses the translateR package to connect to Google Cloud Services. An API key from a GCS account is required.
+Translated columns are returned as a separate dataframe. This makes it possible to export the translated
+columns to e.g. check the accuracy of translations. The extracted and translated columns can be re-inserted
+into the original dataset using the \code{hss_merge_translated} function.
 }

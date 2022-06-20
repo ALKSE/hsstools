@@ -1,7 +1,16 @@
-#' Generate contingency table for multiresponse questions
+#' Create contingency table for multiresponse question
+#'
+#' Create contingency tables for HSS questions with multiple response options and
+#' a cross-variable. This function requires only a single question variable as input
+#' and looks up the corresponding response variables. Tables can be created with
+#' either counts or percentages and the number of significant digits for percentages
+#' can be set. Tables created with this function come with a couple of additions
+#' according to HSS preferences. Most notably: sums are added over columns, N-values
+#' are added to column headers, and a column containing p-values for chi-squared
+#' statistical test for each response option is added.
 #'
 #' @param df The dataframe containing the multiresponse questions
-#' @param resp A character string of all response variables to include
+#' @param var The name of the question variable.
 #' @param group A grouping (or disaggregation) variable.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts
 #' @param digits The number of (significant) digits to display. Trailing zeroes are

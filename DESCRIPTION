@@ -11,6 +11,7 @@ Imports:
     dplyr,
     flextable,
     forcats,
+    janitor,
     lubridate,
     magrittr,
     officer,

@@ -1,20 +1,23 @@
 #' Runs chi-squared test on selected variables
 #'
 #' This functions runs chi-squared significance tests for one or more variables
-#' in a dataframe with a single cross-variable. Variable names can be passed as a
-#' single object or as a character string. hss_chisq_formatted returns a formatted character string
-#' containing a verbose explanation of the p-value.
+#' in a dataframe, with a single cross-variable. Variable names are passed as a
+#' character vector containing one or more variable names. hss_chisq_formatted
+#' returns a formatted character string containing a verbose description of the p-value.
+#' This verbose output is used in formatted data tables.
 #'
 #' @param df The dataframe containing the variable(s) of interest
-#' @param var The variable(s) of interest. Accepts a single value or character string.
+#' @param var The names of the variable(s) of interest. Accepts a single value or a character vector
+#' containing multiple variable names.
 #' @param group The grouping (or disaggregation) variable.
-#' @param full should the full results be returned. If set to FALSE, only p.value is returned
+#' @param full TRUE/FALSE if the full results should be returned. Set to FALSE by
+#' default, returning only the p.value.
 #' @param multi Set to FALSE if used for a 'select-one' question. Set to TRUE if used for a
 #' 'select-multiple question to look up the corresponding response options.
 #'
 #' @return A vector containing the results of the chi-squared test for the selected
 #' variables. If full is set to TRUE this will be a list, otherwise an atomic numeric vector.
-#' For hss_chisq_formatted the output is a character vector of length 1.
+#' For hss_chisq_formatted the output is a character vector.
 #' @export
 #' @examples
 #' # Create dummy dictionary
