@@ -4,16 +4,23 @@
 \alias{hss_label}
 \title{Apply text labels to tables.}
 \usage{
-hss_label(table, var)
+hss_label(table, var, grouping, lang = "en")
 }
 \arguments{
-\item{table}{the table}
+\item{table}{the table for which labels should be applied}
 
-\item{var}{the variable name}
+\item{var}{the variable name. Used to determine the question label and to look up the appropriate
+response labels.}
+
+\item{grouping}{the grouping variable. Will be used to apply appropriate column headers}
+
+\item{language}{To determine the language of labels to be applied.}
 }
 \value{
-
+A flextable object with the original table values and appropriate question & response labels.
 }
 \description{
-Apply text labels to tables.
+Apply text labels to the specified table. Labels are taken from the dictionaries
+created from the XLS forms. This converts the table to a flextable object. Works for EN or AR text labels.
+If used with AR text labels some optional formatting is applied to correctly display text.
 }

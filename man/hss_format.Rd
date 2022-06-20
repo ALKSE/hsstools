@@ -13,9 +13,10 @@ hss_format_multi(table)
 hss_format_group()
 }
 \value{
-
+A flextable object with formatting applied.
 }
 \description{
-Converts table to a flextable and applies formatting. Formattin preferences
-are stored in \link{TBD}
+Converts table to a flextable and applies formatting, according to set preferences. There are two
+separate functions for single-response and multiple-response question tables. Neither one needs any
+further arguments.
 }

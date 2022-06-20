@@ -4,7 +4,7 @@
 \alias{hss_table_multi}
 \title{Generate contingency table for multiresponse questions}
 \usage{
-hss_table_multi(df, var, group, percent = TRUE)
+hss_table_multi(df, var, group, percent = TRUE, digits = 1)
 }
 \arguments{
 \item{df}{The dataframe containing the multiresponse questions}
@@ -12,6 +12,9 @@ hss_table_multi(df, var, group, percent = TRUE)
 \item{group}{A grouping (or disaggregation) variable.}
 
 \item{percent}{Set to TRUE to show percentages. Set to FALSE to show counts}
+
+\item{digits}{The number of (significant) digits to display. Trailing zeroes are
+always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'}
 
 \item{resp}{A character string of all response variables to include}
 }

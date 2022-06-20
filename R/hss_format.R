@@ -1,9 +1,10 @@
 #' Format tables using HSS style preferences
 #'
-#' Converts table to a flextable and applies formatting. Formatting preferences
-#' are stored in [TBD]
+#' Converts table to a flextable and applies formatting, according to set preferences. There are two
+#' separate functions for single-response and multiple-response question tables. Neither one needs any
+#' further arguments.
 #'
-#' @return
+#' @return A flextable object with formatting applied.
 #' @export
 #' @rdname hss_format
 hss_format_single <- function(table) {
