@@ -1,6 +1,6 @@
 # dict_var lookup function ------------------------------------------------
 # Look for a value in the specified input column and return the value in the
-# correspoding return column. Only takes a single input, but can return vectors
+# corresponding return column. Only takes a single input, but can return vectors
 # of length >1.
 .get_dict_varname <- function(var, input_col, return_col, dvar = dict_var) {
   if (!var %in% dvar[[input_col]]) {
