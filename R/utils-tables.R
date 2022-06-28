@@ -61,7 +61,7 @@
       df,
       dplyr::starts_with(
         stringr::str_replace(var$new, "_all", "_")
-      ) & !dplyr::ends_with("_what")
+      ) & !dplyr::ends_with(c("_what", "_all"))
     )
   )
   return(answers)
