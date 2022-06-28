@@ -4,13 +4,16 @@
 \alias{hss_create_dict}
 \title{Create a dictionary of HSS variable or value labels}
 \usage{
-hss_create_dict(form, type)
+hss_create_dict(form, type, location = NULL)
 }
 \arguments{
 \item{form}{Path to the XLS form.}
 
 \item{type}{Use "var" to create a dictionary of variable names and labels.
 Use "val" to create a dictionary of value names and labels.}
+
+\item{location}{For variable dictionaries, filters to the specified location to ensure that
+proper county/district labels are available.}
 }
 \value{
 A dataframe containing variable or value names and their associated text labels.
