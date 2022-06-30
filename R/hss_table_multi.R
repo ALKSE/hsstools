@@ -66,7 +66,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   p <- hss_chisq(df, var$new, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
   table <- dplyr::bind_cols(
-    Response = rownames(table),
+    !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
     "p" = p
   )

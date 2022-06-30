@@ -61,7 +61,7 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
 
   # add rownames (response options) as column and convert to dataframe and rename sum col
   table <- dplyr::bind_cols(
-    Response = rownames(table),
+    !!var$new := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
     dplyr::select(!contains("Refused")) %>%
@@ -69,7 +69,7 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
 
   rownames(table) <- NULL
 
-  # apply N value labels to column headers
+  #apply N value labels to column headers
   names(table) <- paste0(
     names(table),
     .get_nval_single(df, var$new, group)
