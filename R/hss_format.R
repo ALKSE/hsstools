@@ -24,6 +24,7 @@ hss_format_single <- function(table) {
   return(table)
 }
 #' @rdname hss_format
+#' @export
 hss_format_multi <- function(table) {
   format <- .get_format_options()
   # Check if table was already converted to flextable object.

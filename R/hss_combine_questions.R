@@ -31,6 +31,7 @@ hss_combine_single <- function(df, var) {
 }
 
 #' @rdname hss_combine_questions
+#' @export
 hss_combine_multi <- function(df, var) {
   dat <- df %>%
     dplyr::select(contains(var) & !contains("what")) %>%
