@@ -12,7 +12,7 @@
 #' @export
 #'
 hss_overview_single <- function(df, vars, percent = TRUE) {
-  vars <- names(df %>% dplyr::select(matches(vars) & !contains("_what")))
+  vars <- names(df %>% dplyr::select(dplyr::matches(vars) & !dplyr::contains("_what")))
 
   if (percent == TRUE) {
     tables <- lapply(vars, function(x) {
