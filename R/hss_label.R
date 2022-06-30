@@ -30,7 +30,7 @@ hss_label <- function(table, var, grouping, lang = "en") {
   }
 # set proper EN/AR labels
   newlabels <- list(
-    Response = "",
+    Response = var,
     group_labs$answers,
     Total = paste0("format$total_", lang) %>% str2lang() %>% eval(),
     p = "p"
@@ -45,10 +45,10 @@ names(header_labels) <- table$col_keys
   # apply labels
   table <- table %>%
     flextable::set_header_labels(values = header_labels) %>%
-    flextable::mk_par(j = "Response", value = flextable::as_paragraph(
+    flextable::mk_par(j = var, value = flextable::as_paragraph(
       flextable::as_chunk(labels$answers)
     )) %>%
-    flextable::set_header_labels(Response = "") # %>%
+    flextable::set_header_labels(var = "") # %>%
   # flextable::add_header_lines(values = labels$question)
 
   # optional formatting for AR
