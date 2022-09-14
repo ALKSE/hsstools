@@ -3,6 +3,7 @@
 export("%>%")
 export(append_tables)
 export(hss_chisq)
+export(hss_clean_drop)
 export(hss_combine_multi)
 export(hss_combine_single)
 export(hss_create_dict)
