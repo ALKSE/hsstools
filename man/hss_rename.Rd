@@ -2,28 +2,21 @@
 % Please edit documentation in R/hss_rename.R
 \name{hss_rename}
 \alias{hss_rename}
-\title{Rename HSS variables}
+\title{Rename HSS Survey variables}
 \usage{
-hss_rename(df, dict_var, dict_val)
+hss_rename(dat, xlsform)
 }
 \arguments{
-\item{df}{The dataframe containing the HSS survey questions}
+\item{dat}{the dataframe containing the HSS survey}
 
-\item{dict_var}{Dictionary object of variable names created from the survey's XLS form}
-
-\item{dict_val}{Dictionary obect of value names created from the survey's XLS form.}
+\item{xlsform}{File path to the XLS form for this particular HSS survey.}
 }
 \value{
-Returns a dataframe with names updated to new column names and non-question
-columns removed.
+Returns the dataframe with updated column names
 }
 \description{
-This function is used to rename the variables in the HSS dataset from the old
-Q... names to human-readable names. These new names are expected to be present
-in the XLS form for the dataset (both the variable names, and the suffixes for
-select-multiple answer options.). The function also removes any non-question columns
-(notes etc.)
-}
-\seealso{
-\code{hss_create_dict()}
+This function is used to rename the variables in an HSS dataset from the 'Q01'
+format to more human-readable variable names. This is done based on the XLS form
+for that particular survey round. The XLS form needs to have 'r_name' columns
+in both the question & response option sheets for this to work.
 }
