@@ -10,10 +10,10 @@
 #'
 #' @return Returns the dataframe with updated column names
 #' @export
-hss_rename = function(dat, xlsform) {
-  mapping = .load_xlsform(xlsform) %>%
+hss_rename <- function(dat, xlsform) {
+  mapping <- .load_xlsform(xlsform) %>%
     .create_mapping()
-  dat = .apply_mapping(dat, mapping)
+  dat <- .apply_mapping(dat, mapping)
   return(dat)
 }
 #' @keywords internal
@@ -31,8 +31,8 @@ hss_rename = function(dat, xlsform) {
 #' @keywords internal
 .create_mapping <- function(list) {
   merged <- right_join(list$form %>% select(type, name, r_name),
-                       list$form_val %>% select(list_name, name, r_name),
-                       by = c("type" = "list_name")
+    list$form_val %>% select(list_name, name, r_name),
+    by = c("type" = "list_name")
   ) %>% filter(!is.na(r_name.y))
 
   oldname2 <- paste(merged$name.x, merged$name.y, sep = "_") %>% unique()
@@ -49,8 +49,12 @@ hss_rename = function(dat, xlsform) {
 }
 #' @keywords internal
 .apply_mapping <- function(dat, mapping) {
+  # just in case
+  dat = janitor::clean_names(dat)
+
   names(dat) <- sapply(names(dat), function(x) {
-    if(length(mapping$newvar[which(mapping$oldvar == x)]) == 0) {x
+    if (length(mapping$newvar[which(mapping$oldvar == x)]) == 0) {
+      x
     } else {
       mapping$newvar[which(mapping$oldvar == x)]
     }
