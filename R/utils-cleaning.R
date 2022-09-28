@@ -20,7 +20,8 @@
 
   oldname2 <- paste(merged$name.x, merged$name.y, sep = "_") %>% unique()
 
-  newname2 <- paste(merged$r_name.x, merged$r_name.y, sep = "") %>% unique()
+  newname2 <- paste(merged$r_name.x, merged$r_name.y, sep = "") %>%
+    gsub("_all_", "_", .) %>% unique()
 
   oldvar <- c(list$form$name, oldname2) %>% tolower()
   newvar <- c(list$form$r_name, newname2) %>% tolower()
