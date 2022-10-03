@@ -1,20 +1,33 @@
 #' Use a list of variable names to label their associated values
 #'
-#' A prerequisite for this function is the existence of a variable list. This list can be created from
-#' XML form. In the current iteration of this function, the list is not being created, simply used.
-#' The next commit will hopefully include added parameters that generate the list.
-#'
 #'
 #' @rdname hss_addlabels
 
-hss_addlabels <- function(data, list){
-  value_labels <- subset(dic_val, select = c(list_name, name, label_english))
-  for (i in list) {
-    x <- filter(value_labels, list_name == i)
+hss_addlabels <- function(data, survey){
+  step1 <- function(survey){dic_val_new <- valf(survey, "val")
+  workfile <- subset(dic_val_new, select = c(list_name, r_name, label_english, name))
+  workfile$final_name <- paste(workfile$list_name, workfile$r_name)
+  workfile$final_name <- str_replace_all(workfile$final_name, "NA", "")
+  workfile$final_name <- gsub(" ", "", workfile$final_name, fixed = TRUE)
+  return(workfile)}
+
+  step2 <- function(survey){new_labels <- subset(survey, select = c(type, name, R_name))
+  new_labels <- na.omit(new_labels)
+  new_labels$type <- str_replace_all(new_labels$type, "select_one", "")
+  new_labels$type <- str_replace_all(new_labels$type, "select_multiple", "")
+  new_labels$type <- gsub(" ", "", new_labels$type, fixed = TRUE)
+  names(new_labels)[1] <- "final_name"
+  joined <- inner_join(workfile, new_labels, by = "final_name")
+  labels_for <- unique(joined$R_name)
+  labels_for <- as.list(labels_for)
+  return(labels_for)}
+
+  {for (i in labels_for) {
+    x <- filter(joined, R_name == i)
     data[,i] <- factor((data[,i]),
-                       levels= x$name,
+                       levels= x$name.x,
                        labels= x$label_english)
-  }
-  data_new <<- data
-  return(data_new)
+    lab_data <<- data
+    return("It has been done, ARRRR")
+  }}
 }
