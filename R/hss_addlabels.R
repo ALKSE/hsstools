@@ -1,5 +1,9 @@
 #' Use a list of variable names to label their associated values
-#'
+#' The first half of this function uses hss_create_dic to produce 2 outputs
+#' The first output is a DF with question labels, numerics, and r_names
+#' The second output is a list which will be used to match var_names in the dataset to those in the DF
+#' The result of this function is a new *labelled dataset
+#' @param data
 #'
 #' @rdname hss_addlabels
 
