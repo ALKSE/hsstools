@@ -13,10 +13,10 @@
 # Create a mapping of old & new variable names based on provided XLS form. Output
 # is dataframe with columns 'oldvar' and 'newvar'
 .create_mapping <- function(list) {
-  merged <- right_join(list$form %>% select(type, name, r_name),
-                       list$form_val %>% select(list_name, name, r_name),
+  merged <- dplyr::right_join(list$form %>% dplyr::select(type, name, r_name),
+                       list$form_val %>% dplyr::select(list_name, name, r_name),
                        by = c("type" = "list_name")
-  ) %>% filter(!is.na(r_name.y))
+  ) %>% dplyr::filter(!is.na(r_name.y))
 
   oldname2 <- paste(merged$name.x, merged$name.y, sep = "_") %>% unique()
 
@@ -27,8 +27,8 @@
   newvar <- c(list$form$r_name, newname2) %>% tolower()
 
   out <- data.frame(oldvar, newvar) %>%
-    mutate(newvar = if_else(is.na(newvar), oldvar, newvar)) %>%
-    filter(!is.na(oldvar))
+    dplyr:: mutate(newvar = dplyr::if_else(is.na(newvar), oldvar, newvar)) %>%
+    dplyr::filter(!is.na(oldvar))
   return(out)
 }
 # Replaces old names with new names. Accepts a character string as input. If an
