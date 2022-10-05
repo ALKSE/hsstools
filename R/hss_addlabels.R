@@ -6,6 +6,7 @@
 #' @param data actual survey dataset
 #' @param survey the master xls form
 #' @rdname hss_addlabels
+#' @export
 
 hss_addlabels <- function(survey, data){
     dic_val_new <- valf(survey, "val")
