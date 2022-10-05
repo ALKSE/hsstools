@@ -11,7 +11,9 @@ The result of this function is a new *labelled dataset}
 hss_addlabels(survey, data)
 }
 \arguments{
-\item{data}{}
+\item{survey}{the master xls form}
+
+\item{data}{actual survey dataset}
 }
 \description{
 Use a list of variable names to label their associated values

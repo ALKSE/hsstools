@@ -3,8 +3,8 @@
 #' The first output is a DF with question labels, numerics, and r_names
 #' The second output is a list which will be used to match var_names in the dataset to those in the DF
 #' The result of this function is a new *labelled dataset
-#' @param data
-#'
+#' @param data actual survey dataset
+#' @param survey the master xls form
 #' @rdname hss_addlabels
 
 hss_addlabels <- function(survey, data){
