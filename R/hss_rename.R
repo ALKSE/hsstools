@@ -14,6 +14,7 @@ hss_rename <- function(dat, xlsform) {
   mapping <- .load_xlsform(xlsform) %>%
     .create_mapping()
   names(dat) <- .apply_mapping(names(dat), mapping)
-  return(dat)
+  data_nw_names <<- dat
+  return(data_nw_names)
 }
 
