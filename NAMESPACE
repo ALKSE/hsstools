@@ -2,6 +2,7 @@
 
 export("%>%")
 export(append_tables)
+export(hss_VarLabel)
 export(hss_addlabels)
 export(hss_chisq)
 export(hss_clean_drop)
