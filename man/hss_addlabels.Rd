@@ -2,23 +2,20 @@
 % Please edit documentation in R/hss_addlabels.R
 \name{hss_addlabels}
 \alias{hss_addlabels}
-\title{Use a list of variable names to label their associated values
-The first half of this function uses hss_create_dic to produce 2 outputs
-The first output is a DF with question labels, numerics, and r_names
-The second output is a list which will be used to match var_names in the dataset to those in the DF
-The result of this function is a new *labelled dataset}
+\title{Use a cumulative list of variable names to label their associated values}
 \usage{
-hss_addlabels(survey, data)
+hss_addlabels(survey, data, location)
 }
 \arguments{
 \item{survey}{the master xls form}
 
-\item{data}{actual survey dataset}
+\item{data}{actual survey data set}
+
+\item{location}{The location -directory- of the xls form}
 }
 \description{
-Use a list of variable names to label their associated values
 The first half of this function uses hss_create_dic to produce 2 outputs
-The first output is a DF with question labels, numerics, and r_names
-The second output is a list which will be used to match var_names in the dataset to those in the DF
-The result of this function is a new *labelled dataset
+The first output is a DF with question labels, numeric, and r_names
+The second output is a list which will be used to match var_names in the data set to those in the DF
+The result of this function is a new *labelled data set
 }

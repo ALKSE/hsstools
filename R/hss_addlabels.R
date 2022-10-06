@@ -1,10 +1,12 @@
-#' Use a list of variable names to label their associated values
+#' Use a cumulative list of variable names to label their associated values
+#'
 #' The first half of this function uses hss_create_dic to produce 2 outputs
-#' The first output is a DF with question labels, numerics, and r_names
-#' The second output is a list which will be used to match var_names in the dataset to those in the DF
-#' The result of this function is a new *labelled dataset
-#' @param data actual survey dataset
+#' The first output is a DF with question labels, numeric, and r_names
+#' The second output is a list which will be used to match var_names in the data set to those in the DF
+#' The result of this function is a new *labelled data set
+#' @param data actual survey data set
 #' @param survey the master xls form
+#' @param location The location -directory- of the xls form
 #' @rdname hss_addlabels
 #' @export
 
@@ -30,8 +32,10 @@ hss_addlabels <- function(survey, data, location){
       data[[i]] <- factor(data[[i]],
                          levels= x$name.x,
                          labels= x$label_english)
+      data_w_labels <<- data
     }
-    return(data)
+    return(data_w_labels)
 }
+
 
 
