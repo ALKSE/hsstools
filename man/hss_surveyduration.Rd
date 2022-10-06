@@ -4,12 +4,10 @@
 \alias{hss_surveyduration}
 \title{Calculate survey duration}
 \usage{
-hss_surveyduration(path, skip = 0)
+hss_surveyduration(data)
 }
 \arguments{
-\item{path}{Path to the HSS data file. Expects a .csv file}
-
-\item{skip}{Number of rows to skip. Default is 0. Use this if you know how many rows contain test answers.}
+\item{data}{The most recent iteration of the data set}
 }
 \value{
 A dataframe with an added SurveyDuration column
