@@ -21,7 +21,7 @@ hss_VarLabel <- function(data, survey, location) {
   vector_1 <- all_label$label_english
   vector_2 <- all_label$r_name
   combined <- setNames(vector_1, vector_2)
-  label(data) <- as.list(combined[match(names(data), names(combined))])
+  Hmisc::label(data) <- as.list(combined[match(names(data), names(combined))])
   data_w_subs <<- data
   return(data_w_subs)
 }
