@@ -14,13 +14,16 @@
 #' @export
 #'
 hss_enum_assessment <- function(dat, audit = NULL) {
-  # filter based on audit file: skip all questions with duration > 5 mins from total
-  # duration calculations.select all surveys w duration > 22mins.
+  incidents <- c(
+    "catt", "rob", "prison", "recruit", "kidnap", "assault", "kill",
+    "bomb", "fmarr", "sex", "secinc_oth"
+  )
+
   audit2 <- if (!is.null(audit)) {
     audit %>%
       filter(instance_id %in%
-               filter(dat, consent == 1 & consent2 == 1 &
-                        !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
+        filter(dat, consent == 1 & consent2 == 1 &
+          !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
       filter(!(diff_min > 5 & grepl("Q.+", node))) %>%
       group_by(instance_id) %>%
       summarise(duration = sum(diff_min, na.rm = TRUE)) %>%
@@ -28,27 +31,55 @@ hss_enum_assessment <- function(dat, audit = NULL) {
   } else {
     NULL
   }
-  #create dataframes for survey criteria
+
   surveys <- list(
     surv_all = dat %>%
       group_by(deviceid) %>%
       summarise(surveys_all = n()),
     surv_cons = dat %>%
       filter(consent == 1 & consent2 == 1 &
-               !(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
+        !(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
       group_by(deviceid) %>%
       summarise(surveys_consent = n()),
     surv_dur = dat %>%
       filter(consent == 1 & consent2 == 1 &
-               !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
-               duration > (22 * 60)) %>%
+        !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
+        duration > (22 * 60)) %>%
       group_by(deviceid) %>%
       summarise(surveys_22 = n()),
+    # criterion for dropping surveys with 3+ incidents (27 mins)
+    surv_dur_2 = dat %>%
+      mutate(across(all_of(incidents), ~ if_else(.x == 1, 1, 0)),
+        tot_inc = rowSums(across(all_of(incidents)))
+      ) %>%
+      filter(consent == 1 & consent2 == 1 &
+        !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
+        duration > (22 * 60) &
+        !(tot_inc > 2 & duration > (27 * 60))) %>%
+      group_by(deviceid) %>%
+      summarise(surveys_27 = n()),
+    # criterion for dropping surveys with 4+ incidents (32 mins)
+    surv_dur_3 = dat %>%
+      mutate(across(all_of(incidents), ~ if_else(.x == 1, 1, 0)),
+        tot_inc = rowSums(across(all_of(incidents)))
+      ) %>%
+      filter(consent == 1 & consent2 == 1 &
+        !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
+        duration > (22 * 60) &
+        !(tot_inc > 2 & duration > (27 * 60)) &
+        !(tot_inc > 2 & duration < (32 * 60))) %>%
+      group_by(deviceid) %>%
+      summarise(surveys_32 = n()),
     surv_dur_strict = if (!is.null(audit)) {
       dat %>%
+        mutate(across(all_of(incidents), ~ if_else(.x == 1, 1, 0)),
+          tot_inc = rowSums(across(all_of(incidents)))
+        ) %>%
         filter(consent == 1 & consent2 == 1 &
-                 !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
-                 duration > (22 * 60)) %>%
+          !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
+          duration > (22 * 60) &
+          !(tot_inc > 2 & duration > (27 * 60)) &
+          !(tot_inc > 2 & duration < (32 * 60))) %>%
         filter(instance_id %in% audit2$instance_id) %>%
         group_by(deviceid) %>%
         summarise(surveys_5_22 = n())
@@ -56,14 +87,16 @@ hss_enum_assessment <- function(dat, audit = NULL) {
   )
 
   survey_overview <- cbind(surveys$surv_all,
-                           surveys_consent = surveys$surv_cons$surveys_consent,
-                           surveys_22 = surveys$surv_dur$surveys_22
+    surveys_consent = surveys$surv_cons$surveys_consent,
+    surveys_22 = surveys$surv_dur$surveys_22,
+    surveys_27 = surveys$surv_dur_2$surveys_27,
+    surveys_32 = surveys$surv_dur_3$surveys_32
   )
 
 
   if (!is.null(audit)) {
     survey_overview <- cbind(survey_overview,
-                             surveys_5_22 = surveys$surv_dur_strict$surveys_5_22
+      surveys_5_22 = surveys$surv_dur_strict$surveys_5_22
     )
   }
 
