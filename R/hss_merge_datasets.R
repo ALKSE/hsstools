@@ -30,7 +30,7 @@ load_files <- function(folder) {
   #find all .dta files in the specified folder. Does not check if files are actually from same survey location
   files <- list.files(path = folder, pattern = ".dta\\b", full.names = TRUE)
   dat <- lapply(files, function(filename) {
-    haven::read_dta(x) %>%
+    haven::read_dta(filename) %>%
       haven::zap_labels() %>%
       haven::zap_label() %>%
       dplyr::mutate(year = stringr::str_extract(filename, "\\d{4}"))
