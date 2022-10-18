@@ -37,7 +37,9 @@ load_files <- function(folder) {
   })
   # files from surveyround 2018 need the 'Q01' part from their variable names removed
   yearcheck <- sapply(dat, function(dataset) 2018 %in% dataset$year)
-  names(dat[[which(yearcheck == TRUE)]]) <- gsub("Q\\d+\\w?_", "", names(dat[[which(yearcheck == TRUE)]]))
+  if(TRUE %in% yearcheck) {
+  names(dat[[which(yearcheck == TRUE)]]) <- gsub("\\bQ\\d+\\w?_", "", names(dat[[which(yearcheck == TRUE)]]))
+  }
   return(dat)
 }
 #' @keywords internal
