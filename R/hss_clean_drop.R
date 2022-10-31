@@ -38,7 +38,7 @@ hss_filter_rows <- function(dat) {
   # this is probably better done in seperate script
 
   # uncomfortable atmosphere & interference from HH member
-  dat <- dat[dat$atmosphere_uncomf == 1 & dat$atmosphere_interfered == 1,]
+  dat <- dat[dat$atmosphere_uncomf == 0 & dat$atmosphere_interfered == 0,]
   # short survey duration + uncomfortable/interference/interrupted
 
   return(dat)
