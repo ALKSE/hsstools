@@ -32,7 +32,6 @@ hss_addlabels <- function(survey, data, location){
       data[[i]] <- factor(data[[i]],
                          levels= x$name.x,
                          labels= x$label_english)
-      data_w_labels <<- data
     }
     return(data_w_labels)
 }
