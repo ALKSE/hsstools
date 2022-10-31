@@ -33,7 +33,7 @@ hss_addlabels <- function(survey, data, location){
                          levels= x$name.x,
                          labels= x$label_english)
     }
-    return(data_w_labels)
+    return(data)
 }
 
 
