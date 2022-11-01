@@ -17,12 +17,12 @@ hss_drop_surveys <- function(dat) {
   # add duration col (move to other function?) NB: duration is in seconds
   if (!inherits(dat$start, "POSIXct")) {
     dat <- dat %>%
-      mutate(
+      dplyr::mutate(
         start = lubridate::mdy_hms(start),
         end = lubridate::mdy_hms(end)
       )
   }
-  dat <- mutate(dat, duration = end - start)
+  dat <- dplyr::mutate(dat, duration = end - start)
 
   # add col with total no. of incidents
   incidents <- c(
@@ -30,8 +30,8 @@ hss_drop_surveys <- function(dat) {
     "bomb", "fmarr", "sex", "secinc_oth"
   )
   dat <- dat %>%
-    mutate(
-      total_incidents = rowSums(across(all_of(incidents), ~ .x == 1), na.rm = TRUE)
+    dplyr::mutate(
+      total_incidents = rowSums(dplyr::across(dplyr::all_of(incidents), ~ .x == 1), na.rm = TRUE)
     )
 
   # filter surveys
@@ -50,6 +50,6 @@ hss_drop_surveys <- function(dat) {
   # (optional) exclude surveys with duration < 22 excl. questions > 5 mins
 
   # clean up
-  dat <- dat %>% select(!total_incidents)
+  dat <- dat %>% dplyr::select(!total_incidents)
   return(dat)
 }
