@@ -19,7 +19,7 @@ hss_gen_prep <- function(dat){
     dat_3 <- lapply(list, FUN = function(i) as.data.frame(x <- dat_2[[i]]))
     names(dat_3) = list
     #bind dfs for easy viewing
-    dat_4 <- bind_rows(dat_3, .id = "column_label")
+    dat_4 <- dplyr::bind_rows(dat_3, .id = "column_label")
     names(dat_4)[2] <- "Text"
     #Clean empty cells
     dat_4 <- dat_4[!dat_4$Text=="",]
