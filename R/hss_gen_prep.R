@@ -26,7 +26,7 @@ hss_gen_prep <- function(dat){
   #Add reference column
   dat_4$r_name <- stringr::str_replace_all(dat_4$column_label, "_oth_what", "")
   #export file
-  writexl::write_xlsx(code_prep, path = "recode.xls")
+  writexl::write_xlsx(dat_4, path = "recode.xls")
 
   return(dat_4)
 }
