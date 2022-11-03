@@ -23,7 +23,7 @@ hss_gen_prep <- function(dat){
   names(dat_4)[2] <- "Text"
   #Clean empty cells
   dat_4 <- dat_4[!dat_4$Text=="",]
-  #Add reference coloumn
+  #Add reference column
   code_prep$r_name <- stringr::str_replace_all(code_prep$column_label, "_oth_what", "")
   #export file
   writexl::write_xlsx(code_prep, path = "recode.xls")
