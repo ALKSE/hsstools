@@ -8,12 +8,13 @@
 #' @param var the variable name. Used to determine the question label and to look up the appropriate
 #' response labels.
 #' @param grouping the grouping variable. Will be used to apply appropriate column headers
+#' @param dict The variable/value dictionary object
 #' @param language To determine the language of labels to be applied.
 #'
 #' @return A flextable object with the original table values and appropriate question & response labels.
 #' @export
 #'
-hss_label <- function(table, var, grouping, lang = "en") {
+hss_label <- function(table, var, grouping, dict, lang = "en") {
   # check if table was already converted to flextable object
   if(!inherits(table, "flextable")) {
     table <- flextable::flextable(table)
@@ -24,7 +25,7 @@ hss_label <- function(table, var, grouping, lang = "en") {
   labels <- .get_table_labels(var, lang)
   # retrieve header/grouping labels & exclude "refuse to answer" and other missing values
   group_labs <- .get_table_labels(grouping, lang)
-  exclude <- .get_dict_valname(grouping, "list_name", "name") %>% stringr::str_which("99")
+  exclude <- .get_dict_valname(grouping, "list_name", "name", dict) %>% stringr::str_which("99")
   if(length(exclude)>0) {
   group_labs$answers <- group_labs$answers[-exclude]
   }
@@ -61,17 +62,17 @@ names(header_labels) <- table$col_keys
 }
 #' helper function for hss_label function. Don't run separately.
 #' @keywords internal
-.get_table_labels <- function(var, lang) {
+.get_table_labels <- function(var, dict, lang) {
   # check for language input and define label column names
   if(!(lang == "en" | lang == "ar")) stop("invalid language input ", lang, ". Use \'en\' or \'ar\'.")
   label_lang <- paste0("r_table_label_", lang)
 
   # look up variable name in "r_name" column and return value from "r_table_label_[language]"
-  question <- var %>% .get_dict_varname("r_name", label_lang)
+  question <- .get_dict_varname(var, "r_name", label_lang, dict)
   # look up "type" value for variable name. looks up "type" value in dict_val "list_name
   # and returns matching value labels from "r_table_label_[language]
-  answers <- var %>% .get_dict_varname("r_name", "type") %>%
-    .get_dict_valname("list_name", label_lang)
+  answers <- .get_dict_varname(var, "r_name", "type", dict) %>%
+    .get_dict_valname("list_name", label_lang, dict)
   labels <- list(question = question, answers = answers)
   return(labels)
 }

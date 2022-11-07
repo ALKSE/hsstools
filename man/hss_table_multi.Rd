@@ -4,7 +4,7 @@
 \alias{hss_table_multi}
 \title{Create contingency table for multiresponse question}
 \usage{
-hss_table_multi(df, var, group, percent = TRUE, digits = 1)
+hss_table_multi(df, var, group, dict, percent = TRUE, digits = 1)
 }
 \arguments{
 \item{df}{The dataframe containing the multiresponse questions}
@@ -12,6 +12,8 @@ hss_table_multi(df, var, group, percent = TRUE, digits = 1)
 \item{var}{The name of the question variable.}
 
 \item{group}{A grouping (or disaggregation) variable.}
+
+\item{dict}{The variable/value dictionary object.}
 
 \item{percent}{Set to TRUE to show percentages. Set to FALSE to show counts}
 

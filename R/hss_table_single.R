@@ -9,6 +9,7 @@
 #' @param df A dataframe containing the variable of interest and grouping variable.
 #' @param var A character string with the variable name of interest.
 #' @param group A character string with the grouping (or disaggregation) variable.
+#' @param dict The variable/value dictionary object.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts.
 #' @param digits The number of (significant) digits to display. Trailing zeroes are
 #' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
@@ -17,9 +18,9 @@
 #' @seealso `hss_table_multi`
 #' @export
 #'
-hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
+hss_table_single <- function(df, var, group, dict, percent = TRUE, digits = 1) {
   # retrieve sub-setting variable and filter df
-  df <- df %>% .subset_vars(var)
+  df <- .subset_vars(df, var, dict)
 
   # create table
   if (percent == TRUE) {
@@ -61,6 +62,8 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
     !!var := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
+    ## NB: generally tables don't show the 'refused' answers as grouping category,
+    ## but excluding it causes issues with calculation of N values. commented out for now
     # dplyr::select(!contains("Refused")) %>%
     dplyr::rename(Total = Sum)
 

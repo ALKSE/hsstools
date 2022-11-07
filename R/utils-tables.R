@@ -2,12 +2,12 @@
 # Look for a value in the specified input column and return the value in the
 # corresponding return column. Only takes a single input, but can return vectors
 # of length >1.
-.get_dict_varname <- function(var, input_col, return_col, dvar = dict_var) {
-  if (!var %in% dvar[[input_col]]) {
-    warning("variable name \'", var, "\' not present in column: \'", names(dvar[input_col]), "\'.")
+.get_dict_varname <- function(var, input_col, return_col, dict) {
+  if (!var %in% dict$var[[input_col]]) {
+    warning("variable name \'", var, "\' not present in column: \'", names(dict$var[input_col]), "\'.")
   }
 
-  varname <- dvar %>%
+  varname <- dict$var %>%
     dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(all_of(return_col)) %>%
     unlist(use.names = FALSE)
@@ -19,12 +19,12 @@
 # Look for a value in the specified input column and return the value in the
 # corresponding return column. Only takes a single input, but can return vectors
 # of length >1.
-.get_dict_valname <- function(var, input_col, return_col, dvar = dict_var, dval = dict_val) {
-  if (!var %in% dval[[input_col]]) {
-    warning("variable name \'", var, "\' not present in column: \'", names(dval[[input_col]]), "\'.")
+.get_dict_valname <- function(var, input_col, return_col, dict) {
+  if (!var %in% dict$val[[input_col]]) {
+    warning("variable name \'", var, "\' not present in column: \'", names(dict$val[[input_col]]), "\'.")
   }
 
-  valname <- dval %>%
+  valname <- dict$val %>%
     dplyr::filter(.[[input_col]] == var) %>%
     dplyr::select(return_col) %>%
     unlist(use.names = FALSE)
@@ -34,7 +34,6 @@
 
 # Get select-multiple valnames --------------------------------------------
 .get_multi_valname <- function(var, df) {
-  var <- .get_oldnew_varname(var)
 
   answers <- names(
     dplyr::select(
@@ -53,16 +52,16 @@
 # and 'r_relevant' columns. These are split into questions (The 'Q' part, later converted
 # to the new names) and the answers answers/values (The '= X' part). Returns a list
 # with two elements: questions and answers
-.get_subset_vars <- function(var, dvar = dict_var) {
-  relevant <- dvar %>%
-    dplyr::filter(r_name == var) %>%
+.get_subset_vars <- function(variable, dict) {
+  relevant <- dict$var %>%
+    dplyr::filter(r_name == variable) %>%
     dplyr::select(relevant, dplyr::starts_with("r_relevant"))
 
   questions <- stringr::str_extract(relevant, "\\$\\{.+\\}") %>%
     stringr::str_replace_all(c("\\$\\{" = "", "\\}" = "")) %>%
     na.omit()
 
-  questions_r <- lapply(questions, function(x) .get_dict_varname(x, "name", "r_name")) %>%
+  questions_r <- lapply(questions, function(x) .get_dict_varname(x, "name", "r_name", dict)) %>%
     unlist()
 
   answers <- stringr::str_extract(relevant, ".?=.+") %>%
@@ -79,10 +78,8 @@
 # Checks first if the sub-setting questions exist in the dataframe (and filters nonexistent)
 # and then creates input for dplyr::filter based on the sub-setting questions. Returns
 # a filtered dataframe.
-.subset_vars <- function(df, var) {
-  var <- .get_oldnew_varname(var)
-
-  sub_vars <- .get_subset_vars(var$new)
+.subset_vars <- function(df, var, dict) {
+  sub_vars <- .get_subset_vars(var, dict)
 
   questions <- sub_vars$questions[which(sub_vars$questions %in% names(df))]
   answers <- sub_vars$answers[which(sub_vars$questions %in% names(df))]

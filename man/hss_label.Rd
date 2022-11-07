@@ -4,7 +4,7 @@
 \alias{hss_label}
 \title{Apply text labels to tables.}
 \usage{
-hss_label(table, var, grouping, lang = "en")
+hss_label(table, var, grouping, dict, lang = "en")
 }
 \arguments{
 \item{table}{the table for which labels should be applied}
@@ -13,6 +13,8 @@ hss_label(table, var, grouping, lang = "en")
 response labels.}
 
 \item{grouping}{the grouping variable. Will be used to apply appropriate column headers}
+
+\item{dict}{The variable/value dictionary object}
 
 \item{language}{To determine the language of labels to be applied.}
 }

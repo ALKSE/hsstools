@@ -12,18 +12,19 @@
 #' @param df The dataframe containing the multiresponse questions
 #' @param var The name of the question variable.
 #' @param group A grouping (or disaggregation) variable.
+#' @param dict The variable/value dictionary object.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts
 #' @param digits The number of (significant) digits to display. Trailing zeroes are
 #' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
 #'
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
-hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
+hss_table_multi <- function(df, var, group, dict, percent = TRUE, digits = 1) {
   # retrieve response options.
   resp <- .get_multi_valname(var, df)
 
   # retrieve sub-setting variable and filter df
-  df <- df %>% .subset_vars(var)
+  df <- .subset_vars(df, var, dict)
 
   # set options depending on percentage/count setting.
   Total <- if (percent == TRUE) {

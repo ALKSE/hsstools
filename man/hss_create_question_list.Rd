@@ -4,10 +4,12 @@
 \alias{hss_create_question_list}
 \title{Create a list of questions from XLS form}
 \usage{
-hss_create_question_list(dict_path)
+hss_create_question_list(dict_path, location)
 }
 \arguments{
 \item{dict_path}{Path to the XLS form}
+
+\item{location}{Survey location for which this XLS form was made.}
 }
 \value{
 A named character vector with question type as name and the question/variable name as value.

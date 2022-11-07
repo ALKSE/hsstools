@@ -4,7 +4,7 @@
 \alias{.get_table_labels}
 \title{helper function for hss_label function. Don't run separately.}
 \usage{
-.get_table_labels(var, lang)
+.get_table_labels(var, dict, lang)
 }
 \description{
 helper function for hss_label function. Don't run separately.
