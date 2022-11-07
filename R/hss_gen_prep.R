@@ -5,7 +5,7 @@
 #' later recoding using a different script. For step 2, use hss_recode.
 #' @param dat The dataframe you want to remove entries from
 #' @rdname hss_gen_prep
-#'
+#' @export
 #'
 hss_gen_prep <- function(dat){
   #start by filtering 'other' response options
