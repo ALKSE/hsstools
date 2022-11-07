@@ -27,20 +27,6 @@ hss_filter_rows <- function(dat) {
   # log_dup = duplicated(dat$instance_id) | duplicated(dat$instance_id, fromLast = TRUE)
   dat <- dat[!duplicated(dat$instance_id), ]
 
-  # filter no consent
-  dat <- dat[dat$consent == 1 & dat$consent2 == 1, ]
-  # sanity check: warn if 2x consent but no interview held
-  if (TRUE %in% grepl(2, dat[, c("enterhh", "interview", "available")])) {
-    warning("Informed consent but no full survey for some respondents")
-  }
-
-  # drop based on survey duration criteria
-  # this is probably better done in seperate script
-
-  # uncomfortable atmosphere & interference from HH member
-  dat <- dat[dat$atmosphere_uncomf == 0 & dat$atmosphere_interfered == 0,]
-  # short survey duration + uncomfortable/interference/interrupted
-
   return(dat)
 }
 

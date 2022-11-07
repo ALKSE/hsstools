@@ -6,7 +6,7 @@
 \alias{hss_select_cols}
 \title{Drop HSS columns and rows}
 \usage{
-hss_clean_drop(dat, prompt = TRUE)
+hss_clean_drop(dat)
 
 hss_filter_rows(dat)
 
