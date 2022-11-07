@@ -11,7 +11,7 @@
 hss_rewrite <- function(dat){
   prep <- readxl::read_xlsx("recode.xls")
   y <- split(prep, f = row.names(prep))
-  z <- as.list(1:nrow(recode_prep))
+  z <- as.list(1:nrow(prep))
   for(i in z){
     dat[[as.character(y[[i]][[3]])]][dat[[as.character(y[[i]][[1]])]] == as.character(y[[i]][[2]])] <- as.numeric(y[[i]][[4]])}
   return(dat)}
