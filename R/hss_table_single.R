@@ -18,17 +18,14 @@
 #' @export
 #'
 hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
-  # retrieve old and new variable names
-  var <- .get_oldnew_varname(var)
-
   # retrieve sub-setting variable and filter df
-  df <- df %>% .subset_vars(var$new)
+  df <- df %>% .subset_vars(var)
 
   # create table
   if (percent == TRUE) {
     # creates contingency table with 'total' column
     table <- table(
-      haven::as_factor(df[[var$new]]),
+      haven::as_factor(df[[var]]),
       haven::as_factor(df[[group]])
     ) %>%
       addmargins(margin = 2) %>%
@@ -47,11 +44,11 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
       as.data.frame()
 
     # removes 'refused to answer' category from grouping variable if present
-    table <- dplyr::select(table, !contains("refused"))
+    # table <- dplyr::select(table, !contains("refused"))
   } else if (percent == FALSE) {
     # create contingency table with 'total' column
     table <- table(
-      haven::as_factor(df[[var$new]]),
+      haven::as_factor(df[[var]]),
       haven::as_factor(df[[group]])
     ) %>%
       addmargins(margin = 2)
@@ -61,10 +58,10 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
 
   # add rownames (response options) as column and convert to dataframe and rename sum col
   table <- dplyr::bind_cols(
-    !!var$new := rownames(table),
+    !!var := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
   ) %>%
-    dplyr::select(!contains("Refused")) %>%
+    # dplyr::select(!contains("Refused")) %>%
     dplyr::rename(Total = Sum)
 
   rownames(table) <- NULL
@@ -72,7 +69,7 @@ hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
   #apply N value labels to column headers
   names(table) <- paste0(
     names(table),
-    .get_nval_single(df, var$new, group)
+    .get_nval_single(df, var, group)
   )
 
   return(table)

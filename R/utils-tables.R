@@ -32,26 +32,6 @@
   return(valname)
 }
 
-# Get old & new varname ---------------------------------------------------
-# function to remove ambiguity in variable names. Takes variable name (old or new) as input
-# and returns a list containing both the old and new variable name.
-.get_oldnew_varname <- function(var, dict = dict_var) {
-  if (var %in% dict[["name"]] == TRUE) {
-    var_old <- var
-    var_new <- .get_dict_varname(var, "name", "r_name")
-  } else if (var %in% dict[["r_name"]] == TRUE) {
-    var_old <- .get_dict_varname(var, "r_name", "name")
-    var_new <- var
-  } else {warning(var, " not in dictionary.")}
-  var <- list(
-    old = var_old,
-    new = var_new
-  )
-  return(var)
-}
-
-
-
 # Get select-multiple valnames --------------------------------------------
 .get_multi_valname <- function(var, df) {
   var <- .get_oldnew_varname(var)

@@ -19,14 +19,11 @@
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
 hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
-  # get scipen default options, then set to make sure no scientific notation is used
-
-  # retrieve old&new variable name, and retrieve response options.
-  var <- .get_oldnew_varname(var)
-  resp <- .get_multi_valname(var$new, df)
+  # retrieve response options.
+  resp <- .get_multi_valname(var, df)
 
   # retrieve sub-setting variable and filter df
-  df <- df %>% .subset_vars(var$new)
+  df <- df %>% .subset_vars(var)
 
   # set options depending on percentage/count setting.
   Total <- if (percent == TRUE) {
@@ -63,10 +60,10 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
       as.data.frame()
   }
   # calculate p values for each response option.
-  p <- hss_chisq(df, var$new, group, full = FALSE, multi = TRUE)
+  p <- hss_chisq(df, var, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
   table <- dplyr::bind_cols(
-    !!var$new := rownames(table),
+    !!var := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
     "p" = p
   )
@@ -76,7 +73,7 @@ hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # apply N value labels to column headers
   names(table) <- paste0(
     names(table),
-    .get_nval_multi(df, var$new, group)
+    .get_nval_multi(df, var, group)
   )
 return(table)
 }

@@ -38,14 +38,13 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
   if (!is.logical(full)) {
     stop("argument 'full' is not logical")
   }
-  var <- .get_oldnew_varname(var)
 
   # subset dataframe by sub-seting variables
-  df <- df %>% .subset_vars(var$new)
+  df <- df %>% .subset_vars(var)
 
   # if used for select-multiple question, retrieve response options.
   if (multi == TRUE) {
-    var$new <- .get_multi_valname(var$new, df)
+    var <- .get_multi_valname(var, df)
   }
 
   # The call to chisq.test is wrapped in a trycatch() function to ensure the function
@@ -54,7 +53,7 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
 
   if (full == FALSE) {
     chisq_output <- sapply(
-      var$new,
+      var,
       function(var_element) {
         return(tryCatch(
           signif(
@@ -67,7 +66,7 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
     )
   } else if (full == TRUE) {
     chisq_output <- lapply(
-      var$new,
+      var,
       function(var_element) {
         return(tryCatch(
           stats::chisq.test(df[[var_element]], df[[group]]),
