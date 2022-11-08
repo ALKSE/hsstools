@@ -4,7 +4,7 @@
 \alias{hss_rename}
 \title{Rename HSS Survey variables}
 \usage{
-hss_rename(dat, xlsform)
+hss_rename(dat, dict)
 }
 \arguments{
 \item{dat}{the dataframe containing the HSS survey}

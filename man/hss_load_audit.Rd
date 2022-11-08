@@ -7,21 +7,18 @@
 \usage{
 hss_load_audit(path)
 
-hss_clean_audit(dat, xlsform = NULL)
+hss_clean_audit(dat)
 }
 \arguments{
 \item{path}{Path to a folder containing the audit .csv files}
 
 \item{dat}{The resulting dataframe from hss_load_audit}
-
-\item{xlsform}{path to the XLS form for this particular HSS survey. If not provided,
-the function skips the step of renaming variables.}
 }
 \value{
 
 }
 \description{
 These functions are used to load individual audit files for a HSS survey as a
-single dataframe and apply some basic cleaning. Can optionally add a column with new
-variable names based on the relevant XLS form.
+single dataframe and apply some basic cleaning (currently only adds a new column
+containing the duration spend on a screen.
 }
