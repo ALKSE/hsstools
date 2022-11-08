@@ -19,7 +19,7 @@ hss_enum_assessment <- function(dat, audit = NULL) {
     "bomb", "fmarr", "sex", "secinc_oth"
   )
 
-  audit2 <- if (!is.null(audit)) {
+  audit <- if (!is.null(audit)) {
     audit %>%
       filter(instance_id %in%
         filter(dat, consent == 1 & consent2 == 1 &
@@ -55,7 +55,7 @@ hss_enum_assessment <- function(dat, audit = NULL) {
       filter(consent == 1 & consent2 == 1 &
         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
         duration > (22 * 60) &
-        !(tot_inc > 2 & duration > (27 * 60))) %>%
+        !(tot_inc > 2 & duration < (27 * 60))) %>%
       group_by(deviceid) %>%
       summarise(surveys_27 = n()),
     # criterion for dropping surveys with 4+ incidents (32 mins)
@@ -66,8 +66,8 @@ hss_enum_assessment <- function(dat, audit = NULL) {
       filter(consent == 1 & consent2 == 1 &
         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
         duration > (22 * 60) &
-        !(tot_inc > 2 & duration > (27 * 60)) &
-        !(tot_inc > 2 & duration < (32 * 60))) %>%
+        !(tot_inc > 2 & duration < (27 * 60)) &
+        !(tot_inc > 3 & duration < (32 * 60))) %>%
       group_by(deviceid) %>%
       summarise(surveys_32 = n()),
     surv_dur_strict = if (!is.null(audit)) {
@@ -78,8 +78,8 @@ hss_enum_assessment <- function(dat, audit = NULL) {
         filter(consent == 1 & consent2 == 1 &
           !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
           duration > (22 * 60) &
-          !(tot_inc > 2 & duration > (27 * 60)) &
-          !(tot_inc > 2 & duration < (32 * 60))) %>%
+          !(tot_inc > 2 & duration < (27 * 60)) &
+          !(tot_inc > 3 & duration < (32 * 60))) %>%
         filter(instance_id %in% audit2$instance_id) %>%
         group_by(deviceid) %>%
         summarise(surveys_5_22 = n())
