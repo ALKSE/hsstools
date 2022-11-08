@@ -10,9 +10,8 @@
 #'
 #' @return Returns the dataframe with updated column names
 #' @export
-hss_rename <- function(dat, xlsform) {
-  mapping <- .load_xlsform(xlsform) %>%
-    .create_mapping()
+hss_rename <- function(dat, dict) {
+  mapping <- .create_mapping(dict)
   names(dat) <- .apply_mapping(names(dat), mapping)
   return(dat)
 }
@@ -32,11 +31,11 @@ hss_rename <- function(dat, xlsform) {
 }
 
 #' @keywords internal
-.create_mapping <- function(list) {
+.create_mapping <- function(dict) {
   # Create a mapping of old & new variable names based on provided XLS form. Output
   # is dataframe with columns 'oldvar' and 'newvar'
-  merged <- dplyr::right_join(list$form %>% dplyr::select(type, name, r_name),
-    list$form_val %>% dplyr::select(list_name, name, r_name),
+  merged <- dplyr::right_join(dict$var %>% dplyr::select(type, name, r_name),
+    dict$val %>% dplyr::select(list_name, name, r_name),
     by = c("type" = "list_name")
   ) %>% dplyr::filter(!is.na(r_name.y))
 
@@ -46,8 +45,8 @@ hss_rename <- function(dat, xlsform) {
     gsub("_all_", "_", .) %>%
     unique()
 
-  oldvar <- c(list$form$name, oldname2) %>% tolower()
-  newvar <- c(list$form$r_name, newname2) %>% tolower()
+  oldvar <- c(dict$var$name, oldname2) %>% tolower()
+  newvar <- c(dict$var$r_name, newname2) %>% tolower()
 
   out <- data.frame(oldvar, newvar) %>%
     dplyr::mutate(newvar = dplyr::if_else(is.na(newvar), oldvar, newvar)) %>%
