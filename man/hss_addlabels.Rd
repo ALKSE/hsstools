@@ -4,14 +4,12 @@
 \alias{hss_addlabels}
 \title{Use a cumulative list of variable names to label their associated values}
 \usage{
-hss_addlabels(survey, data, location)
+hss_addlabels(data, dict)
 }
 \arguments{
-\item{survey}{the master xls form}
-
 \item{data}{actual survey data set}
 
-\item{location}{The location -directory- of the xls form}
+\item{dict}{A dictionary object created with hss_create_dict()}
 }
 \description{
 The first half of this function uses hss_create_dic to produce 2 outputs
