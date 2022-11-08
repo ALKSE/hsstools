@@ -1,13 +1,11 @@
 #' Load audit files for HSS survey
 #'
 #' These functions are used to load individual audit files for a HSS survey as a
-#' single dataframe and apply some basic cleaning. Can optionally add a column with new
-#' variable names based on the relevant XLS form.
+#' single dataframe and apply some basic cleaning (currently only adds a new column
+#' containing the duration spend on a screen.
 #'
 #' @param path Path to a folder containing the audit .csv files
 #' @param dat The resulting dataframe from hss_load_audit
-#' @param xlsform path to the XLS form for this particular HSS survey. If not provided,
-#' the function skips the step of renaming variables.
 #' @return
 #' @export
 #'
@@ -27,30 +25,10 @@ hss_load_audit <- function(path) {
 }
 
 #' @rdname hss_load_audit
-hss_clean_audit = function(dat, xlsform = NULL) {
-  dat = dat %>%
-    .clean_audit()
-  if(!is.null(xlsform)){
-    dat = dat %>%
-      .clean_audit_newnames(xlsform)
-  }
-  return(dat)
-}
-#' @keywords internal
-.clean_audit <- function(dat) {
+hss_clean_audit <- function(dat) {
   out <- dat %>% mutate(
     diff_sec = (end - start) / 1000,
     diff_min = diff_sec / 60
   )
-  return(out)
-}
-#' @keywords internal
-.clean_audit_newnames = function(dat, xlsform) {
-  mapping <- .load_xlsform(xlsform) %>%
-    .create_mapping()
-  out = dat %>% mutate(
-  node = gsub(".+/(?=Q.+\\b)", "", node, perl = TRUE),
-  node_new = .apply_mapping(node, .env$mapping)
-  )
-  return(out)
+  return(dat)
 }
