@@ -15,6 +15,8 @@
 #' provided datasets.
 #' @export
 hss_merge_datasets <- function(folder, mapping) {
+  mapping = readxl::read_excel(mapping)
+
   dat <- load_files(folder) %>%
     lapply(function(x) apply_newnames(x, mapping))
 
@@ -25,6 +27,7 @@ hss_merge_datasets <- function(folder, mapping) {
     do.call(rbind.data.frame, .)
   return(out)
 }
+
 #' @keywords internal
 load_files <- function(folder) {
   #find all .dta files in the specified folder. Does not check if files are actually from same survey location
@@ -33,7 +36,8 @@ load_files <- function(folder) {
     haven::read_dta(filename) %>%
       haven::zap_labels() %>%
       haven::zap_label() %>%
-      dplyr::mutate(year = stringr::str_extract(filename, "\\d{4}"))
+      dplyr::mutate(year = stringr::str_extract(filename, "\\d{4}")) %>%
+      dplyr:::mutate(across(matches("\\bstart|\\bend"), ~ as.character(.x)))
   })
   # files from surveyround 2018 need the 'Q01' part from their variable names removed
   yearcheck <- sapply(dat, function(dataset) 2018 %in% dataset$year)
@@ -42,6 +46,7 @@ load_files <- function(folder) {
   }
   return(dat)
 }
+
 #' @keywords internal
 apply_newnames <- function(dat, mapping) {
   # determine most applicable survey round based on no. of matching names in each
