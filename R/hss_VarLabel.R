@@ -4,16 +4,16 @@
 #'variables have been already named using hss_rename.
 #' @param data actual survey data
 #' @param survey the master xls form -character-
-#' @param location the location of the master xls form -path-
+#' @param dictionary the dual list dictionary that should be generated early in the cleaning process
 #'
 #' @rdname hss_VarLabel
 #' @export
 #'
-hss_VarLabel <- function(data, survey, location) {
+hss_VarLabel <- function(data, survey, dictionary) {
   form <- readxl::read_excel(survey)
-  dic_val_new <- hss_create_dict(survey, "val", location = location)
+  dic_val <- dictionary$val
   labels_1 <- subset(form, select = c(`label::English`, R_name))
-  labels_2 <- subset(dic_val_new, select = c(label_english, r_name))
+  labels_2 <- subset(dic_val, select = c(label_english, r_name))
   names(labels_1)[1] <- "label_english"
   names(labels_1)[2] <- "r_name"
   all_label <- rbind(labels_1, labels_2)
