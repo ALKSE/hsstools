@@ -46,55 +46,6 @@
   return(answers)
 }
 
-
-# Sub-set by variable -----------------------------------------------------
-# A helper function for .subset-vars. Extracts all elements in 'relevant'
-# and 'r_relevant' columns. These are split into questions (The 'Q' part, later converted
-# to the new names) and the answers answers/values (The '= X' part). Returns a list
-# with two elements: questions and answers
-.get_subset_vars <- function(variable, dict) {
-  relevant <- dict$var %>%
-    dplyr::filter(r_name == variable) %>%
-    dplyr::select(relevant, dplyr::starts_with("r_relevant"))
-
-  questions <- stringr::str_extract(relevant, "\\$\\{.+\\}") %>%
-    stringr::str_replace_all(c("\\$\\{" = "", "\\}" = "")) %>%
-    na.omit()
-
-  questions_r <- lapply(questions, function(x) .get_dict_varname(x, "name", "r_name", dict)) %>%
-    unlist()
-
-  answers <- stringr::str_extract(relevant, ".?=.+") %>%
-    stringr::str_replace_all("\\s=", "==") %>%
-    stringr::str_remove_all("'") %>%
-    na.omit()
-
-  sub_vars <- list(questions = questions_r, answers = answers)
-
-  return(sub_vars)
-}
-
-# A function to subset a dataframe based on 'relevant' columns in the XLS form.
-# Checks first if the sub-setting questions exist in the dataframe (and filters nonexistent)
-# and then creates input for dplyr::filter based on the sub-setting questions. Returns
-# a filtered dataframe.
-.subset_vars <- function(df, var, dict) {
-  sub_vars <- .get_subset_vars(var, dict)
-
-  questions <- sub_vars$questions[which(sub_vars$questions %in% names(df))]
-  answers <- sub_vars$answers[which(sub_vars$questions %in% names(df))]
-
-  subsetting <- paste(questions, answers, sep = " ")
-  # # NB: currently this part silently fails (i.e. it does not filter) if a single
-  # element of the vector [t] is invalid. The part above should make this redundant.
-  df_filtered <- df %>% try(
-    filter(
-      !!!rlang::parse_exprs(sub_vars)
-    )
-  )
-  return(df_filtered)
-}
-
 # Calculate N for contingency tables --------------------------------------
 # Calculating N works differently for 'select-one' and 'select-multiple' tables.
 # make sure to use appropriate function.

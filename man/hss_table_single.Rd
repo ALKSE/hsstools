@@ -4,7 +4,7 @@
 \alias{hss_table_single}
 \title{Create contingency table for single-response question}
 \usage{
-hss_table_single(df, var, group, dict, percent = TRUE, digits = 1)
+hss_table_single(df, var, group, percent = TRUE, digits = 1)
 }
 \arguments{
 \item{df}{A dataframe containing the variable of interest and grouping variable.}
@@ -12,8 +12,6 @@ hss_table_single(df, var, group, dict, percent = TRUE, digits = 1)
 \item{var}{A character string with the variable name of interest.}
 
 \item{group}{A character string with the grouping (or disaggregation) variable.}
-
-\item{dict}{The variable/value dictionary object.}
 
 \item{percent}{Set to TRUE to show percentages. Set to FALSE to show counts.}
 

@@ -9,7 +9,6 @@
 #' @param df A dataframe containing the variable of interest and grouping variable.
 #' @param var A character string with the variable name of interest.
 #' @param group A character string with the grouping (or disaggregation) variable.
-#' @param dict The variable/value dictionary object.
 #' @param percent Set to TRUE to show percentages. Set to FALSE to show counts.
 #' @param digits The number of (significant) digits to display. Trailing zeroes are
 #' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
@@ -18,9 +17,7 @@
 #' @seealso `hss_table_multi`
 #' @export
 #'
-hss_table_single <- function(df, var, group, dict, percent = TRUE, digits = 1) {
-  # retrieve sub-setting variable and filter df
-  df <- .subset_vars(df, var, dict)
+hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
 
   # create table
   if (percent == TRUE) {
