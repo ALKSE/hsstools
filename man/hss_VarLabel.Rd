@@ -4,14 +4,14 @@
 \alias{hss_VarLabel}
 \title{Label all your named variables}
 \usage{
-hss_VarLabel(data, survey, location)
+hss_VarLabel(data, survey, dictionary)
 }
 \arguments{
 \item{data}{actual survey data}
 
 \item{survey}{the master xls form -character-}
 
-\item{location}{the location of the master xls form -path-}
+\item{dictionary}{the dual list dictionary that should be generated early in the cleaning process}
 }
 \description{
 This function generates labels for named variables. A prerequisite is ensuring that
