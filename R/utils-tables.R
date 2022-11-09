@@ -39,7 +39,7 @@
     dplyr::select(
       df,
       dplyr::starts_with(
-        stringr::str_replace(var$new, "_all", "_")
+        stringr::str_replace(var, "_all", "_")
       ) & !dplyr::ends_with(c("_what", "_all"))
     )
   )

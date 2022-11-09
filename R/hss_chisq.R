@@ -39,9 +39,6 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
     stop("argument 'full' is not logical")
   }
 
-  # subset dataframe by sub-seting variables
-  df <- df %>% .subset_vars(var)
-
   # if used for select-multiple question, retrieve response options.
   if (multi == TRUE) {
     var <- .get_multi_valname(var, df)
