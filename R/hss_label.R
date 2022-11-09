@@ -22,9 +22,9 @@ hss_label <- function(table, var, grouping, dict, lang = "en") {
   # retrieve formatting options
   format <- .get_format_options()
   # retrieve question and answer labels
-  labels <- .get_table_labels(var, lang)
+  labels <- .get_table_labels(var, dict, lang)
   # retrieve header/grouping labels & exclude "refuse to answer" and other missing values
-  group_labs <- .get_table_labels(grouping, lang)
+  group_labs <- .get_table_labels(grouping, dict, lang)
   exclude <- .get_dict_valname(grouping, "list_name", "name", dict) %>% stringr::str_which("99")
   if(length(exclude)>0) {
   group_labs$answers <- group_labs$answers[-exclude]
