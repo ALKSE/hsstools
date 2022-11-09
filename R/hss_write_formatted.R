@@ -25,19 +25,19 @@
 #' @seealso `hss_export_formatted`, `hss_create_question_list`
 #' @export
 #'
-hss_write_formatted <- function(df, questions, group, percent = TRUE, digits = "1", lang = "en") {
+hss_write_formatted <- function(df, questions, group, dict, percent = TRUE, digits = 1, lang = "en") {
   out <- lapply(questions, function(questions_element) {
     tryCatch(
       if (names(questions[match(questions_element, questions)]) == "select_one") {
         hss_table_single(df, questions_element, group, percent, digits) %>%
-          hss_label(questions_element, group, lang) %>%
+          hss_label(questions_element, group, dict, lang) %>%
           hss_format_single() %>%
           flextable::add_footer_lines(
             values = hss_chisq_formatted(df, questions_element, group)
           )
       } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
         hss_table_multi(df, questions_element, group, percent, digits) %>%
-          hss_label(questions_element,group, lang) %>%
+          hss_label(questions_element, group, dict, lang) %>%
           hss_format_multi()
       },
       error = function(e) NULL
@@ -50,7 +50,8 @@ hss_write_formatted <- function(df, questions, group, percent = TRUE, digits = "
       .get_dict_varname(
         questions_element,
         "r_name",
-        paste0("r_table_label_", lang)
+        paste0("r_table_label_", lang),
+        dict
       )
     }
   )

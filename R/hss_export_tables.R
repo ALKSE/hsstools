@@ -12,7 +12,7 @@
 #' @seealso hss_write_tables()
 #' @export
 #'
-hss_export_tables <- function(df_list, path) {
+hss_export_tables <- function(df_list, questions, path) {
   # Select all non-NULL (successfully written) tables from list
   df_list <- df_list[-which(sapply(df_list, is.null))]
 
