@@ -1,3 +1,4 @@
+#' Utility function for hss_drop_surveys - Iraq
 #' Drop invalid surveys based on selection criteria
 #'
 #' HSS surveys are considered valid when they meet a number of selection criteria.
@@ -8,12 +9,8 @@
 #' 22 minutes; for surveys with 3 or more incidents reported, it should not be shorter
 #' than 27 minutes; for surveys with 4 or more incidents reported, it should not be
 #' shorter than 32 minutes.
-#'
-#' @param dat The dataframe containing HSS surveys
-#'
-#' @return A dataframe containing only those surveys that meet the selection criteria
-#' @export
-hss_drop_surveys <- function(dat) {
+
+.drop_IQ <- function(dat) {
   # add duration col (move to other function?) NB: duration is in seconds
   if (!inherits(dat$start, "POSIXct")) {
     dat <- dat %>%
@@ -24,14 +21,25 @@ hss_drop_surveys <- function(dat) {
   }
   dat <- dplyr::mutate(dat, duration = end - start)
 
-  # add col with total no. of incidents
-  incidents <- c(
-    "catt", "rob", "prison", "recruit", "kidnap", "assault", "kill",
-    "bomb", "fmarr", "sex", "secinc_oth"
+  # add col with total no. of incidents, with consideration for varying incident variables
+  incidents_IQ_1 <- data.frame(
+    rob=(1),
+    bomb=(2),
+    assault=(3),
+    abuse=(4),
+    prison=(5),
+    kidnap=(6),
+    kill=(7),
+    protest=(8),
+    secinc_oth=(9)
   )
+
+  result <- janitor::compare_df_cols(dat, incidents_IQ_1, return = "mismatch")
+  incidents_2 <- result$column_name
+
   dat <- dat %>%
     dplyr::mutate(
-      total_incidents = rowSums(dplyr::across(dplyr::all_of(incidents), ~ .x == 1), na.rm = TRUE)
+      total_incidents = rowSums(dplyr::across(dplyr::all_of(incidents_2), ~ .x == 1), na.rm = TRUE)
     )
 
   # filter surveys
