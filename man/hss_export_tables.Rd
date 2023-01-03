@@ -4,7 +4,7 @@
 \alias{hss_export_tables}
 \title{Exports a list of data tables to CSV}
 \usage{
-hss_export_tables(df_list, path)
+hss_export_tables(df_list, questions, path)
 }
 \arguments{
 \item{df_list}{A named list containing the data tables. The output of hss_write_tables() usually.}

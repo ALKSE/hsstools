@@ -14,9 +14,6 @@ hss_clean_audit(dat)
 
 \item{dat}{The resulting dataframe from hss_load_audit}
 }
-\value{
-
-}
 \description{
 These functions are used to load individual audit files for a HSS survey as a
 single dataframe and apply some basic cleaning (currently only adds a new column

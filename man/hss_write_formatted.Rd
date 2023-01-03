@@ -8,8 +8,9 @@ hss_write_formatted(
   df,
   questions,
   group,
+  dict,
   percent = TRUE,
-  digits = "1",
+  digits = 1,
   lang = "en"
 )
 }
