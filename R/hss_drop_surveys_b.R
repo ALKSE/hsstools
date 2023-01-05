@@ -13,7 +13,7 @@
 #'
 #' @return A dataframe containing only those surveys that meet the selection criteria
 #' @export
-hss_drop_surveys_base <- function(dat) {
+hss_drop_surveys_b <- function(dat) {
   # add duration col (move to other function?) NB: duration is in seconds
   if (!inherits(dat$start, "POSIXct")) {
     dat <- dat %>%
