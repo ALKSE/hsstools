@@ -7,10 +7,10 @@
 #' The result of this function is a new *labelled data set
 #' @param data actual survey data set
 #' @param dict A dictionary object created with hss_create_dict()
-#' @rdname hss_addlabels
+#' @rdname hss_vallabel
 #' @export
 
-hss_addlabels <- function(data, dict){
+hss_vallabel <- function(data, dict){
 
   workfile <- subset(dic$val, select = c(list_name, r_name, label_english, name))
   workfile$final_name <- paste(workfile$list_name, workfile$r_name)
