@@ -19,7 +19,7 @@ hss_enum_assessment <- function(dat, audit = NULL) {
     "bomb", "fmarr", "sex", "secinc_oth"
   )
 
-  audit <- if (!is.null(audit)) {
+  auditer <- if (!is.null(audit)) {
     audit %>%
       filter(instance_id %in%
         filter(dat, consent == 1 & consent2 == 1 &
@@ -80,7 +80,7 @@ hss_enum_assessment <- function(dat, audit = NULL) {
           duration > (22 * 60) &
           !(tot_inc > 2 & duration < (27 * 60)) &
           !(tot_inc > 3 & duration < (32 * 60))) %>%
-        filter(instance_id %in% audit[[1]]) %>%
+        filter(instance_id %in% auditer[[1]]) %>%
         group_by(deviceid) %>%
         summarise(surveys_5_22 = n())
     }
