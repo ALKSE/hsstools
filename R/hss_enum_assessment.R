@@ -24,7 +24,7 @@ hss_enum_assessment <- function(dat, audit = NULL) {
       filter(instance_id %in%
         filter(dat, consent == 1 & consent2 == 1 &
           !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
-      filter(!(diff_min > 5 & grepl("Q.+", node))) %>%
+      filter(!(diff_min > 10 & grepl("Q.+", node))) %>%
       group_by(instance_id) %>%
       summarise(duration = sum(diff_min, na.rm = TRUE)) %>%
       filter(duration > 22)
