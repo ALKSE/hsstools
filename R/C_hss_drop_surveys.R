@@ -12,5 +12,5 @@
 #'
 #' @return A dataframe containing only those surveys that meet the selection criteria
 #' @export
-C_hss_drop_surveys <- function(dat, country, audit = NULL){
-  if(country == "Iraq") {.drop_IQ(dat)} else {.drop_SS(dat, audit = NULL)}}
+C_hss_drop_surveys <- function(dat, country, audit){
+  if(country == "Iraq") {.drop_IQ(dat)} else {.drop_SS(dat, audit)}}
