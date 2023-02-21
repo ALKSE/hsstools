@@ -2,12 +2,9 @@
 % Please edit documentation in R/T_hss_format.R
 \name{hss_format_single}
 \alias{hss_format_single}
-\alias{hss_format_multi}
 \title{Format tables using HSS style preferences}
 \usage{
 hss_format_single(table)
-
-hss_format_multi(table)
 }
 \value{
 A flextable object with formatting applied.
