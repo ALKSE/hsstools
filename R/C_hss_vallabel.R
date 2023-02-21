@@ -7,10 +7,10 @@
 #' The result of this function is a new *labelled data set
 #' @param data actual survey data set
 #' @param language The language of survey levels
-#' @rdname hss_vallabel
+#' @rdname C_hss_vallabel
 #' @export
 
-hss_vallabel <- function(dat, language){
+C_hss_vallabel <- function(dat, language){
   if(language == "English") {.vallabel_en(dat)} else {.vallabel_ar(dat)}}
 
 

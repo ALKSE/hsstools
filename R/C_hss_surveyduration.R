@@ -7,8 +7,8 @@
 #'
 #' @return A dataframe with an added SurveyDuration column
 #' @export
-#' @rdname hss_surveyduration
-hss_surveyduration <- function(data) {
+#' @rdname C_hss_surveyduration
+C_hss_surveyduration <- function(data) {
   output <- data %>%
     dplyr::mutate(submission_date = lubridate::mdy_hms(submission_date)) %>%
     dplyr::mutate(start = lubridate::mdy_hms(start), end = lubridate::mdy_hms(end)) %>%

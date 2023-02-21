@@ -17,7 +17,7 @@
 #' @seealso `hss_table_multi`
 #' @export
 #'
-hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
+T_hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {
 
   # create table
   if (percent == TRUE) {

@@ -18,7 +18,7 @@
 #'
 #' @return A contingency table containing the multiresponse answers and a grouping variable
 #' @export
-hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
+T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # retrieve response options.
   resp <- .get_multi_valname(var, df)
 

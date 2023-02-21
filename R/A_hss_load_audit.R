@@ -9,7 +9,7 @@
 #' @return
 #' @export
 #'
-hss_load_audit <- function(path) {
+A_hss_load_audit <- function(path) {
   filenames <- list.files(path = path, full.names = TRUE)
 
   dat <- lapply(filenames, function(x) {
@@ -24,7 +24,7 @@ hss_load_audit <- function(path) {
   return(dat)
 }
 
-#' @rdname hss_load_audit
+#' @rdname A_hss_load_audit
 hss_clean_audit <- function(dat) {
   out <- dat %>% mutate(
     diff_sec = (end - start) / 1000,

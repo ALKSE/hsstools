@@ -11,7 +11,7 @@
 #' @return A dataframe with responses for the selected variables.
 #' @export
 #'
-hss_overview_single <- function(df, vars, percent = TRUE) {
+T_hss_overview_single <- function(df, vars, percent = TRUE) {
   vars <- names(df %>% dplyr::select(dplyr::matches(vars) & !dplyr::contains("_what")))
 
   if (percent == TRUE) {

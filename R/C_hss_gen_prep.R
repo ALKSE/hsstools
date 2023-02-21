@@ -4,10 +4,10 @@
 #' -other- responses and display them in a convenient format that will allow for
 #' later recoding using a different script. For step 2, use hss_recode.
 #' @param dat The dataframe you want to remove entries from
-#' @rdname hss_gen_prep
+#' @rdname C_hss_gen_prep
 #' @export
 #'
-hss_gen_prep <- function(dat){
+C_hss_gen_prep <- function(dat){
   #start by filtering 'other' response options
   data_match <- dat[ , grep("_oth_what", colnames(dat))]
   #remove NA + some empty cells (will be done again)

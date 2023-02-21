@@ -9,7 +9,7 @@
 #' @rdname hss_VarLabel
 #' @export
 #'
-hss_VarLabel <- function(data, survey, dictionary) {
+C_hss_VarLabel <- function(data, survey, dictionary) {
   form <- readxl::read_excel(survey)
   dic_val <- dictionary$val
   labels_1 <- subset(form, select = c(`label::English`, R_name))

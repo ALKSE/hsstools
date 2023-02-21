@@ -25,7 +25,7 @@
 #' @seealso `hss_export_formatted`, `hss_create_question_list`
 #' @export
 #'
-hss_write_formatted <- function(df, questions, group, dict, percent = TRUE, digits = 1, lang = "en") {
+T_hss_write_formatted <- function(df, questions, group, dict, percent = TRUE, digits = 1, lang = "en") {
   out <- lapply(questions, function(questions_element) {
     tryCatch(
       if (names(questions[match(questions_element, questions)]) == "select_one") {

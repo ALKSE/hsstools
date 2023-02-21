@@ -10,7 +10,7 @@
 #' @return Returns a dataframe with recoded values
 #' @export
 #'
-hss_recode_na  = function(dat) {
+C_hss_recode_na  = function(dat) {
   # vars to recode ----------------------------------------------------------
   occupation <- list(
     vars = c("occupation_wagetype"),

@@ -14,7 +14,7 @@
 #' @return A flextable object with the original table values and appropriate question & response labels.
 #' @export
 #'
-hss_label <- function(table, var, grouping, dict, lang = "en") {
+T_hss_label <- function(table, var, grouping, dict, lang = "en") {
   # check if table was already converted to flextable object
   if(!inherits(table, "flextable")) {
     table <- flextable::flextable(table)

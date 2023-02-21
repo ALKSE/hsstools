@@ -10,7 +10,7 @@
 #'
 #' @return Returns the dataframe with updated column names
 #' @export
-hss_rename <- function(dat, dict) {
+C_hss_rename <- function(dat, dict) {
   mapping <- .create_mapping(dict)
   names(dat) <- .apply_mapping(names(dat), mapping)
   return(dat)

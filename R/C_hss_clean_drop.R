@@ -13,14 +13,14 @@
 #' @return Returns a dataframe with invalid surveys removed as well as unnecessary columns.
 #' @export
 #'
-hss_clean_drop <- function(dat) {
+C_hss_clean_drop <- function(dat) {
   dat <- dat %>%
     hss_filter_rows() %>%
     hss_select_cols()
   return(dat)
 }
 
-#' @rdname hss_clean_drop
+#' @rdname C_hss_clean_drop
 hss_filter_rows <- function(dat) {
   # Filter duplicates
   # # (optional) detect and log duplicate entries
@@ -30,7 +30,7 @@ hss_filter_rows <- function(dat) {
   return(dat)
 }
 
-#' @rdname hss_clean_drop
+#' @rdname C_hss_clean_drop
 hss_select_cols <- function(dat) {
   # drop notes & instructions to enumerators
   dat <- dat[, -grep("\\bintro|\\bnote_|\\bmodule_", names(dat))]

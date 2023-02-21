@@ -13,7 +13,7 @@
 #' dataframes for all criteria.
 #' @export
 #'
-E_hss_enum_assessment <- function(dat, audit = NULL) {
+A_hss_enum_assessment <- function(dat, audit = NULL) {
   incidents <- c(
     "catt", "rob", "prison", "recruit", "kidnap", "assault", "kill",
     "bomb", "fmarr", "sex", "secinc_oth"

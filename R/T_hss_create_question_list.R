@@ -9,7 +9,7 @@
 #' @return A named character vector with question type as name and the question/variable name as value.
 #' @export
 #'
-hss_create_question_list <- function(dict_path, location) {
+T_hss_create_question_list <- function(dict_path, location) {
   dict <- hss_create_dict(dict_path, location)
   questions <- dplyr::select(dict$var, q_type, name, r_name) %>%
     dplyr::filter(

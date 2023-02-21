@@ -11,7 +11,7 @@
 #'
 #' @return A flextable object with formatting applied.
 #' @export
-#' @rdname hss_format
+#' @rdname T_hss_format
 hss_format_single <- function(table) {
   # load formatting options
   format <- .get_format_options()

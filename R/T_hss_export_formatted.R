@@ -10,7 +10,7 @@
 #'
 #' @return Outputs the selected flextable objects to a .docx file.
 #' @export
-hss_export_formatted <- function(list, file = NULL) {
+T_hss_export_formatted <- function(list, file = NULL) {
   # select all successfully written tables
   t1 <- Sys.time()
   list <- list[which(sapply(list, function(list_element) !is.null(list_element)))]

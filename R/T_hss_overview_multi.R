@@ -11,7 +11,7 @@
 #' @return A dataframe with responses for the selected variables.
 #' @export
 #'
-hss_overview_multi <- function(df, vars, percent = TRUE) {
+T_hss_overview_multi <- function(df, vars, percent = TRUE) {
   grps_regex <- paste0(vars, "_.+") %>% stringr::str_replace_all("__", "_")
   grps <- names(df %>% dplyr::select(dplyr::matches(vars))) %>%
     stringr::str_replace_all(grps_regex, vars) %>%

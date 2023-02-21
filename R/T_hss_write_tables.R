@@ -20,7 +20,7 @@
 #' @seealso `hss_export_tables`, `hss_create_question_list`
 #' @export
 #'
-hss_write_tables <- function(df, questions, group, percent = TRUE, digits = 3) {
+T_hss_write_tables <- function(df, questions, group, percent = TRUE, digits = 3) {
   output_list <- lapply(questions, function(questions_element) {
     tryCatch(
 

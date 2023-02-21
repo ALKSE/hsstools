@@ -11,8 +11,8 @@
 #' @return This returns a dataframe with the response options and the number of responses for that option.
 #' @export
 #'
-#' @rdname hss_combine_questions
-hss_combine_single <- function(df, var) {
+#' @rdname T_hss_combine_questions
+T_hss_combine_single <- function(df, var) {
   dat <- df %>%
     dplyr::select(contains(var)) %>%
     tidyr::pivot_longer(cols = everything(), names_to = "answers") %>%
@@ -30,7 +30,7 @@ hss_combine_single <- function(df, var) {
   return(dat)
 }
 
-#' @rdname hss_combine_questions
+#' @rdname T_hss_combine_questions
 #' @export
 hss_combine_multi <- function(df, var) {
   dat <- df %>%

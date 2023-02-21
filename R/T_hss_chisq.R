@@ -34,7 +34,7 @@
 #'
 #'# Formatted output
 #' hss_chisq_formatted(dummydata, "migr_nr", "gender")
-hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
+T_hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
   if (!is.logical(full)) {
     stop("argument 'full' is not logical")
   }
@@ -75,7 +75,7 @@ hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
   return(chisq_output)
 }
 
-#'@rdname hss_chisq
+#'@rdname T_hss_chisq
 hss_chisq_formatted <- function(df, var, group) {
   chisq <- hss_chisq(df, var, group, full = FALSE, multi = FALSE)
   chisq_formatted <- paste(

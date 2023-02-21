@@ -14,7 +14,7 @@
 #' @return Returns a dataframe consisting of all columns present in each of the
 #' provided datasets.
 #' @export
-hss_merge_datasets <- function(folder, mapping) {
+T_hss_merge_datasets <- function(folder, mapping) {
   mapping = readxl::read_excel(mapping)
 
   dat <- load_files(folder) %>%

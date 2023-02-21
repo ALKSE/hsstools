@@ -10,7 +10,7 @@
 #' @return A merged dataframe containing HSS data and all translated columns.
 #' @export
 #'
-hss_mergetranslated <- function(df, df_translated) {
+T_hss_mergetranslated <- function(df, df_translated) {
 
   # adds empty _en column if missing from translated
   for (i in names(dplyr::select(df, dplyr::ends_with("_ar")))) {

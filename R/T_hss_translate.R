@@ -11,7 +11,7 @@
 #' #@seealso `hss_merge_translated`
 #' @export
 #'
-hss_translate <- function(df, apikey) {
+T_hss_translate <- function(df, apikey) {
   # translateR gives warnings about source language, since we both define and expect
   # source text as Arabic these warnings can be safely ignored.
   defaultW <- getOption("warn")

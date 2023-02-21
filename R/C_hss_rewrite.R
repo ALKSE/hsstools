@@ -5,10 +5,10 @@
 #' This function is currently operational, but it requires modifications for clarity.
 #' @param dat actual survey data
 #'
-#' @rdname hss_rewrite
+#' @rdname C_hss_rewrite
 #' @export
 #'
-hss_rewrite <- function(dat){
+C_hss_rewrite <- function(dat){
   #sanity check for recode
   prep <<- readxl::read_xlsx("recode.xls")
   #split dataset for looping

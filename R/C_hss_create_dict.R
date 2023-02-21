@@ -13,8 +13,8 @@
 #' names and their associated text labels.
 #' @export
 #'
-#' @rdname hss_create_dict
-hss_create_dict <- function(form, location = NULL) {
+#' @rdname C_hss_create_dict
+C_hss_create_dict <- function(form, location = NULL) {
   dict <- list(
     var = readxl::read_xls(path = form, sheet = 1) %>%
       janitor::clean_names() %>%
