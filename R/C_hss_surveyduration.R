@@ -15,8 +15,7 @@ C_hss_surveyduration <- function(data) {
     dplyr::mutate(SurveyDuration = end - start) %>%
     dplyr::mutate(SurveyDuration = lubridate::as.duration(SurveyDuration)) %>%
     dplyr::relocate(SurveyDuration, .after = end)
-  data_w_date <<- output
-  return(data_w_date)
+  return(output)
 }
 
 

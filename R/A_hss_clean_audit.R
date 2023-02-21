@@ -7,9 +7,10 @@
 #' @export
 #'
 A_hss_clean_audit <- function(dat) {
-  out <- dat %>% mutate(
+  out <- dat %>% dplyr::mutate(
     diff_sec = (end - start) / 1000,
     diff_min = diff_sec / 60
   )
-  return(dat)
+  return(out)
 }
+
