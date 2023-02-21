@@ -7,8 +7,10 @@
 #' - utils-SSDrop
 #'
 #' @param dat The dataframe containing HSS surveys
+#' @param country The HSS location; South Sudan or Iraq
+#' @param audit Inclusion of an audit file for South Sudan
 #'
 #' @return A dataframe containing only those surveys that meet the selection criteria
 #' @export
-C_hss_drop_surveys <- function(dat, country){
+C_hss_drop_surveys <- function(dat, country, audit = NULL){
   if(country == "Iraq") {.drop_IQ(dat)} else {.drop_SS(dat, audit = NULL)}}
