@@ -53,9 +53,9 @@
     # exclude suveys with 3+ incidents and total duration < 27 mins
     dplyr::filter(!(total_incidents > 2 & duration < (27 * 60))) %>%
     # # exclude surveys with 4+ incidents and total duration < 32 mins
-    dplyr::filter(!(total_incidents > 3 & duration < (32 * 60)))
-
-  # (optional) exclude surveys with duration < 22 excl. questions > 5 mins
+    dplyr::filter(!(total_incidents > 3 & duration < (32 * 60))) %>%
+    #(optional) exclude surveys with duration < 22 excl. questions > 10 mins
+    dplyr::filter(!(diff_min > 10 & grepl("Q.+", node)))
 
   # clean up
   dat <- dat %>% dplyr::select(!total_incidents)
