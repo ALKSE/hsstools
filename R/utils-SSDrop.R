@@ -27,12 +27,11 @@
                         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
       filter(!(diff_min > 10 & grepl("Q.+", node))) %>%
       group_by(instance_id) %>%
-      summarise(duration_2 = sum(diff_min, na.rm = TRUE)) %>%
+      dplyr::summarise(duration_2 = sum(diff_min, na.rm = TRUE)) %>%
       filter(duration_2 > 22)
   } else {
     NULL
   }
-
 
   dat <- dplyr::mutate(dat, duration_2 = end - start)
 
@@ -77,5 +76,6 @@
 
   # clean up
   dat <- dat %>% dplyr::select(!total_incidents)
+  dat <- dat %>% dplyr::select(!duration)
   return(dat)
 }
