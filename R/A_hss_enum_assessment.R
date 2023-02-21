@@ -25,7 +25,7 @@ A_hss_enum_assessment <- function(dat, audit = NULL) {
         filter(dat, consent == 1 & consent2 == 1 &
           !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
       filter(!(diff_min > 10 & grepl("Q.+", node))) %>%
-      group_by(instance_id) %>%
+      dplyr::group_by(instance_id) %>%
       dplyr::summarise(duration = sum(diff_min, na.rm = TRUE)) %>%
       filter(duration > 22)
   } else {
@@ -34,18 +34,18 @@ A_hss_enum_assessment <- function(dat, audit = NULL) {
 
   surveys <- list(
     surv_all = dat %>%
-      group_by(deviceid) %>%
+      dplyr::group_by(deviceid) %>%
       dplyr::summarise(surveys_all = n()),
     surv_cons = dat %>%
       filter(consent == 1 & consent2 == 1 &
         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
-      group_by(deviceid) %>%
+      dplyr::group_by(deviceid) %>%
       dplyr::summarise(surveys_consent = n()),
     surv_dur = dat %>%
       filter(consent == 1 & consent2 == 1 &
         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
         duration > (22 * 60)) %>%
-      group_by(deviceid) %>%
+      dplyr::group_by(deviceid) %>%
       dplyr::summarise(surveys_22 = n()),
     # criterion for dropping surveys with 3+ incidents (27 mins)
     surv_dur_2 = dat %>%
@@ -56,7 +56,7 @@ A_hss_enum_assessment <- function(dat, audit = NULL) {
         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
         duration > (22 * 60) &
         !(tot_inc > 2 & duration < (27 * 60))) %>%
-      group_by(deviceid) %>%
+      dplyr::group_by(deviceid) %>%
       dplyr::summarise(surveys_27 = n()),
     # criterion for dropping surveys with 4+ incidents (32 mins)
     surv_dur_3 = dat %>%
@@ -68,7 +68,7 @@ A_hss_enum_assessment <- function(dat, audit = NULL) {
         duration > (22 * 60) &
         !(tot_inc > 2 & duration < (27 * 60)) &
         !(tot_inc > 3 & duration < (32 * 60))) %>%
-      group_by(deviceid) %>%
+      dplyr::group_by(deviceid) %>%
       dplyr::summarise(surveys_32 = n()),
     surv_dur_strict = if (!is.null(audit)) {
       dat %>%
@@ -81,7 +81,7 @@ A_hss_enum_assessment <- function(dat, audit = NULL) {
           !(tot_inc > 2 & duration < (27 * 60)) &
           !(tot_inc > 3 & duration < (32 * 60))) %>%
         filter(instance_id %in% auditer[[1]]) %>%
-        group_by(deviceid) %>%
+        dplyr::group_by(deviceid) %>%
         dplyr::summarise(surveys_5_22 = n())
     }
   )

@@ -27,14 +27,14 @@
                         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
       filter(!(diff_min > 10 & grepl("Q.+", node))) %>%
       group_by(instance_id) %>%
-      summarise(duration = sum(diff_min, na.rm = TRUE)) %>%
-      filter(duration > 22)
+      summarise(duration_2 = sum(diff_min, na.rm = TRUE)) %>%
+      filter(duration_2 > 22)
   } else {
     NULL
   }
 
 
-  dat <- dplyr::mutate(dat, duration = end - start)
+  dat <- dplyr::mutate(dat, duration_2 = end - start)
 
   # add col with total no. of incidents, with consideration for varying incident variables
   incidents_SS_1 <- data.frame(
@@ -66,11 +66,11 @@
     # exclude surveys with atmosphere: uncomfortable & interference
     dplyr::filter(!(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
     # filter for surveys with total duration > 22 mins
-    dplyr::filter(duration > (22 * 60)) %>%
+    dplyr::filter(duration_2 > (22 * 60)) %>%
     # exclude suveys with 3+ incidents and total duration < 27 mins
-    dplyr::filter(!(total_incidents > 2 & duration < (27 * 60))) %>%
+    dplyr::filter(!(total_incidents > 2 & duration_2 < (27 * 60))) %>%
     # # exclude surveys with 4+ incidents and total duration < 32 mins
-    dplyr::filter(!(total_incidents > 3 & duration < (32 * 60)))
+    dplyr::filter(!(total_incidents > 3 & duration_2 < (32 * 60)))
 
     #(optional) exclude surveys with duration < 22 excl. questions > 10 mins
   dat <- if (!is.null(audit)) {dat %>% dplyr::filter(instance_id %in% auditer[[1]])}
