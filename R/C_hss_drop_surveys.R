@@ -14,7 +14,7 @@
 #' @export
 C_hss_drop_surveys <- function(dat, country, audit){
   if ((country == "Iraq") & (missing(audit))) {.drop_IQ(dat)}
-  else if ((country == "South Sudan") & (missing(audit))) {.drop_SS(dat, audit)}
+  else if ((country == "South Sudan") & (missing(audit))) {.drop_SS(dat)}
   else if ((country == "South Sudan") & (!missing(audit))) {.drop_SS(dat, audit)}
 }
 
