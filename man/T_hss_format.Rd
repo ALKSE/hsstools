@@ -13,9 +13,9 @@ T_hss_format_multi(table)
 A flextable object with formatting applied.
 }
 \description{
-Format tables created with \verb{hss_table_*}, according to set preferences. The table
+Format tables created with \verb{T_hss_table_*}, according to set preferences. The table
 this function is applied to, will be converted to a flextable object. Both the formatting
-functions and the \code{hss_label} function check the table type before converting. The
+functions and the \code{T_hss_label} function check the table type before converting. The
 functions load a list of formatting preferences stored in the internal \code{.get_format_options()}
 function. This function should not be run separately, but any changes to the preferred
 formatting can be set int there. There are two separate functions for single-response

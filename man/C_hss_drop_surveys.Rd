@@ -4,7 +4,7 @@
 \alias{C_hss_drop_surveys}
 \title{Drop invalid surveys based on selection criteria}
 \usage{
-C_hss_drop_surveys(dat, country, audit = NULL)
+C_hss_drop_surveys(dat, country, audit)
 }
 \arguments{
 \item{dat}{The dataframe containing HSS surveys}

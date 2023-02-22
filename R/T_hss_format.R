@@ -1,8 +1,8 @@
 #' Format tables using HSS style preferences
 #'
-#' Format tables created with `hss_table_*`, according to set preferences. The table
+#' Format tables created with `T_hss_table_*`, according to set preferences. The table
 #' this function is applied to, will be converted to a flextable object. Both the formatting
-#' functions and the `hss_label` function check the table type before converting. The
+#' functions and the `T_hss_label` function check the table type before converting. The
 #' functions load a list of formatting preferences stored in the internal `.get_format_options()`
 #' function. This function should not be run separately, but any changes to the preferred
 #' formatting can be set int there. There are two separate functions for single-response

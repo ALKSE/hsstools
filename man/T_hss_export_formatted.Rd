@@ -15,7 +15,7 @@ T_hss_export_formatted(list, file = NULL)
 Outputs the selected flextable objects to a .docx file.
 }
 \description{
-Exports the list of formatted tables created by \code{hss_write_formatted()} to a
+Exports the list of formatted tables created by \code{T_hss_write_formatted()} to a
 .docx file in the specified location. One thing to keep in mind: the duration
 of this process increase exponentially with the number of tables to write. Exporting
 around 200 tables could take up to 10 minutes.

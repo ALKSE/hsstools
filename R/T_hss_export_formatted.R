@@ -1,6 +1,6 @@
 #' Exports a formatted list of tables to .docx
 #'
-#' Exports the list of formatted tables created by `hss_write_formatted()` to a
+#' Exports the list of formatted tables created by `T_hss_write_formatted()` to a
 #' .docx file in the specified location. One thing to keep in mind: the duration
 #' of this process increase exponentially with the number of tables to write. Exporting
 #' around 200 tables could take up to 10 minutes.
