@@ -2,12 +2,12 @@
 % Please edit documentation in R/T_hss_chisq.R
 \name{T_hss_chisq}
 \alias{T_hss_chisq}
-\alias{hss_chisq_formatted}
+\alias{T_hss_chisq_formatted}
 \title{Runs chi-squared test on selected variables}
 \usage{
 T_hss_chisq(df, var, group, full = FALSE, multi = FALSE)
 
-hss_chisq_formatted(df, var, group)
+T_hss_chisq_formatted(df, var, group)
 }
 \arguments{
 \item{df}{The dataframe containing the variable(s) of interest}

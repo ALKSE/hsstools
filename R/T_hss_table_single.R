@@ -14,7 +14,7 @@
 #' always removed. Note that 'digits' does not mean 'decimals', so digits = 3 will display as 'mm.d' not 'mm.ddd'
 #'
 #' @return A contingency table with the variable of interest and grouping variable.
-#' @seealso `hss_table_multi`
+#' @seealso `T_hss_table_multi`
 #' @export
 #'
 T_hss_table_single <- function(df, var, group, percent = TRUE, digits = 1) {

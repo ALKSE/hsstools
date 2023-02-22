@@ -29,5 +29,5 @@ come with a couple of additions according to HSS preferences. Most notably: sums
 added over columns, and N-values are added to column headers.
 }
 \seealso{
-\code{hss_table_multi}
+\code{T_hss_table_multi}
 }

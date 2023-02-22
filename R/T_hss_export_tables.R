@@ -39,3 +39,4 @@ T_hss_export_tables <- function(df_list, questions, path) {
 
   sink()
 }
+

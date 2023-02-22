@@ -76,7 +76,7 @@ T_hss_chisq <- function(df, var, group, full = FALSE, multi = FALSE) {
 }
 
 #'@rdname T_hss_chisq
-hss_chisq_formatted <- function(df, var, group) {
+T_hss_chisq_formatted <- function(df, var, group) {
   chisq <- hss_chisq(df, var, group, full = FALSE, multi = FALSE)
   chisq_formatted <- paste(
       "Chi-squared is",
