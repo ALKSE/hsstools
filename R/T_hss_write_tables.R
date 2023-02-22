@@ -7,7 +7,7 @@
 #' returns a list item of length NULL instead. This is useful to automatically omit
 #' any question variables that have been removed during data cleaning, but might in
 #' some cases lead to unexpected behavior. The list of dataframes created with this
-#' function can be used as input for `hss_export_tables` to write the tables to a
+#' function can be used as input for `T_hss_export_tables` to write the tables to a
 #' .csv file.
 #'
 #' @param df The dataframe containing relevant variables
@@ -17,7 +17,7 @@
 #'
 #' @return A named list of dataframes containing contingecy tables for the specified
 #' questions of the HSS.
-#' @seealso `hss_export_tables`, `hss_create_question_list`
+#' @seealso `T_hss_export_tables`, `T_hss_create_question_list`
 #' @export
 #'
 T_hss_write_tables <- function(df, questions, group, percent = TRUE, digits = 3) {
