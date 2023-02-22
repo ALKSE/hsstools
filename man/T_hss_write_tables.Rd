@@ -27,9 +27,9 @@ any questions that cause errors during creation of the contingency table, and
 returns a list item of length NULL instead. This is useful to automatically omit
 any question variables that have been removed during data cleaning, but might in
 some cases lead to unexpected behavior. The list of dataframes created with this
-function can be used as input for \code{hss_export_tables} to write the tables to a
+function can be used as input for \code{T_hss_export_tables} to write the tables to a
 .csv file.
 }
 \seealso{
-\code{hss_export_tables}, \code{hss_create_question_list}
+\code{T_hss_export_tables}, \code{T_hss_create_question_list}
 }
