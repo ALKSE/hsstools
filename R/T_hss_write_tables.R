@@ -26,11 +26,11 @@ T_hss_write_tables <- function(df, questions, group, percent = TRUE, digits = 3)
 
       if (names(questions[match(questions_element, questions)]) == "select_one") {
         table <- list(
-          table = hss_table_single(df, questions_element, group, percent = percent, digits = digits),
-          p = hss_chisq_formatted(df, questions_element, group)
+          table = T_hss_table_single(df, questions_element, group, percent = percent, digits = digits),
+          p = T_hss_chisq_formatted(df, questions_element, group)
         )
       } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
-        table <- hss_table_multi(df, questions_element, group, percent = percent, digits = digits)
+        table <- T_hss_table_multi(df, questions_element, group, percent = percent, digits = digits)
       },
       error = function(e) NULL
     )

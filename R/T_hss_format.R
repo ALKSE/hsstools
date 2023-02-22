@@ -12,7 +12,7 @@
 #' @return A flextable object with formatting applied.
 #' @export
 #' @rdname T_hss_format
-hss_format_single <- function(table) {
+T_hss_format_single <- function(table) {
   # load formatting options
   format <- .get_format_options()
   # Check if table was already converted to flextable object.
@@ -23,9 +23,9 @@ hss_format_single <- function(table) {
   table <- .hss_format(table)
   return(table)
 }
-#' @rdname hss_format
+#' @rdname T_hss_format
 #' @export
-hss_format_multi <- function(table) {
+T_hss_format_multi <- function(table) {
   format <- .get_format_options()
   # Check if table was already converted to flextable object.
   if (!inherits(table, "flextable")) {
