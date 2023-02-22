@@ -4,10 +4,14 @@
 \alias{C_hss_drop_surveys}
 \title{Drop invalid surveys based on selection criteria}
 \usage{
-C_hss_drop_surveys(dat, country)
+C_hss_drop_surveys(dat, country, audit = NULL)
 }
 \arguments{
 \item{dat}{The dataframe containing HSS surveys}
+
+\item{country}{The HSS location; South Sudan or Iraq}
+
+\item{audit}{Inclusion of an audit file for South Sudan}
 }
 \value{
 A dataframe containing only those surveys that meet the selection criteria

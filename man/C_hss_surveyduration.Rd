@@ -10,7 +10,7 @@ C_hss_surveyduration(data)
 \item{data}{The most recent iteration of the data set}
 }
 \value{
-A dataframe with an added SurveyDuration column
+A dataframe with an added duration column
 }
 \description{
 Loads raw HSS datafile and performs some basic cleaning: proper encoding of

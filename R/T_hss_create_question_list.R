@@ -10,7 +10,7 @@
 #' @export
 #'
 T_hss_create_question_list <- function(dict_path, location) {
-  dict <- hss_create_dict(dict_path, location)
+  dict <- C_hss_create_dict(dict_path, location)
   questions <- dplyr::select(dict$var, q_type, name, r_name) %>%
     dplyr::filter(
       stringr::str_starts(name, "Q"),

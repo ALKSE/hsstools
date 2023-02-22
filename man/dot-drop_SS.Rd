@@ -5,7 +5,7 @@
 \title{Utility function for hss_drop_surveys - South Sudan
 Drop invalid surveys based on selection criteria}
 \usage{
-.drop_SS(dat)
+.drop_SS(dat, audit = NULL)
 }
 \description{
 HSS surveys are considered valid when they meet a number of selection criteria.
