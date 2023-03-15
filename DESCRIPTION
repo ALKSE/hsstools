@@ -1,7 +1,7 @@
 Package: hsstools
 Title: Simplify the HSS Data Process
 Version: 1.0.0
-Authors@R: c(person("Renze", "Terpstra", , "mail@renzeterpstra.com", role = c("aut", "cre")), person("Anita", "Hossain", , "hossain@paxforpeace.nl", role = c("aut")))
+Authors@R: c(person("Renze", "Terpstra", , "mail@renzeterpstra.com", role = c("aut", "cre")), person("Abdullatif", "Sleibi", , "latif.sleibi@gmail.com", role = c("aut")))
 Description: A collection of functions to simplify and streamline the process of cleaning and analysing HSS data.
 License: MIT + file LICENSE
 Encoding: UTF-8
