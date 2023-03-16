@@ -2,7 +2,7 @@
 #'
 #' This creates overview tables for multiple questions that contain the same response options.
 #' For example when the same question is repeated for different events. This implementation is specifically for
-#' 'select-one' questions. For 'select-multiple' questions see \code{\link{hss_overview_multi}}
+#' 'select-one' questions. For 'select-multiple' questions see \code{\link{T_hss_overview_multi}}
 #'
 #' @param df The dataframe containing the questions
 #' @param vars A commom character string that is shared between all relevant variables.

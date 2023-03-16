@@ -19,5 +19,5 @@ A dataframe with responses for the selected variables.
 \description{
 This creates overview tables for multiple questions that contain the same response options.
 For example when the same question is repeated for different events. This implementation is specifically for
-'select-multiple' questions. For 'select-one' questions see \code{\link{hss_overview_single}}
+'select-multiple' questions. For 'select-one' questions see \code{\link{T_hss_overview_single}}
 }
