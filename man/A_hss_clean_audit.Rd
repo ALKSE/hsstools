@@ -9,7 +9,10 @@ A_hss_clean_audit(dat)
 \arguments{
 \item{dat}{The resulting dataframe from hss_load_audit}
 }
+\value{
+A new column with screen duration
+}
 \description{
 This fuction applis some basic cleaning (currently only adds a new column)
-containing the duration spend on a screen.
+containing the duration spent on a screen.
 }

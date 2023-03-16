@@ -38,11 +38,11 @@ C_hss_split_multi <- function(data, dict){
   colnames(match_1) <- select_multiple$r_name
   #(1.1) variables that match given responses in the data set
   matches <- janitor::compare_df_cols(data, match_1, return = "mismatch")
-  mismatches <- select_multiple %>% filter(!(r_name %in% matches$column_name))
-  mismatches_2 <- mismatches %>% filter(r_name %in% colnames(data))
+  mismatches <- select_multiple %>% dplyr::filter(!(r_name %in% matches$column_name))
+  mismatches_2 <- mismatches %>% dplyr::filter(r_name %in% colnames(data))
   #(1.2) no-response variables, with an additional exclusion of RTA variables
-  mismatches_2.1 <- mismatches %>% filter(r_name %in% colnames(data)) %>%
-    filter(!(type == "num"))
+  mismatches_2.1 <- mismatches %>% dplyr::filter(r_name %in% colnames(data)) %>%
+    dplyr::filter(!(type == "num"))
 
   vars <- matches$column_name
   vars_0 <- mismatches_2.1$r_name
@@ -50,7 +50,7 @@ C_hss_split_multi <- function(data, dict){
   vars_1.1 <- as.list(vars_0)
   vars_total <- c(vars, vars_0)
   #(1.3) combined list of variable names for later labeling
-  vars_total <<- as.list(vars_total)
+  vars_total <- as.list(vars_total)
   #------------------------------------------------------------------------
   #(2) TITLE: MAKING DATA-FRAME LISTS OF SELECT MULTIPLE VARIABLES
   #(2) Explanation: First step function, which is run on the two variable
@@ -77,23 +77,23 @@ C_hss_split_multi <- function(data, dict){
   #  are then combined into one.
   #(3) Output: One split-dataframe-list containing all variables
   second.step_1 <- lapply(first.step, FUN = function(i)
-    x1 <- i %>% mutate(ID = 1:n()) %>%
-      mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
+    x1 <- i %>% dplyr::mutate(ID = 1:n()) %>%
+      dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
-      mutate(Value = 1) %>%
+      dplyr::mutate(Value = 1) %>%
       spread(i, Value, fill = 0) %>%
-      select(-ID))
+      dplyr::select(-ID))
 
   #(3.1) Main difference in functions is the exclusion of an NA column
   #  introduced by no-response splits
   second.step_0 <- lapply(first.step_0, FUN = function(i)
     x2 <- i %>% mutate(ID = 1:n()) %>%
-      mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
+      dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
-      mutate(Value = 1) %>%
+      dplyr::mutate(Value = 1) %>%
       spread(i, Value, fill = 0) %>%
-      select(-ID) %>%
-      select(-'<NA>'))
+      dplyr::select(-ID) %>%
+      dplyr::select(-'<NA>'))
 
   #(3.2) After basic processing and splitting, dataframe lists are combined
   second.step <- c(second.step_1, second.step_0)
@@ -106,24 +106,19 @@ C_hss_split_multi <- function(data, dict){
   #   the combined list object of variable names produced
   #   in (1).
   #(4) Output: In-between preparatory dataframe to be used as naming reference.
-  z1 <- select_multiple %>% filter(r_name %in% vars_total)
+  z1 <- select_multiple %>% dplyr::filter(r_name %in% vars_total)
   z2 <- as.character(z1$type)
-  z3 <- dict[[2]] %>% filter(list_name %in% z2)
-  z3 <- z3 %>% rename(type = list_name)
-  z3 <- z3 %>% rename(r_name_2 = r_name)
+  z3 <- dict[[2]] %>% dplyr::filter(list_name %in% z2)
+  z3 <- z3 %>% dplyr::rename(type = list_name)
+  z3 <- z3 %>% dplyr::rename(r_name_2 = r_name)
   z4 <- z3
   z4$r_name <- z1$r_name[match(z3$type, z1$type)]
 
   #------------------------------------------------------------------------
-  #(5) TITLE:
-  #(5) Explanation: Preparation of a dataframe to be used as a naming
-  #   reference for the newly created list of dataframes.
-  #   This naming reference will be processed further in
-  #   the next function. This function relies heavily on
-  #   the combined list variable of variable names produced
-  #(5) Output: In-between preparatory dataframe to be used as naming reference.
+  #(5) TITLE: INCLUSION OF 0/NA VARIABLES
+  #(5) Explanation:
+  #(5) Output:
 
-  #Third step;inclusion of '0 or NA' mention variables and not only chosen responses
   third.step <- function(i){
     r1 <- subset(z1, r_name == as.character(i))
     r2 <- subset(z3, type == as.character(r1$type))
@@ -137,13 +132,13 @@ C_hss_split_multi <- function(data, dict){
     vars_3 <- matches_2$column_name
     vars_4 <- as.list(vars_3)
 
-    r7 <- r3 %>% filter(!(name %in% vars_4))
+    r7 <- r3 %>% dplyr::filter(!(name %in% vars_4))
     r8 <- t(r7)
     colnames(r8) <- r7$name
     r8 <- replace(r8, 1:nrow(r7), NA)
     r8 <- as.data.frame(r8)
 
-    output <- bind_cols(second.step[i], r8)
+    output <- dplyr::bind_cols(second.step[i], r8)
     return(output)}
 
   second.step.complete <- lapply(vars_total, third.step)
@@ -170,7 +165,7 @@ C_hss_split_multi <- function(data, dict){
   #Actual application of function
   output_1 <- lapply(y2, fourth.step)
   names(output_1) <- y2
-  output_multi <<- output_1
+  output_multi <- output_1
   #------------------------------------------------------------------------
   output2 <- dplyr::bind_cols(output_1)
   data_combined <- cbind(data, output2)

@@ -4,7 +4,7 @@
 #' single dataframe.
 #'
 #' @param path Path to a folder containing the audit .csv files
-#' @return
+#' @return data-frame with all audit files
 #' @export
 #'
 A_hss_load_audit <- function(path) {

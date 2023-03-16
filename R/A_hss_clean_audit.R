@@ -1,9 +1,9 @@
 #' Add duration columns for audit + filters
 #'
 #' This fuction applis some basic cleaning (currently only adds a new column)
-#' containing the duration spend on a screen.
+#' containing the duration spent on a screen.
 #' @param dat The resulting dataframe from hss_load_audit
-#' @return
+#' @return A new column with screen duration
 #' @export
 #'
 A_hss_clean_audit <- function(dat) {

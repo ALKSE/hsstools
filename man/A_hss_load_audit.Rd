@@ -9,6 +9,9 @@ A_hss_load_audit(path)
 \arguments{
 \item{path}{Path to a folder containing the audit .csv files}
 }
+\value{
+data-frame with all audit files
+}
 \description{
 This function is used to load individual audit files for a HSS survey as a
 single dataframe.
