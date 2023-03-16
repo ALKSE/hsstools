@@ -1,3 +1,8 @@
+#' TEST FUNCTION
+#'
+#'
+#' @export
+#'
 H_TEST_FUN <- function(df, questions, group, dict, percent = TRUE, digits = 1, lang = "en") {
   out <- lapply(questions, function(questions_element) {
     tryCatch(
