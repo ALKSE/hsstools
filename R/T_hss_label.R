@@ -26,8 +26,8 @@ T_hss_label <- function(table, var, grouping, dict, lang = "en") {
   # retrieve header/grouping labels & exclude "refuse to answer" and other missing values
   group_labs <- .get_table_labels(grouping, dict, lang)
   #This was excluded, WHY?
-  exclude <- .get_dict_valname(grouping, "list_name", "name", dict) %>% stringr::str_which("99")
-  if(length(exclude)>0) {group_labs$answers <- group_labs$answers[-exclude]}
+  #exclude <- .get_dict_valname(grouping, "list_name", "name", dict) %>% stringr::str_which("99")
+  #if(length(exclude)>0) {group_labs$answers <- group_labs$answers[-exclude]}
 
 # set proper EN/AR labels
   newlabels <- list(
