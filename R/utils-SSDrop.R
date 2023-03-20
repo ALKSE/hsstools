@@ -10,7 +10,7 @@
 #' than 27 minutes; for surveys with 4 or more incidents reported, it should not be
 #' shorter than 32 minutes.
 
-.drop_SS_A <- function(dat, audit = NULL) {
+.drop_SS_A <- function(dat, audit) {
   # add duration col (move to other function?) NB: duration is in seconds
   if (!inherits(dat$start, "POSIXct")) {
     dat <- dat %>%
@@ -20,8 +20,7 @@
       )
   }
 
-  auditer <- if (!is.null(audit)) {
-    audit %>%
+  auditer <- audit %>%
       filter(instance_id %in%
                filter(dat, consent == 1 & consent2 == 1 &
                         !(atmosphere_uncomf == 1 & atmosphere_interfered == 1))$instance_id) %>%
@@ -29,9 +28,6 @@
       group_by(instance_id) %>%
       dplyr::summarise(duration_2 = sum(diff_min, na.rm = TRUE)) %>%
       filter(duration_2 > 22)
-  } else {
-    NULL
-  }
 
   dat <- dplyr::mutate(dat, duration_2 = end - start)
 
@@ -72,7 +68,7 @@
     dplyr::filter(!(total_incidents > 3 & duration_2 < (32 * 60)))
 
     #(optional) exclude surveys with duration < 22 excl. questions > 10 mins
-  dat <- if (!is.null(audit)) {dat %>% dplyr::filter(instance_id %in% auditer[[1]])}
+  dat <- dat %>% dplyr::filter(instance_id %in% auditer[[1]])
 
   # clean up
   dat <- dat %>% dplyr::select(!total_incidents)
