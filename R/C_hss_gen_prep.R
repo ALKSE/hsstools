@@ -4,10 +4,11 @@
 #' -other- responses and display them in a convenient format that will allow for
 #' later recoding using a different script. For step 2, use hss_recode.
 #' @param dat The dataframe you want to remove entries from
+#' @param dict Dictionary object
 #' @rdname C_hss_gen_prep
 #' @export
 #'
-C_hss_gen_prep <- function(dat){
+C_hss_gen_prep <- function(dat, dict){
   #start by filtering 'other' response options
   data_match <- dat[ , grep("_oth_what", colnames(dat))]
   #remove NA + some empty cells (will be done again)
@@ -23,8 +24,26 @@ C_hss_gen_prep <- function(dat){
   names(dat_4)[2] <- "Text"
   #Clean empty cells
   dat_4 <- dat_4[!dat_4$Text=="",]
+  #Add q_type column (for later recoding)
+  dat_4$q_type <- 1:nrow(dat_4)
+  dat_4$q_type = dat_4$column_labe
   #Add reference column
   dat_4$r_name <- stringr::str_replace_all(dat_4$column_label, "_oth_what", "")
+  #Add value column
+  dat_4$Value <- 1:nrow(dat_4)
+  dat_4$Value <- replace(dat_4$Value, 1:nrow(dat_4), NA)
+  #Prepare dictionary objects
+  list_2 <- dict[[2]]
+  list_3 <- dict[[1]]
+  #Generate accurate q_type list
+  list_4 <- list_3 %>% dplyr::filter(r_name %in% list)
+  list_4$name <- stringr::str_replace_all(list_4$name, "_Other", "")
+  list_5 <- subset(list_4, select = c(q_type, name, r_name))
+  list_6 <- list_3 %>% dplyr::filter(name %in% list_5$name)
+  list_5$q_type = list_6$q_type
+  #Recode q_type column in prep dataset
+  dat_4$q_type <- dplyr::recode(dat_4$q_type,
+                     !!!setNames(as.character(list_5$q_type), list_5$r_name))
   #export file
   writexl::write_xlsx(dat_4, path = "recode.xls")
 

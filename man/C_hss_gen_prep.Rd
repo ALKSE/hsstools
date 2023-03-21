@@ -4,10 +4,12 @@
 \alias{C_hss_gen_prep}
 \title{Coerce data into a convenient form for recoding}
 \usage{
-C_hss_gen_prep(dat)
+C_hss_gen_prep(dat, dict)
 }
 \arguments{
 \item{dat}{The dataframe you want to remove entries from}
+
+\item{dict}{Dictionary object}
 }
 \description{
 This function is only a first step in a longer process. The goal here is to extract
