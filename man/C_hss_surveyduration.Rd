@@ -4,10 +4,12 @@
 \alias{C_hss_surveyduration}
 \title{Calculate survey duration}
 \usage{
-C_hss_surveyduration(data)
+C_hss_surveyduration(data, soft)
 }
 \arguments{
 \item{data}{The most recent iteration of the data set}
+
+\item{soft}{Software input to determine how duration is calculated (KOBO vs ODK)}
 }
 \value{
 A dataframe with an added duration column
