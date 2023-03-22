@@ -59,8 +59,8 @@ C_hss_split_multi <- function(data, dict){
   #  the 2 list-of-dataframes produced.
   #(2) Output: Two dataframe lists, response-vars, and no-response-vars
 
-  first.step <- lapply(vars_1, FUN = function(i) as.data.frame(x <- dat[[i]]))
-  first.step_0 <- lapply(vars_1.1, FUN = function(i) as.data.frame(x <- dat[[i]]))
+  first.step <- lapply(vars_1, FUN = function(i) as.data.frame(x <- data[[i]]))
+  first.step_0 <- lapply(vars_1.1, FUN = function(i) as.data.frame(x <- data[[i]]))
 
   #(2.1) Naming the entries in the two dataframe lists
   names(first.step) = vars_1
