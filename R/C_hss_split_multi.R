@@ -163,7 +163,7 @@ C_hss_split_multi <- function(data, dict){
     return(as.data.frame(v4))}
 
   #Actual application of function
-  output_1 <- lapply(y2, fourth.step)
+  output_1 <<- lapply(y2, fourth.step)
   names(output_1) <- y2
   output_multi <- output_1
   #------------------------------------------------------------------------
