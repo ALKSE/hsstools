@@ -95,8 +95,21 @@ C_hss_split_multi <- function(data, dict){
       dplyr::select(-ID) %>%
       dplyr::select(-'<NA>'))
 
+  # Removing NA from populated variables
+  second.step_2 <- lapply(second.step_1, FUN = function(i)
+    if('<NA>' %in% colnames(i)){x3 <- i})
+  second.step_3 <- second.step_2[lengths(second.step_2) != 0]
+  second.step_4 <- lapply(second.step_3, FUN = function(i)
+    x4 <- i %>% dplyr::select(-'<NA>'))
+
+  #Removing NA variables from list
+  second.step_5 <- lapply(second.step_1, FUN = function(i)
+    if(!('<NA>' %in% colnames(i))){x3 <- i})
+  second.step_6 <- second.step_5[lengths(second.step_5) != 0]
+
+
   #(3.2) After basic processing and splitting, dataframe lists are combined
-  second.step <- c(second.step_1, second.step_0)
+  second.step <- c(second.step_6, second.step_4, second.step_0)
   #------------------------------------------------------------------------
   #(4) TITLE: CREATING A NAMING REFERENCE
   #(4) Explanation: Preparation of a dataframe to be used as a naming
