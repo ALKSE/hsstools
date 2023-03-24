@@ -23,7 +23,7 @@ C_hss_gen_prep <- function(dat, dict){
   dat_4 <- dplyr::bind_rows(dat_3, .id = "column_label")
   names(dat_4)[2] <- "Text"
   #Clean empty cells
-  dat_4 <- dat_4[!dat_4$Text=="",]
+  dat_4 <- na.omit(dat_4)
   #Add q_type column (for later recoding)
   dat_4$q_type <- 1:nrow(dat_4)
   dat_4$q_type = dat_4$column_labe
