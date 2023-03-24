@@ -178,10 +178,15 @@ C_hss_split_multi <- function(data, dict){
   #Actual application of function
   output_1 <- lapply(y2, fourth.step)
   names(output_1) <- y2
-  output_multi <<- output_1
   #------------------------------------------------------------------------
   output2 <- dplyr::bind_cols(output_1)
   data_combined <- cbind(data, output2)
+  #------------------------------------------------------------------------
+  var_names <- as.list(names(output_1))
+  var_names_multi <<- lapply(var_names, FUN = function(i)
+    v <- as.list(names(output_1[[as.character(i)]])))
+  names(var_names_multi) <<- var_names
+  var_output_multi <<- output_1
   #------------------------------------------------------------------------
   return(data_combined)
 }

@@ -4,23 +4,18 @@
 \alias{C_hss_relocate_multi}
 \title{Relocate split_multiple variables to expected location}
 \usage{
-C_hss_relocate_multi(dat, output_1)
+C_hss_relocate_multi(data, var_names_2, output_multi)
 }
 \arguments{
-\item{dat}{data-frame with all variables (not ordered)}
+\item{var_names_2}{naming list to assist in relocation process}
 
-\item{output_1}{data-frame list produced by C_hss_split_multi}
+\item{output_multi}{data-frame list produced by C_hss_split_multi}
+
+\item{dat}{data-frame with all variables (not ordered)}
 }
 \value{
 A data-frame that can be further cleaned
 }
 \description{
-BASIC: Step two in the C_hss_split_multi pipleline. Variables are reordered
-based on output provided by C_hss_split_multi, and relocated to their
-expected location. Current determination on expected location relies on
-previous experience with KOBO (where select_multiple variables were split),
-and the reasonable expectation that sub-elements would come after their
-_all parent.
-PREP: Run C_hss_split_multi
-NEXT: ...
+Relocate split_multiple variables to expected location
 }
