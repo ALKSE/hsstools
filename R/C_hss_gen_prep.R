@@ -26,7 +26,7 @@ C_hss_gen_prep <- function(dat, dict){
   dat_4 <- na.omit(dat_4)
   #Add q_type column (for later recoding)
   dat_4$q_type <- 1:nrow(dat_4)
-  dat_4$q_type = dat_4$column_labe
+  dat_4$q_type = dat_4$column_label
   #Add reference column
   dat_4$r_name <- stringr::str_replace_all(dat_4$column_label, "_oth_what", "")
   #Add value column
@@ -39,6 +39,7 @@ C_hss_gen_prep <- function(dat, dict){
   list_4 <- list_3 %>% dplyr::filter(r_name %in% list)
   list_4$name <- stringr::str_replace_all(list_4$name, "_Other", "")
   list_5 <- subset(list_4, select = c(q_type, name, r_name))
+  list_5$name <- stringr::str_replace_all(list_5$name, "_ar", "")
   list_6 <- list_3 %>% dplyr::filter(name %in% list_5$name)
   list_5$q_type = list_6$q_type
   #Recode q_type column in prep dataset
