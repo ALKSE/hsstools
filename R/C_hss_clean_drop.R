@@ -38,9 +38,9 @@ hss_select_cols <- function(dat) {
   # drops 'uuid' column (user ID? same for each row)
   dat <- dat[, !names(dat) %in% "uuid"]
   # drop '*_all' cols
-  dat <- dat[, -grep("_all\\b", names(dat))]
+  #dat <- dat[, -grep("_all\\b", names(dat))]
   # drop '_whynot' cols if empty (not sure if we want this)
-  dat <- .drop_whynot_empty(dat)
+  #dat <- .drop_whynot_empty(dat)
 
   # drop metadata cols
   meta = c("__version__", "audit", "kry", "isvalidated")
