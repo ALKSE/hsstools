@@ -32,7 +32,7 @@ C_hss_split_multi <- function(data, dict){
   #  to maintain consistency between data rounds.
   #(1) Output: Two lists, response-var-names, and no-response-var-names
 
-  select_multiple <- subset(dic[[1]], q_type == "select_multiple")
+  select_multiple <- subset(dict[[1]], q_type == "select_multiple")
   match_1 <- matrix(nrow = 2, ncol = nrow(select_multiple))
   match_1 <- as.data.frame(match_1)
   colnames(match_1) <- select_multiple$r_name
@@ -81,7 +81,7 @@ C_hss_split_multi <- function(data, dict){
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
       dplyr::mutate(Value = 1) %>%
-      spread(i, Value, fill = NA) %>%
+      spread(i, Value, fill = 0) %>%
       dplyr::select(-ID))
 
   #(3.1) Main difference in functions is the exclusion of an NA column
@@ -91,7 +91,7 @@ C_hss_split_multi <- function(data, dict){
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
       dplyr::mutate(Value = 1) %>%
-      spread(i, Value, fill = NA) %>%
+      spread(i, Value, fill = 0) %>%
       dplyr::select(-ID) %>%
       dplyr::select(-'<NA>'))
 
