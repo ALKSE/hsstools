@@ -81,7 +81,7 @@ C_hss_split_multi <- function(data, dict){
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
       dplyr::mutate(Value = 1) %>%
-      spread(i, Value, fill = 0) %>%
+      spread(i, Value, fill = NA) %>%
       dplyr::select(-ID))
 
   #(3.1) Main difference in functions is the exclusion of an NA column
@@ -91,7 +91,7 @@ C_hss_split_multi <- function(data, dict){
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
       unnest(i) %>%
       dplyr::mutate(Value = 1) %>%
-      spread(i, Value, fill = 0) %>%
+      spread(i, Value, fill = NA) %>%
       dplyr::select(-ID) %>%
       dplyr::select(-'<NA>'))
 
@@ -138,7 +138,7 @@ C_hss_split_multi <- function(data, dict){
     r3 <- subset(r2, select = name)
     r4 <- t(r3)
     colnames(r4) <- r3$name
-    r5 <- replace(r4, 1:nrow(r2), 0)
+    r5 <- replace(r4, 1:nrow(r2), NA)
     r6 <- as.data.frame(r5)
 
     matches_2 <- janitor::compare_df_cols(r6, second.step[i], return = "mismatch")

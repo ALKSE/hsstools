@@ -74,7 +74,7 @@
   # calculate N for selected grouping
   nval <- df %>%
     dplyr::select(!!group, !!var) %>%
-    dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
+    dplyr::filter(if_any(-!!group, ~ !is.na(.x))) %>%
     dplyr::group_by(dplyr::across(!!group)) %>%
     dplyr::count(.) %>%
     dplyr::ungroup() %>%
