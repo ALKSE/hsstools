@@ -71,10 +71,15 @@
 .get_nval_multi <- function(df, var, group) {
   # retrieve repsonse options
   var <- .get_multi_valname(var, df)
+  #Zero filter function
+  zero <- function(x){x != 0}
   # calculate N for selected grouping
   nval <- df %>%
     dplyr::select(!!group, !!var) %>%
-    dplyr::filter(if_any(-!!group, ~ !is.na(.x))) %>%
+    mutate_if(is.character, as.numeric) %>%
+    mutate_all(~replace_na(.,0)) %>%
+    dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
+    dplyr::filter(if_any(-!!group, zero)) %>%
     dplyr::group_by(dplyr::across(!!group)) %>%
     dplyr::count(.) %>%
     dplyr::ungroup() %>%
