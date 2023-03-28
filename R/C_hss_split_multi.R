@@ -26,6 +26,7 @@ C_hss_split_multi <- function(data, dict){
   q <- 1:nrow(data)
   first <- lapply(q, FUN = function(i) as.data.frame(x <- data[i,]))
   second <- lapply(q, split_3)
-  third <- rbindlist(second, use.names = TRUE, fill = TRUE)
+  third <- data.table::rbindlist(second, use.names = TRUE, fill = TRUE)
   return(third)
 }
+
