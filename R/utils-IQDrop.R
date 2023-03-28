@@ -47,7 +47,6 @@
     # filter for surveys with first and second consent given
     dplyr::filter(consent == 1 & consent2 == 1) %>%
     # exclude surveys with atmosphere: uncomfortable & interference
-    dplyr::filter(!(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
     mutate_at(c("atmosphere_uncomf", "atmosphere_interfered"), as.numeric) %>%
     mutate_at(c("atmosphere_uncomf", "atmosphere_interfered"),~replace_na(.,0)) %>%
     dplyr::filter(!(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
