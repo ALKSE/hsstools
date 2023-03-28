@@ -14,8 +14,6 @@ names associated with each variable.}
 }
 \value{
 A dataframe that splits select_multiple variables into their components
-
-A dataframe that will be used to reorder select_multiple variables
 }
 \description{
 BASIC: Split select_multiple variables into their individual components,
