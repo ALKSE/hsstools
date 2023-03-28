@@ -78,7 +78,7 @@
     dplyr::select(!!group, !!var) %>%
     mutate_if(is.character, as.numeric) %>%
     mutate_all(~replace_na(.,0)) %>%
-    dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
+    #dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
     dplyr::filter(if_any(-!!group, zero)) %>%
     dplyr::group_by(dplyr::across(!!group)) %>%
     dplyr::count(.) %>%
