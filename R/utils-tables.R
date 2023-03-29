@@ -78,14 +78,19 @@
     dplyr::select(!!group, !!var) %>%
     mutate_if(is.character, as.numeric) %>%
     mutate_all(~replace_na(.,0)) %>%
-    #dplyr::filter(if_all(-!!group, ~ !is.na(.x))) %>%
-    dplyr::filter(if_any(-!!group, zero)) %>%
-    dplyr::group_by(dplyr::across(!!group)) %>%
-    dplyr::count(.) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-!!group) %>%
-    unlist() %>%
-    c(., total = sum(.))
+    #dplyr::filter(if_any(-!!group, ~ !is.na(.x))) %>%
+    dplyr::filter((if_any(-!!group, zero))) %>%
+    dplyr::group_by(dplyr::across(!!group)) #%>%
+    #dplyr::count(.) %>%
+    #dplyr::ungroup() %>%
+    #dplyr::select(-!!group) %>%
+    #unlist() %>%
+    #c(., total = sum(.))
+
+  nval2 <- as.data.frame(summary(nval[[as.character(group)]]))
+  nval2["Total",] <- rbind(sum(nval2))
+  names(nval2)[1] <- "n"
+  nval3 <- unlist(nval2)
 
   # create N-value labels to add to table headers. Needs empty value in first and
   # last position to ensure no N-values are added to question name and p-value.
