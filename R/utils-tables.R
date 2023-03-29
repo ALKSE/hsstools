@@ -94,7 +94,7 @@
 
   # create N-value labels to add to table headers. Needs empty value in first and
   # last position to ensure no N-values are added to question name and p-value.
-  nval_labs <- paste0(" \n(N = ", nval, ")") %>%
+  nval_labs <- paste0(" \n(N = ", nval3, ")") %>%
     c("", ., "")
 
   return(nval_labs)
