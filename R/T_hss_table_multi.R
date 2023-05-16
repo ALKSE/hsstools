@@ -42,9 +42,8 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # converted to character)
   if (percent == TRUE) {
 
-    table_p <- table_fix(table)
-
-    table_p <- table %>%
+    table <- table_fix(table)
+    table <- table %>%
       formatC(digits = digits, format = "fg", mode = "real") %>%
       as.double() %>%
       sprintf("%s%%", .)%>%
@@ -57,20 +56,20 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # calculate p values for each response option.
   p <- T_hss_chisq(df, var, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
-  table_p <- dplyr::bind_cols(
-    !!var := rownames(table_p),
-    as.data.frame.matrix(table_p, row.names = NULL),
+  table <- dplyr::bind_cols(
+    !!var := rownames(table),
+    as.data.frame.matrix(table, row.names = NULL),
     "p" = p
   )
 
-  rownames(table_p) <- NULL
+  rownames(table) <- NULL
 
   # apply N value labels to column headers
-  names(table_p) <- paste0(
-    names(table_p),
+  names(table) <- paste0(
+    names(table),
     .get_nval_multi(df, var, group)
   )
-return(table_p)
+return(table)
 }
 
 
