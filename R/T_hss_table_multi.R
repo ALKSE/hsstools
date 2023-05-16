@@ -30,7 +30,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
     questionr::cross.multi.table(df[!is.na(df[eval(resp[1])]), resp],
       crossvar = haven::as_factor(df[!is.na(df[eval(resp[1])]), ][[group]]),
       digits = digits,
-      freq = percent,
+      freq = FALSE,
       tfreq = "col",
       n = FALSE,
       na.rm = TRUE
