@@ -40,6 +40,8 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   )
   # formats percentages to show specified digits and adds %sign. (all values are
   # converted to character)
+
+  #New function to calculate percentages (more accurate)
   if (percent == TRUE){table <- table_fix(table)}
 
   if (percent == TRUE) {
@@ -68,7 +70,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # apply N value labels to column headers
   names(table) <- paste0(
     names(table),
-    .get_nval_multi(df, var, group)
+    nval_multi_calc(table)
   )
 return(table)
 }

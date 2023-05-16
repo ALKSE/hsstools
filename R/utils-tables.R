@@ -68,6 +68,7 @@
   return(nval_labs)
 }
 
+#This function is now outdated and has been replaced by nval_multi_calc
 .get_nval_multi <- function(df, var, group) {
   # retrieve repsonse options
   var <- .get_multi_valname(var, df)
@@ -86,6 +87,21 @@
   # create N-value labels to add to table headers. Needs empty value in first and
   # last position to ensure no N-values are added to question name and p-value.
   nval_labs <- paste0(" \n(N = ", nval, ")") %>%
+    c("", ., "")
+
+  return(nval_labs)
+}
+
+#New function for calculating N for "select multiple" questions
+nval_multi_calc <- function(table){
+  z <- as.list(1:ncol(table))
+  output <- capture.output(for (i in z){list <- cat(sum(table[,i]),"\n")})
+  output <- as.numeric(output)
+
+  namer <- colnames(table)
+  names(output) <- namer
+
+  nval_labs <- paste0(" \n(N = ", output, ")") %>%
     c("", ., "")
 
   return(nval_labs)
