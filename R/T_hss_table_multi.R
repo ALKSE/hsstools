@@ -38,6 +38,9 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
     margin = 2,
     FUN = Total
   )
+
+  basic_table <- table
+
   # formats percentages to show specified digits and adds %sign. (all values are
   # converted to character)
 
@@ -55,7 +58,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
       ) %>%
       as.data.frame()
   }
-  test_table <<- table
+
   # calculate p values for each response option.
   p <- T_hss_chisq(df, var, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
@@ -70,7 +73,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # apply N value labels to column headers
   names(table) <- paste0(
     names(table),
-    nval_multi_calc(table)
+    nval_multi_calc(basic_table)
   )
 return(table)
 }

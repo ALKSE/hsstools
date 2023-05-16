@@ -93,12 +93,12 @@
 }
 
 #New function for calculating N for "select multiple" questions
-nval_multi_calc <- function(table){
-  z <- as.list(1:ncol(table))
-  output <- capture.output(for (i in z){list <- cat(sum(table[,i]),"\n")})
+nval_multi_calc <- function(base_table){
+  z <- as.list(1:ncol(base_table))
+  output <- capture.output(for (i in z){list <- cat(sum(base_table[,i]),"\n")})
   output <- as.numeric(output)
 
-  namer <- colnames(table)
+  namer <- colnames(base_table)
   names(output) <- namer
 
   nval_labs <- paste0(" \n(N = ", output, ")") %>%
