@@ -90,3 +90,16 @@
 
   return(nval_labs)
 }
+
+
+# Calculate Percentages for "select multiple" tables --------------------------------------
+table_fix <- function(table){
+  z <- as.list(1:ncol(table))
+for (i in z) {
+  table[,i] <- table[,i]/sum(table[,i])*100
+  }
+return(table)
+  }
+
+
+

@@ -23,11 +23,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   resp <- .get_multi_valname(var, df)
 
   # set options depending on percentage/count setting.
-  Total <- if (percent == TRUE) {
-    "mean"
-  } else if (percent == FALSE) {
-    "sum"
-  }
+  Total <- "sum"
 
   # create contingency table with 'Total' column
   table <- addmargins(
@@ -46,7 +42,9 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # converted to character)
   if (percent == TRUE) {
 
-    table <- table %>%
+    table_p <- table_fix(table)
+
+    table_p <- table %>%
       formatC(digits = digits, format = "fg", mode = "real") %>%
       as.double() %>%
       sprintf("%s%%", .)%>%
@@ -74,3 +72,5 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   )
 return(table)
 }
+
+
