@@ -57,20 +57,20 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # calculate p values for each response option.
   p <- T_hss_chisq(df, var, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
-  table <- dplyr::bind_cols(
-    !!var := rownames(table),
-    as.data.frame.matrix(table, row.names = NULL),
+  table_p <- dplyr::bind_cols(
+    !!var := rownames(table_p),
+    as.data.frame.matrix(table_p, row.names = NULL),
     "p" = p
   )
 
-  rownames(table) <- NULL
+  rownames(table_p) <- NULL
 
   # apply N value labels to column headers
-  names(table) <- paste0(
-    names(table),
+  names(table_p) <- paste0(
+    names(table_p),
     .get_nval_multi(df, var, group)
   )
-return(table)
+return(table_p)
 }
 
 
