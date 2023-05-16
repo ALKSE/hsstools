@@ -42,7 +42,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # converted to character)
   if (percent == TRUE) {
 
-    table <<- table_fix(table)
+    table <- table_fix(table)
     table <- table %>%
       formatC(digits = digits, format = "fg", mode = "real") %>%
       as.double() %>%
@@ -56,7 +56,7 @@ T_hss_table_multi <- function(df, var, group, percent = TRUE, digits = 1) {
   # calculate p values for each response option.
   p <- T_hss_chisq(df, var, group, full = FALSE, multi = TRUE)
   # add row names as columns and convert to dataframe. P values added as column
-  table <- dplyr::bind_cols(
+  table <<- dplyr::bind_cols(
     !!var := rownames(table),
     as.data.frame.matrix(table, row.names = NULL),
     "p" = p
