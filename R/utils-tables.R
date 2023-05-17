@@ -107,8 +107,8 @@ nval_multi_calc <- function(base_table){
   return(nval_labs)
 }
 
-
-# Calculate Percentages for "select multiple" tables --------------------------------------
+#Table percentage fix function  --------------------------------------
+# Calculate Percentages for "select multiple" tables
 table_fix <- function(table){
   z <- as.list(1:ncol(table))
 for (i in z) {
@@ -117,5 +117,44 @@ for (i in z) {
 return(table)
   }
 
+# Sample size comment function  --------------------------------------
+# Add comment on whether a question is 'select multiple' or 'select single'
+
+#Single function
+ar_survey_sample_sin <- "\u003a\u0639\u064a\u0646\u0629\u0020\u0627\u0644\u0645\u0633\u062d\u0020\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a\u0629"
+ar_mult_choices_sin <- "\u0647\u0630\u0627\u0020\u0627\u0644\u0633\u0624\u0627\u0644\u0020\u064a\u0633\u0645\u062d\u0020\u0641\u0642\u0637\u0020\u0628\u0625\u062c\u0627\u0628\u0629\u0020\u0648\u0627\u062d\u062f\u0629*"
+ar_actual_sample_sin <- "\u0639\u064a\u0646\u0629\u0020\u0627\u0644\u0633\u0624\u0627\u0644\u0020\u0627\u0644\u0641\u0639\u0644\u064a\u0629\u0020\u0645\u0639\u0631\u0648\u0636\u0629\u0020\u0641\u064a\u0020\u0631\u0623\u0633\u0020\u0627\u0644\u062c\u062f\u0648\u0644*"
+
+en_survey_sample_sin <- "Total survey respondents:"
+en_mult_choices_sin <- "This question allows for only one response"
+en_actual_sample_sin <- "The total responses for this question are displayed in the header"
 
 
+.selection_note_single <- function(data, lang){
+  if (lang == "ar"){
+    note <- paste(ar_survey_sample_sin,
+                  {paste0("N = ", nrow(data))},ar_mult_choices_sin, ar_actual_sample_sin,sep = "\n")}
+  if (lang == "en"){
+    note <- paste(en_survey_sample_sin,{paste0("N = ", nrow(data))},en_mult_choices_sin,en_actual_sample_sin, sep = "\n")}
+  return(note)
+}
+
+
+#Multi function
+ar_survey_sample_multi <- "\u003a\u0639\u064a\u0646\u0629\u0020\u0627\u0644\u0645\u0633\u062d\u0020\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a\u0629"
+ar_mult_choices_multi <- "\u0647\u0630\u0627\u0020\u0627\u0644\u0633\u0624\u0627\u0644\u0020\u064a\u0633\u0645\u062d\u0020\u0628\u0623\u0643\u062b\u0631\u0020\u0645\u0646\u0020\u0625\u062c\u0627\u0628\u0629\u0020\u0648\u0627\u062d\u062f\u0629*"
+ar_actual_sample_multi <- "\u0639\u064a\u0646\u0629\u0020\u0627\u0644\u0633\u0624\u0627\u0644\u0020\u0627\u0644\u0641\u0639\u0644\u064a\u0629\u0020\u0645\u0639\u0631\u0648\u0636\u0629\u0020\u0641\u064a\u0020\u0631\u0623\u0633\u0020\u0627\u0644\u062c\u062f\u0648\u0644*"
+
+en_survey_sample_multi <- "Total survey respondents:"
+en_mult_choices_multi <- "*This question allows for more than one response"
+en_actual_sample_multi <- "*The total responses for this question are displayed in the header"
+
+.selection_note_multi <- function(data, lang){
+  if (lang == "ar"){
+    note <- paste(ar_survey_sample_multi,
+                  {paste0("N = ", nrow(data))},ar_mult_choices_multi, ar_actual_sample_multi,sep = "\n")}
+  if (lang == "en"){
+    note <- paste(en_survey_sample_multi
+                  ,{paste0("N = ", nrow(data))},en_mult_choices_multi,en_actual_sample_multi, sep = "\n")}
+  return(note)
+}
