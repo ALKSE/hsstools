@@ -126,8 +126,8 @@ ar_mult_choices_sin <- "\u0647\u0630\u0627\u0020\u0627\u0644\u0633\u0624\u0627\u
 ar_actual_sample_sin <- "\u0639\u064a\u0646\u0629\u0020\u0627\u0644\u0633\u0624\u0627\u0644\u0020\u0627\u0644\u0641\u0639\u0644\u064a\u0629\u0020\u0645\u0639\u0631\u0648\u0636\u0629\u0020\u0641\u064a\u0020\u0631\u0623\u0633\u0020\u0627\u0644\u062c\u062f\u0648\u0644*"
 
 en_survey_sample_sin <- "Total survey respondents:"
-en_mult_choices_sin <- "This question allows for only one response"
-en_actual_sample_sin <- "The total responses for this question are displayed in the header"
+en_mult_choices_sin <- "*This question allows for only one response"
+en_actual_sample_sin <- "*The total responses for this question are displayed in the header"
 
 
 .selection_note_single <- function(data, lang){

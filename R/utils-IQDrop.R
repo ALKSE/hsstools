@@ -47,7 +47,7 @@
     # filter for surveys with first and second consent given
     dplyr::filter(consent == 1 & consent2 == 1) %>%
     # exclude surveys with atmosphere: uncomfortable & interference
-    dplyr::filter(!(atmosphere_uncomf == 1 & atmosphere_interfered == 1)) %>%
+    dplyr::filter(!(atmosphere_uncomf %in% 1 & atmosphere_interfered %in% 1)) %>%
     # filter for surveys with total duration > 22 mins
     dplyr::filter(duration > (22 * 60)) %>%
     # exclude suveys with 3+ incidents and total duration < 27 mins
