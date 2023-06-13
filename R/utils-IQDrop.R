@@ -20,6 +20,7 @@
       )
   }
   dat <- dplyr::mutate(dat, duration = end - start)
+  dat$duration <- abs(dat$duration)
 
   # add col with total no. of incidents, with consideration for varying incident variables
   incidents_IQ_1 <- data.frame(
