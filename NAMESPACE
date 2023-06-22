@@ -2,6 +2,7 @@
 
 export("%>%")
 export(A_hss_clean_audit)
+export(A_hss_details)
 export(A_hss_enum_assessment)
 export(A_hss_load_audit)
 export(C_hss_NAgo)
