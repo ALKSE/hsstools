@@ -79,4 +79,9 @@ hsstools package. Additional packages installed are:
     #> purrr,
     #> questionr,
     #> stringr,
-    #> tidyr
+    #> tidyr,
+    #> writexl,
+    #> haven,
+    #> Hmisc,
+    #> readr,
+    #> readxl
