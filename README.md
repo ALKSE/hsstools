@@ -7,11 +7,13 @@
 <!-- badges: end -->
 
 The hsstools R package contains a collection of functions to use during
-the data wrangling / analysis process for the Human Security Survey. Its
-initial purpose was to expedite the creation of formatted contingency
-tables, and the largest part of the functions serve this purpose.
-However, a number of additional functions exist at the moment to
-automate some steps earlier in the data cleaning process.
+the data wrangling / analysis process for the Human Security Survey
+(Iraq + South Sudan). Its initial purpose was to expedite the creation
+of formatted contingency tables, and the largest part of the functions
+serve this purpose. However, a number of additional functions have been
+added with the purpose of automating the analysis process. These
+functions broadly fall under the umbrella of data cleaning, data
+auditing, and data formatting.
 
 The package borrows a couple of ideas from the existing koboloadeR
 package, but most things are implemented in a more simplified manner and
@@ -20,8 +22,8 @@ process. It might be worth checking the [KoboloadeR
 documentation](https://unhcr.github.io/koboloadeR/docs/) to see what it
 has to offer.
 
-Most functions are made to work alongside the current Stata-based data
-cleaning and -analysis process.
+Most functions are also made to work alongside the now obsolete
+Stata-based data cleaning and -analysis process.
 
 ## Installation
 
@@ -30,26 +32,27 @@ with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("PAXPoC/hsstools")
+devtools::install_github("ALKS/hsstools")
 ```
 
 ## Purpose of scripts & tools
 
 The functions in this package are made to automate or expedite a number
-of time-consuming steps in the data cleaning and -wrangling process. It
-is – as of yet – not a full replacement of the existing Stata-based data
-cleaning process. It should be seen as an additional tool to be used for
-these time-consuming steps, that can be used alongside the existing
-process.
+of time-consuming steps in the data cleaning and -wrangling process.
 
 The package currently offers functions for the following steps:
 
+-   Loading encrypted (Iraq) data;
+-   Splitting ‘select multiple’ questions
+-   Updating variable and value labels;
+-   Recoding ‘select other’ answer options;
 -   Calculating survey durations;
 -   Automatic translation of Arabic text;
 -   Creating contingency tables for survey questions;
 -   Applying English or Arabic text labels to questions + response
     options;
--   Exporting contingency tables as .csv or formatted .docx file.
+-   Exporting contingency tables as .csv or formatted .docx file;
+-   Validating the accuracy/precision of data (audit);
 
 ## The package structure
 

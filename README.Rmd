@@ -39,6 +39,7 @@ The functions in this package are made to automate or expedite a number of time-
 The package currently offers functions for the following steps:
 
 * Loading encrypted (Iraq) data; 
+* Splitting 'select multiple' questions
 * Updating variable and value labels; 
 * Recoding 'select other' answer options; 
 * Calculating survey durations;
