@@ -13,6 +13,9 @@ A_hss_id(dat, id, name)
 
 \item{name}{Actual name of enumerator}
 }
+\value{
+a modified dataframe that includes the actual names of enumerators.
+}
 \description{
 This function is used in both the audit (enumerator assessmet) procedure,
 and the daily report procedure. Numerical deviceids are converted to names.

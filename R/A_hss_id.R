@@ -10,7 +10,7 @@
 #' @param id Numerical deviceid provided by ODK/KOBO
 #' @param name Actual name of enumerator
 #'
-#' @return
+#' @return a modified dataframe that includes the actual names of enumerators.
 #' @export
 #'
 #' @rdname A_hss_id
