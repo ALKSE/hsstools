@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @rdname C_hss_readIQ
-H_hss_readIQ <- function(){
+C_hss_read_dat <- function(){
   Folder <- "Raw Data"
   file_list <- list.files(path=Folder, pattern="*.csv")
   IQ_dat <- read.csv(paste(Folder, file_list[1], sep='/'),
