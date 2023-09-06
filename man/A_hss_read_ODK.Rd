@@ -4,7 +4,7 @@
 \alias{A_hss_read_ODK}
 \title{Load audit files for HSS survey (ODK)}
 \usage{
-A_hss_read_ODK(dat)
+A_hss_read_ODK(audit_dat)
 }
 \arguments{
 \item{dat}{Audit CSV produced by ODK export}
