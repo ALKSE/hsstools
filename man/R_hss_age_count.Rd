@@ -2,7 +2,7 @@
 % Please edit documentation in R/R_hss_age_count.R
 \name{R_hss_age_count}
 \alias{R_hss_age_count}
-\title{Reports & Publications: Age Distriubution}
+\title{Reports & Publications: Age Distribution}
 \usage{
 R_hss_age_count(dat)
 }
@@ -13,5 +13,5 @@ R_hss_age_count(dat)
 age breakdown for data
 }
 \description{
-Reports & Publications: Age Distriubution
+Reports & Publications: Age Distribution
 }

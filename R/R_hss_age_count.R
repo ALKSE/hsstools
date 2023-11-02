@@ -1,4 +1,4 @@
-#' Reports & Publications: Age Distriubution
+#' Reports & Publications: Age Distribution
 #'
 #' @param dat HSS dataframe
 #'
