@@ -13,5 +13,6 @@ R_hss_age_count(dat)
 age breakdown for data
 }
 \description{
-Reports & Publications: Age Distribution
+This function provides an easy overview of the survey age distribution.
+Future edits may require changing the age range.
 }

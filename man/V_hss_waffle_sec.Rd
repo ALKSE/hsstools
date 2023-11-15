@@ -11,6 +11,9 @@ R_hss_waffle_sec(data, x)
 
 \item{x}{number of waffle squares}
 }
+\value{
+a file containing the visualization
+}
 \description{
 Reports & Publications: Waffle visualization of security
 }

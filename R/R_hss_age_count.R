@@ -1,5 +1,9 @@
 #' Reports & Publications: Age Distribution
 #'
+#' This function provides an easy overview of the survey age distribution.
+#' Future edits may require changing the age range.
+#'
+#'
 #' @param dat HSS dataframe
 #'
 #' @return age breakdown for data
