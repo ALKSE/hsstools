@@ -18,3 +18,9 @@ multi_valname <- function(var, df) {
   )
   return(answers)
 }
+
+#Calculate sum of a specific var/coloumn
+sum_values <- function(dat, var){
+  exp <- dat %>% select(dplyr::contains(as.character(var)))
+  return(sum(exp))
+}

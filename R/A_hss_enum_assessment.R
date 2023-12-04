@@ -16,7 +16,7 @@
 A_hss_enum_assessment <- function(dat, audit = NULL) {
   incidents <- c(
     "catt", "rob", "prison", "recruit", "kidnap", "assault", "kill",
-    "bomb", "fmarr", "sex", "secinc_oth"
+    "bomb", "fmarr", "sex", "narco", "suicide", "secinc_oth"
   )
 
   auditer <- if (!is.null(audit)) {

@@ -43,7 +43,9 @@
     catt=(8),
     recruit=(9),
     fmarr=(10),
-    secinc_oth=(11)
+    narco=(11),
+    suicide=(12),
+    secinc_oth=(13)
   )
 
   result <- janitor::compare_df_cols(dat, incidents_SS_1, return = "mismatch")
@@ -102,7 +104,9 @@
     catt=(8),
     recruit=(9),
     fmarr=(10),
-    secinc_oth=(11)
+    narco=(11),
+    suicide=(12),
+    secinc_oth=(13)
   )
 
   result <- janitor::compare_df_cols(dat, incidents_SS_1, return = "mismatch")
