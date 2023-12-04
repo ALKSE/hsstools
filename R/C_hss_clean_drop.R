@@ -47,8 +47,8 @@ hss_select_cols <- function(dat) {
   dat = dat[ , !(names(dat) %in% meta)]
 
   # drop area cols? This seems to differ between collection rounds
-  area = c("area_mc", "payam_mc", "payam_mc_other", "boma_text")
-  dat = dat[, !(names(dat) %in% area)]
+  #area = c("area_mc", "payam_mc", "payam_mc_other", "boma_text")
+  #dat = dat[, !(names(dat) %in% area)]
   return(dat)
 }
 
