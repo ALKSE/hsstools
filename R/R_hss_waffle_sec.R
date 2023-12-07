@@ -6,7 +6,7 @@
 #' @return a file containing the visualization
 #' @export
 #'
-#' @rdname V_hss_waffle_sec
+#' @rdname R_hss_waffle_sec
 R_hss_waffle_sec <- function(data, x){
 
   sec <- data$security_change
