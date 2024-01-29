@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @rdname R_hss_sum_values
+
 R_hss_sum_values <- function(dat, group){
   if(group == "?")
   {
