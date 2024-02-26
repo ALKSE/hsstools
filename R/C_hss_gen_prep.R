@@ -2,7 +2,11 @@
 #'
 #' This function is only a first step in a longer process. The goal here is to extract
 #' -other- responses and display them in a convenient format that will allow for
-#' later recoding using a different script. For step 2, use hss_recode.
+#' later recoding using a different script. For step 2, use hss_rewrite.
+#'
+#' This function will generate two spreadsheets. Only one will need modification (recode_1)
+#' The second spreadsheet is generated with the purpose of erasing the _oth selection (recode_2)
+#'
 #' @param dat The dataframe you want to remove entries from
 #' @param dict Dictionary object
 #' @rdname C_hss_gen_prep
@@ -27,11 +31,18 @@ C_hss_gen_prep <- function(dat, dict){
   #Add q_type column (for later recoding)
   dat_4$q_type <- 1:nrow(dat_4)
   dat_4$q_type = dat_4$column_label
+  #Create a secondary df
+  dat_4_null <- dat_4
+  dat_4_full <- dat_4
   #Add reference column
-  dat_4$r_name <- stringr::str_replace_all(dat_4$column_label, "_oth_what", "")
+  dat_4_full$r_name <- stringr::str_replace_all(dat_4$column_label, "_oth_what", "")
+  dat_4_null$r_name <- stringr::str_replace_all(dat_4$column_label, "_what", "")
   #Add value column
-  dat_4$Value <- 1:nrow(dat_4)
-  dat_4$Value <- replace(dat_4$Value, 1:nrow(dat_4), NA)
+  dat_4_full$Value <- 1:nrow(dat_4)
+  dat_4_full$Value <- replace(dat_4$Value, 1:nrow(dat_4), NA)
+
+  dat_4_null$Value <- 1:nrow(dat_4)
+  dat_4_null$Value <- replace(dat_4$Value, 1:nrow(dat_4), 0)
   #Prepare dictionary objects
   list_2 <- dict[[2]]
   list_3 <- dict[[1]]
@@ -43,12 +54,27 @@ C_hss_gen_prep <- function(dat, dict){
   list_6 <- list_3 %>% dplyr::filter(name %in% list_5$name)
   list_5$q_type = list_6$q_type
   #Recode q_type column in prep dataset
-  dat_4$q_type <- dplyr::recode(dat_4$q_type,
+  dat_4_full$q_type <- dplyr::recode(dat_4_full$q_type,
                      !!!setNames(as.character(list_5$q_type), list_5$r_name))
-  #export file
-  writexl::write_xlsx(dat_4, path = "recode.xls")
 
-  return(dat_4)
+  dat_4_null$q_type <- dplyr::recode(dat_4_null$q_type,
+                                !!!setNames(as.character(list_5$q_type), list_5$r_name))
+
+  #Relocate q_type to another position to ensure hss_rewrite works correctly
+  dat_4_full <- dat_4_full %>% dplyr::relocate(q_type,
+                                     .after = Value)
+
+  dat_4_null <- dat_4_null %>% dplyr::relocate(q_type,
+                                     .after = Value)
+
+  #Subset null df to ensure only multi_questions are captured
+  dat_4_null <- subset(dat_4_null, q_type == "select_multiple")
+
+  #export file
+  writexl::write_xlsx(dat_4_full, path = "recode_1.xlsx")
+  writexl::write_xlsx(dat_4_null, path = "recode_2.xlsx")
+
+  return(dat_4_full)
 }
 
 

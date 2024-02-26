@@ -14,5 +14,9 @@ C_hss_gen_prep(dat, dict)
 \description{
 This function is only a first step in a longer process. The goal here is to extract
 -other- responses and display them in a convenient format that will allow for
-later recoding using a different script. For step 2, use hss_recode.
+later recoding using a different script. For step 2, use hss_rewrite.
+}
+\details{
+This function will generate two spreadsheets. Only one will need modification (recode_1)
+The second spreadsheet is generated with the purpose of erasing the _oth selection (recode_2)
 }
