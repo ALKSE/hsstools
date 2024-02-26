@@ -4,13 +4,14 @@
 #' Key to this function is the construction of an xls sheet with the modified Var values.
 #' This function is currently operational, but it requires modifications for clarity.
 #' @param dat actual survey data
+#' @param recode the recode file which will be used to replace values
 #'
 #' @rdname C_hss_rewrite
 #' @export
 #'
-C_hss_rewrite <- function(dat){
+C_hss_rewrite <- function(dat, recode){
   #sanity check for recode
-  prep <<- readxl::read_xlsx("recode.xls")
+  prep <- recode
   #split dataset for looping
   y <- split(prep, f = row.names(prep))
   #generate a stable way of indicating how the loop should operate (rows:1:n)
