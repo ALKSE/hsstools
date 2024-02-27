@@ -4,10 +4,12 @@
 \alias{C_hss_rewrite}
 \title{Recode 'Other' Input}
 \usage{
-C_hss_rewrite(dat)
+C_hss_rewrite(dat, recode)
 }
 \arguments{
 \item{dat}{actual survey data}
+
+\item{recode}{the recode file which will be used to replace values}
 }
 \description{
 This function seeks to finalize the reoding procedure intialized by hss_gen_prep.
