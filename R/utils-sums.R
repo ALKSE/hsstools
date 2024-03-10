@@ -183,10 +183,10 @@
   z <- sum(c(x,y))
 
   #As a percentage/Count
-  st1 <- "As a count (NOT Satisfied)"
-  st2 <- "As a count (Satisfied)"
-  st3 <- "  *As a percentage (Not Satisfied)"
-  st4 <- "  *As a percentage (Satisfied)"
+  st1 <- "As a count (Satisfied)"
+  st2 <- "As a count (NOT Satisfied)"
+  st3 <- "  *As a percentage (Satisfied)"
+  st4 <- "  *As a percentage (NOT Satisfied)"
   st4_5 <- "                         "
 
   note_1 <- paste(st1,paste0("= ", x))
