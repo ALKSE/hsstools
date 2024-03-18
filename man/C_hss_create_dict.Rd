@@ -4,12 +4,14 @@
 \alias{C_hss_create_dict}
 \title{Create a dictionary of HSS variable or value labels}
 \usage{
-C_hss_create_dict(form, location = NULL)
+C_hss_create_dict(form, location = NULL, area = NULL)
 }
 \arguments{
 \item{form}{Path to the XLS form.}
 
 \item{location}{The survey location for which the specific XLS form was made.}
+
+\item{area}{The survey area for which the specific XLS form was made (Iraq-focused).}
 }
 \value{
 A list containing two dataframes, with respectively variable- and value
