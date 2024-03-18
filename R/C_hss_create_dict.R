@@ -9,12 +9,13 @@
 #'
 #' @param form Path to the XLS form.
 #' @param location The survey location for which the specific XLS form was made.
+#' @param area The survey area for which the specific XLS form was made (Iraq-focused).
 #' @return A list containing two dataframes, with respectively variable- and value
 #' names and their associated text labels.
 #' @export
 #'
 #' @rdname C_hss_create_dict
-C_hss_create_dict <- function(form, location = NULL) {
+C_hss_create_dict <- function(form, location = NULL, area = NULL) {
   dict <- list(
     var = readxl::read_xls(path = form, sheet = 1) %>%
       janitor::clean_names() %>%
@@ -35,5 +36,18 @@ C_hss_create_dict <- function(form, location = NULL) {
       .data$location == .env$location | is.na(.data$location)
     )
   }
+
+  #This was added to improve the presentation of data_tables for Iraq.
+  #This is a cosmetic change to improve readability.
+  #XLS forms must be modified in advance to run this.
+
+  if (!is.null(area)) {
+    area <- tolower(area)
+    dict$val <- dplyr::filter(
+      dict$val,
+      .data$area == .env$area | is.na(.data$area)
+    )
+  }
+
   return(dict)
 }
