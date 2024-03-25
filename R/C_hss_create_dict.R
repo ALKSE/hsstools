@@ -40,6 +40,7 @@ C_hss_create_dict <- function(form, location = NULL, area = NULL) {
   #This was added to improve the presentation of data_tables for Iraq.
   #This is a cosmetic change to improve readability.
   #XLS forms must be modified in advance to run this.
+  #XLS forms post 2023 have this change implemented.
 
   if (!is.null(area)) {
     area <- tolower(area)
