@@ -4,7 +4,7 @@
 \alias{C_hss_relocate_multi}
 \title{Relocate split_multiple variables to expected location}
 \usage{
-C_hss_relocate_multi(data, var_names_2, output_multi)
+C_hss_relocate_multi(data, dict, var_names_2, output_multi)
 }
 \arguments{
 \item{var_names_2}{naming list to assist in relocation process}
