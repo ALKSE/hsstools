@@ -88,7 +88,8 @@ T_hss_chisq_formatted <- function(df, var, group) {
         "significant:"
       },
       "p",
-      if (chisq > 0.0005) { paste0("= ", round(chisq, digits = 3))} else {"< 0.001"}
+      if (is.na(chisq)) {paste0("= NA")}
+      else if (chisq > 0.0005) { paste0("= ", round(chisq, digits = 3))} else {"< 0.001"}
     )
   return(chisq_formatted)
 }
