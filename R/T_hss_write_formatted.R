@@ -30,6 +30,7 @@ T_hss_write_formatted <- function(df, questions, group, dict, percent = TRUE, di
     tryCatch(
       if (names(questions[match(questions_element, questions)]) == "select_one") {
         T_hss_table_single(df, questions_element, group, percent, digits) %>%
+          #Edited out due to issues with NA options
           #T_hss_label(questions_element, group, dict, lang) %>%
           T_hss_format_single() %>%
           flextable::add_footer_lines(
@@ -40,6 +41,7 @@ T_hss_write_formatted <- function(df, questions, group, dict, percent = TRUE, di
 
       } else if (names(questions[match(questions_element, questions)]) == "select_multiple") {
         T_hss_table_multi(df, questions_element, group, percent, digits) %>%
+          #Edited out due to issues with NA options
           #T_hss_label(questions_element, group, dict, lang) %>%
           T_hss_format_multi() %>%
           flextable::add_footer_lines(
