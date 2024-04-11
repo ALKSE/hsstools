@@ -505,7 +505,8 @@
 # Function uses incident-level rather than household-level
 
 .hss_sum_perp <- function(dat){
-  security_incidents_perp <- dat %>% select(matches("_perp"))
+  security_incidents_perp_base <- dat %>% select(matches("_perp"))
+  security_incidents_perp <- security_incidents_perp_base %>% select(!(matches("secinc")))
 
   a <- sum(security_incidents_perp == "Local armed youth", na.rm=T)
   b <- sum(security_incidents_perp == "Someone from a neighboring community", na.rm=T)
@@ -517,16 +518,18 @@
   h <- sum(security_incidents_perp == "Someone from my own family", na.rm=T)
   i <- sum(security_incidents_perp == "Someone from my own community", na.rm=T)
   j <- sum(security_incidents_perp == "_I don't know", na.rm=T)
-  total_perps <- sum(c(a,b,c,d,e,f,g,h,i,j))
+  k <- sum(security_incidents_perp == "_Refused to answer", na.rm=T)
+  l <- sum(security_incidents_perp == "_Other", na.rm=T)
+  total_perps <- sum(c(a,b,c,d,e,f,g,h,i,j,k,l))
 
-  perp_table <- as.data.frame(c(a,b,c,d,e,f,g,h,i,j))
+  perp_table <- as.data.frame(c(a,b,c,d,e,f,g,h,i,j,k,l))
   names(perp_table)[1] <- "sum"
   perp_table$percentage <- (perp_table$sum/total_perps)*100
   perp_table$perpetrators <- c("Local armed youth","Someone from a neighboring community",
                                "Criminals","Police","National army (SSPDF)",
                                "Other organized forces (wildlife brigade, prison service, fire brigade, etc)",
                                "National Security Forces (NS)", "Someone from my own family",
-                               "Someone from my own community", "_I don't know")
+                               "Someone from my own community", "_I don't know", "_Refused to answer", "_Other")
   perp_table <- perp_table %>% dplyr::relocate(perpetrators)
   print(flextable(perp_table))
   return(perp_table)
