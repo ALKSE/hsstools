@@ -1,70 +1,54 @@
 #' Split select_multiple survey variables
 #'
-#' BASIC: Split select_multiple variables into their individual components,
-#' with consideration for proper naming, conversation of 0s to NAs, and later
-#' reordering of select_multiple components.
-
+#' Split select_multiple variables (1 2 7) into their individual components (1), (2), (7),
+#' with additional mutations allowing for proper labeling of variables, inclusion of NAs and
+#' no response variables, and prep-work for the reordering of split variables to match
+#' the XLS-form standard.
 
 
 split_2 <- function(data, dict){
-  #(1) TITLE: MATCHING AND FILTERING SELECT-MULTIPLE VARIABLE NAMES
-  #(1) Explanation: Questions with the select_multiple type are being
-  #  filtered out and matched to those that can be found
-  #  within the actual data set provided by the user.
-  #  This process includes two matching mechanisms:
-  #  variables which have responses and have been added
-  #  by ODK, and variables that have no responses, but
-  #  conventionally do get added to the data set as NA.
-  #  The new encryption mechanism does not add 'no response'
-  #  data, so a decision was made to manually do this. I
-  #  might decide to change this in the future, but I want
-  #  to maintain consistency between data rounds.
+
+  #(1) MATCHING AND FILTERING SELECT-MULTIPLE VARIABLE NAMES
   #(1) Output: Two lists, response-var-names, and no-response-var-names
 
+  #*Filter select_multiple var_cols and create separate df (Baseline).
   select_multiple <- subset(dict[[1]], q_type == "select_multiple")
   match_1 <- matrix(nrow = 2, ncol = nrow(select_multiple))
   match_1 <- as.data.frame(match_1)
   colnames(match_1) <- select_multiple$r_name
-  #(1.1) variables that match given responses in the data set
+  #*Filter select_multiple vars that are present in the actual df
   matches <- janitor::compare_df_cols(data, match_1, return = "mismatch")
   mismatches <- select_multiple %>% dplyr::filter(!(r_name %in% matches$column_name))
   mismatches_2 <- mismatches %>% dplyr::filter(r_name %in% colnames(data))
-  #(1.2) no-response variables, with an additional exclusion of RTA variables
+  #*Filter select_mutiple vars that are NOT present in the actual df (RTA excluded)
   mismatches_2.1 <- mismatches %>% dplyr::filter(r_name %in% colnames(data)) %>%
     dplyr::filter(!(type == "num"))
 
+  #*Generate combined list of select_multiple variable names for later labeling
+  #*Generate two lists for the processing of multi_vars with and without responses
   vars <- matches$column_name
   vars_0 <- mismatches_2.1$r_name
   vars_1 <- as.list(vars)
   vars_1.1 <- as.list(vars_0)
   vars_total <- c(vars, vars_0)
-  #(1.3) combined list of variable names for later labeling
   vars_total <- as.list(vars_total)
   #------------------------------------------------------------------------
-  #(2) TITLE: MAKING DATA-FRAME LISTS OF SELECT MULTIPLE VARIABLES
-  #(2) Explanation: First step function, which is run on the two variable
-  #  lists, the response and no-response variables.
-  #  These lists are then re-used as a way of naming
-  #  the 2 list-of-dataframes produced.
+  #(2) MAKING DATA-FRAME LISTS OF SELECT MULTIPLE VARIABLES
   #(2) Output: Two dataframe lists, response-vars, and no-response-vars
 
+  #*Generate a list for multi_vars with responses
   first.step <- lapply(vars_1, FUN = function(i) as.data.frame(x <- data[[i]]))
+  #*Generate a list for multi_vars with NO responses
   first.step_0 <- lapply(vars_1.1, FUN = function(i) as.data.frame(x <- data[[i]]))
 
-  #(2.1) Naming the entries in the two dataframe lists
+  #*Naming the entries in the two df lists
   names(first.step) = vars_1
   names(first.step_0) = vars_1.1
   #------------------------------------------------------------------------
-  #(3) TITLE: SPLITTING SELECT-MULTIPLE VARIABLES
-  #(3) Explanation: Second step function, which is run on the two dataframe
-  #  lists which contain the response and no-response variables.
-  #  Where found, observations with multiple entries (1 3 4), are
-  #  split into columns, and coded 1/0 (yes/no) based on whether
-  #  the response was provided. These function is also run twice,
-  #  as no-response variables introduce NAs and duplicates that
-  #  interfere with the regular split. The resulting two lists
-  #  are then combined into one.
-  #(3) Output: One split-dataframe-list containing all variables
+  #(3) SPLITTING SELECT-MULTIPLE VARIABLES
+  #(3) Output: One split-df-list containing all variables
+
+  #*Split df list of multi_vars with responses
   second.step_1 <- lapply(first.step, FUN = function(i)
     x1 <- i %>% dplyr::mutate(ID = 1:n()) %>%
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
@@ -73,8 +57,9 @@ split_2 <- function(data, dict){
       spread(i, Value, fill = 0) %>%
       dplyr::select(-ID))
 
-  #(3.1) Main difference in functions is the exclusion of an NA column
-  #  introduced by no-response splits
+  #*Split df list of multi_vars with NO responses
+  #*Main difference in functions is the exclusion of an NA column
+  #*introduced by no-response splits
   second.step_0 <- lapply(first.step_0, FUN = function(i)
     x2 <- i %>% mutate(ID = 1:n()) %>%
       dplyr::mutate(i = strsplit(as.character(i[[1]]), split = " ")) %>%
@@ -84,7 +69,7 @@ split_2 <- function(data, dict){
       dplyr::select(-ID) %>%
       dplyr::select(-'<NA>'))
 
-  # Removing NA from populated variables
+  #*Removing NA from populated variables
   second.step_2 <- lapply(second.step_1, FUN = function(i)
     if('<NA>' %in% colnames(i)){x3 <- i})
   second.step_3 <- second.step_2[lengths(second.step_2) != 0]
@@ -96,17 +81,10 @@ split_2 <- function(data, dict){
     if(!('<NA>' %in% colnames(i))){x3 <- i})
   second.step_6 <- second.step_5[lengths(second.step_5) != 0]
 
-
-  #(3.2) After basic processing and splitting, dataframe lists are combined
+  #*After basic processing and splitting, dataframe lists are combined
   second.step <- c(second.step_6, second.step_4, second.step_0)
   #------------------------------------------------------------------------
-  #(4) TITLE: CREATING A NAMING REFERENCE
-  #(4) Explanation: Preparation of a dataframe to be used as a naming
-  #   reference for the newly created list of dataframes.
-  #   This naming reference will be processed further in
-  #   the next function. This function relies heavily on
-  #   the combined list object of variable names produced
-  #   in (1).
+  #(4) CREATING A NAMING REFERENCE DF
   #(4) Output: In-between preparatory dataframe to be used as naming reference.
   z1 <- select_multiple %>% dplyr::filter(r_name %in% vars_total)
   z2 <- as.character(z1$type)
@@ -117,10 +95,10 @@ split_2 <- function(data, dict){
   z4$r_name <- z1$r_name[match(z3$type, z1$type)]
 
   #------------------------------------------------------------------------
-  #(5) TITLE: INCLUSION OF 0/NA VARIABLES
-  #(5) Explanation:
-  #(5) Output:
+  #(5) INCLUSION OF 0/NA VARIABLES
+  #(5) Output: A complete (named) list of all multi_vars
 
+  #*Seperate function that adds no response columns to df
   third.step <- function(i){
     r1 <- subset(z1, r_name == as.character(i))
     r2 <- subset(z3, type == as.character(r1$type))
@@ -146,9 +124,12 @@ split_2 <- function(data, dict){
   second.step.complete <- lapply(vars_total, third.step)
   names(second.step.complete) = vars_total
   #------------------------------------------------------------------------
+  #(6) RECODING NUMERICAL COLS AND BINDING
+  #(6) Output: A df with multi_vars which are split and labeled
+
   y2 <- vars_total
 
-  #Fourth step;Function that recodes colnames based on the prep
+  #*Fourth step;Function that recodes colnames based on the prep
   fourth.step <- function(i){
     v <- subset(z1, r_name == as.character(i))
     v1 <- subset(z3, type == as.character(v$type))
@@ -163,13 +144,22 @@ split_2 <- function(data, dict){
     v4 <- v3[-1]
     return(as.data.frame(v4))}
 
-  #Actual application of function
+  #*Actual application of function
   output_1 <- lapply(y2, fourth.step)
   names(output_1) <- y2
   #------------------------------------------------------------------------
-  output2 <- dplyr::bind_cols(output_1)
-  data_combined <- cbind(data, output2)
+  #*Bind the multiple lists into one df
+  output_2 <- dplyr::bind_cols(output_1)
+
+  #*Convert select_multi NA values to zero
+  output_3 <- output_2 %>% mutate_if(is.character, as.numeric)
+  names_out_3 <- names(output_3)
+  output_3 <- output_3 %>% mutate_at(c(names_out_3), ~replace_na(.,0))
+
+  #*Combine split_var df with main df
+  data_combined <- cbind(data, output_3)
   #------------------------------------------------------------------------
+  #*Generate reference vars to be used for relocation
   var_names <- as.list(names(output_1))
   var_names_multi <<- lapply(var_names, FUN = function(i)
     v <- as.list(names(output_1[[as.character(i)]])))

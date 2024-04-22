@@ -7,7 +7,8 @@
 split_2(data, dict)
 }
 \description{
-BASIC: Split select_multiple variables into their individual components,
-with consideration for proper naming, conversation of 0s to NAs, and later
-reordering of select_multiple components.
+Split select_multiple variables (1 2 7) into their individual components (1), (2), (7),
+with additional mutations allowing for proper labeling of variables, inclusion of NAs and
+no response variables, and prep-work for the reordering of split variables to match
+the XLS-form standard.
 }
