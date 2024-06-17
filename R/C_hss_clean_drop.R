@@ -44,8 +44,10 @@ hss_select_cols <- function(dat) {
   dat = dat[ , !(names(dat) %in% meta)]
 
   # drop 100% questions (alt answers are usually filtered out)
-  details = c("enterhh", "enterhh_whynot", "interview", "interview_whynot", "available",
-              "available_whynot", "consent", "consent_whynot", "consent2")
+  details = c("enterhh", "enterhh_whynot", "enterhh_whynot_oth_what",
+              "interview", "interview_whynot",
+              "interview_whynot_oth_what", "available",
+              "available_whynot", "available_whynot_oth_what", "consent_whynot")
   dat = dat[ , !(names(dat) %in% details)]
 
   return(dat)
