@@ -47,7 +47,8 @@ hss_select_cols <- function(dat) {
   details = c("enterhh", "enterhh_whynot", "enterhh_whynot_oth_what",
               "interview", "interview_whynot",
               "interview_whynot_oth_what", "available",
-              "available_whynot", "available_whynot_oth_what", "consent_whynot")
+              "available_whynot", "available_whynot_oth_what",
+              "consent_whynot", "consent_whynot_oth_what")
   dat = dat[ , !(names(dat) %in% details)]
 
   return(dat)
