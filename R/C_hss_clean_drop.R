@@ -2,13 +2,10 @@
 #'
 #' This function is used to filter rows with invalid surveys from the HSS dataset.
 #' Additionaly, columns containing notes & instructions to enumerators are removed
-#' from the dataset. The function prompts user for input to remove test rows. Set
-#' `prompt` to FALSE to skip this step.
+#' from the dataset.
 #'
 #' @param dat The dataframe you want to remove entries from
-#' @param prompt If TRUE, prompts user to provide criteria for removing test entries.
-#' Input can be row numbers, a cut-off date, or device IDs. Accepts multiple criteria.
-#' Set to FALSE to skip this prompt.
+#'
 #'
 #' @return Returns a dataframe with invalid surveys removed as well as unnecessary columns.
 #' @export
@@ -46,9 +43,11 @@ hss_select_cols <- function(dat) {
   meta = c("__version__", "audit", "kry", "isvalidated")
   dat = dat[ , !(names(dat) %in% meta)]
 
-  # drop area cols? This seems to differ between collection rounds
-  #area = c("area_mc", "payam_mc", "payam_mc_other", "boma_text")
-  #dat = dat[, !(names(dat) %in% area)]
+  # drop 100% questions (alt answers are usually filtered out)
+  details = c("enterhh", "enterhh_whynot", "interview", "interview_whynot", "available",
+              "available_whynot", "consent", "consent_whynot", "consent2")
+  dat = dat[ , !(names(dat) %in% details)]
+
   return(dat)
 }
 

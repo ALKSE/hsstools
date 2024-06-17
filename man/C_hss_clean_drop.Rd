@@ -14,10 +14,6 @@ hss_select_cols(dat)
 }
 \arguments{
 \item{dat}{The dataframe you want to remove entries from}
-
-\item{prompt}{If TRUE, prompts user to provide criteria for removing test entries.
-Input can be row numbers, a cut-off date, or device IDs. Accepts multiple criteria.
-Set to FALSE to skip this prompt.}
 }
 \value{
 Returns a dataframe with invalid surveys removed as well as unnecessary columns.
@@ -25,6 +21,5 @@ Returns a dataframe with invalid surveys removed as well as unnecessary columns.
 \description{
 This function is used to filter rows with invalid surveys from the HSS dataset.
 Additionaly, columns containing notes & instructions to enumerators are removed
-from the dataset. The function prompts user for input to remove test rows. Set
-\code{prompt} to FALSE to skip this step.
+from the dataset.
 }
