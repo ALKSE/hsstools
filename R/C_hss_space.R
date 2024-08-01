@@ -1,12 +1,13 @@
-#' Remove space(s) from text
+#' Remove extra space(s) from text
 #'
 #' This function is part of the recode pipeline and is necessary for the effective use of
 #' the subsequent functions hss_gen_prep and hss_rewrite. The goal of this function is to eliminate
-#' spaces at the start of a text string.
+#' spaces at the start of a text string. This function accounts for potential spaces added to Arabic
+#' or English text.
 #'
 #' @param dat df that needs recoding
 #'
-#' @return a df without spaces in the begining of text strings
+#' @return a df without spaces in the beginning of text strings
 #'
 #' @rdname C_hss_space
 #' @export
@@ -16,7 +17,7 @@ C_hss_space <- function(dat){
   var_names_space <- as.list(colnames(spaced_dat))
 
   for(i in var_names_space){
-    dat[[i]] <- stringr::str_trim(dat[[i]], "right")}
+    dat[[i]] <- stringr::str_trim(dat[[i]], side = c("both", "left", "right"))}
   return(dat)
 }
 
