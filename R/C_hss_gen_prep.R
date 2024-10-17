@@ -70,11 +70,46 @@ C_hss_gen_prep <- function(dat, dict){
   #Subset null df to ensure only multi_questions are captured
   dat_4_null <- subset(dat_4_null, q_type == "select_multiple")
 
+
+  #Run additional function to add identification key to recode_file_1
+  #This value is necessary in later functions such as recode_check
+
+  dat_4_full_key <- dat_4_full %>% mutate(key = 0)
+
+  dat_filter <- dat %>% select(dat_4_full$column_label, key)
+
+  #This looping function works to link un-edited text from the recode to id_keys
+  num <- as.list(1:nrow(dat_4_full))
+  for(i in num){
+    a <- dat_4_full[i,]
+    b <- dat_filter %>% select(a[[1]][1], key)
+    names(a)[2] <- a[[1]][1]
+    a <- a %>% inner_join(b, by = names(a[2]))
+    dat_4_full_key[[6]][i] <- a[[6]][1]
+    dat_4_full_updated <- dat_4_full_key
+  }
+
+  #Alternate formulation of the previous function (NOT IN USE DUE TO POTENTIAL ERRORS)
+  #TEST_C_hss_recode_key <- function(prep, dat){
+   # prep_up <- prep %>% mutate(key = 0)
+
+    #num <- as.list(1:nrow(prep_up))
+    #for(i in num){
+     # a <- prep_up[i,]
+     # b <- a %>% mutate(key = 0)
+     # c <- as.data.frame(dat$key[dat[[b[[1]][1]]] == b[[2]][1]])
+      #b[[6]][1] <- c[complete.cases(c),]
+      #prep_up[[6]][i] <- b[[6]][1]
+     # output <- prep_up
+    #}
+    #return(output)
+ # }
+
   #export file
-  writexl::write_xlsx(dat_4_full, path = "recode_1.xlsx")
+  writexl::write_xlsx(dat_4_full_updated, path = "recode_1.xlsx")
   writexl::write_xlsx(dat_4_null, path = "recode_2.xlsx")
 
-  return(dat_4_full)
+  return(dat_4_full_updated)
 }
 
 
