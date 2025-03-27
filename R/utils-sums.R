@@ -83,6 +83,18 @@
   ft <- flextable::flextable(yes_satis_table)
   ft <- flextable::autofit(ft)
   print(ft)
+
+  #Small display for later validation (if necessary)
+  print("-----------------------------------------------------------------", quote = FALSE)
+  print("#################|   (Inc.)_satisfaction   |#####################", quote = FALSE)
+  print("-----------------------------------------------------------------", quote = FALSE)
+
+  x <- sum(yes_satis_table$sum)
+
+  st1 <- "As a count (Satisfied)"
+  note_1 <- paste(st1,paste0("= ", x))
+  print(note_1, quote = FALSE)
+
   return(yes_satis_table)
 }
 
@@ -90,28 +102,34 @@
 # Calculate sums on why an incident was NOT resolved in a satisfactory way
 # Calculation includes breakdown by type of incident
 
-.hss_sum_satis_whynot <- function(dat){
+.hss_sum_satis_whynot <- function(dat, year = NULL){
   #General calculation of all reasons for no-contact (includes all variables, focus on sums)
-  no_satis_1 <- dat %>% select(matches("satis_whynot_caught"))
-  no_satis_1 <- no_satis_1 %>% select(!(matches("_oth")))
-  no_satis_2 <- dat %>% select(matches("_satis_whynot_punished"))
-  no_satis_2 <- no_satis_2 %>% select(!(matches("_oth")))
-  no_satis_3 <- dat %>% select(matches("_satis_whynot_comp"))
-  no_satis_3 <- no_satis_3 %>% select(!(matches("_oth")))
-  no_satis_4 <- dat %>% select(matches("_satis_whynot_nothing"))
-  no_satis_4 <- no_satis_4 %>% select(!(matches("_oth")))
-  no_satis_5 <- dat %>% select(matches("_satis_whynot_return"))
-  no_satis_5 <- no_satis_5 %>% select(!(matches("_oth")))
-  no_satis_6 <- dat %>% select(matches("_satis_whynot_corr"))
-  no_satis_6 <- no_satis_6 %>% select(!(matches("_oth")))
-  no_satis_7 <- dat %>% select(matches("_satis_whynot_threats"))
-  no_satis_7 <- no_satis_7 %>% select(!(matches("_oth")))
-  no_satis_8 <- dat %>% select(matches("_satis_whynot_safer"))
-  no_satis_8 <- no_satis_8 %>% select(!(matches("_oth")))
-  no_satis_9 <- dat %>% select(matches("_satis_whynot_idk"))
-  no_satis_9 <- no_satis_9 %>% select(!(matches("_oth")))
-  no_satis_10 <- dat %>% select(matches("_satis_whynot_rta"))
-  no_satis_10 <- no_satis_10 %>% select(!(matches("_oth")))
+  no_satis_1 <- dat %>% select(matches("satis_whynot_caught")) %>% select(!(matches("_oth")))
+  no_satis_2 <- dat %>% select(matches("_satis_whynot_punished")) %>% select(!(matches("_oth")))
+  no_satis_3 <- dat %>% select(matches("_satis_whynot_comp")) %>% select(!(matches("_oth")))
+  no_satis_4 <- dat %>% select(matches("_satis_whynot_nothing")) %>% select(!(matches("_oth")))
+  no_satis_5 <- dat %>% select(matches("_satis_whynot_return")) %>% select(!(matches("_oth")))
+  no_satis_6 <- dat %>% select(matches("_satis_whynot_corr")) %>% select(!(matches("_oth")))
+  no_satis_7 <- dat %>% select(matches("_satis_whynot_threats")) %>% select(!(matches("_oth")))
+  no_satis_8 <- dat %>% select(matches("_satis_whynot_safer")) %>% select(!(matches("_oth")))
+  no_satis_9 <- dat %>% select(matches("_satis_whynot_idk")) %>% select(!(matches("_oth")))
+  no_satis_10 <- dat %>% select(matches("_satis_whynot_rta")) %>% select(!(matches("_oth")))
+
+  #Disinction by year
+  incidents_2022 <- c("catt", "rob", "prison", "recruit",
+                      "kidnap", "assault", "kill", "bomb", "fmarr", "sex")
+  incidents_2023 <- c("catt", "rob", "prison", "recruit",
+                      "kidnap", "assault", "kill", "bomb", "fmarr", "sex", "narco")
+  incidents_names <- list(incidents_2022, incidents_2023)
+
+  #select proper incident collection
+  year_list <- function(incidents_names, year) {
+    if (year == "2022") {naam <- incidents_names[[1]]}
+    else if (year == "2023") {naam <- incidents_names[[2]]}
+    return(naam)
+  }
+
+  year_inc <- year_list(incidents_names, year)
 
   #Calculating the totals on an incident level
   incident_sums <- function(df){
@@ -121,11 +139,11 @@
       vals <- rbind(vals, temp)
     }
     vals_2 <- t(vals)
-    colnames(vals_2) <- c("catt", "rob", "prison", "recruit",
-                          "kidnap", "assault", "kill", "bomb", "fmarr", "sex", "narco")
+    colnames(vals_2) <- year_inc
     vals_3 <- as.data.frame(vals_2)
     return(vals_3)
   }
+
   df_list <- list(no_satis_1, no_satis_2, no_satis_3, no_satis_4,
                   no_satis_5, no_satis_6, no_satis_7, no_satis_8,
                   no_satis_9, no_satis_10)
@@ -145,7 +163,6 @@
   names(no_satis_table_in)[1] <- "sum"
   no_satis_table <- cbind(sum_df, no_satis_table_in)
 
-
   no_satis_table$percentage <- (no_satis_table$sum/total_no_satis)*100
   no_satis_table$satis_whynot_all <- c("The perpetrator was not caught", "The perpetrator was not punished",
                                        "No compensation for losses was offered",
@@ -153,11 +170,26 @@
                                        "Stolen goods, cattle or abducted people were not returned",
                                        "There was corruption involved",
                                        "Me or my family experienced threats as a result of seeking assistance",
-                                       "I do not feel safer generally", "I don't know", "Refuse to answer")
+                                       "I do not feel safer generally",
+                                       "I don't know",
+                                       "Refused to answer")
+
   no_satis_table <- no_satis_table %>% dplyr::relocate(satis_whynot_all)
-  ft <- flextable(no_satis_table)
-  ft <- autofit(ft)
+  ft <- flextable::flextable(no_satis_table)
+  ft <- flextable::autofit(ft)
   print(ft)
+
+  #Small display for later validation (if necessary)
+  print("-----------------------------------------------------------------", quote = FALSE)
+  print("###############|   (Inc.)_[NON]satisfaction   |##################", quote = FALSE)
+  print("-----------------------------------------------------------------", quote = FALSE)
+
+  x <- sum(no_satis_table$sum)
+
+  st1 <- "As a count (NOT Satisfied)"
+  note_1 <- paste(st1,paste0("= ", x))
+  print(note_1, quote = FALSE)
+
   return(no_satis_table)
 }
 
