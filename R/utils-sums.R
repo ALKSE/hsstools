@@ -4,28 +4,34 @@
 # Calculate sums on why an incident was resolved in a satisfactory way
 # Calculation includes breakdown by type of incident
 
-.hss_sum_satis_why <- function(dat){
-  #General calculation of all reasons for no-contact (includes all variables, focus on sums)
-  yes_satis_1 <- dat %>% select(matches("satis_why_caught"))
-  yes_satis_1 <- yes_satis_1 %>% select(!(matches("_oth")))
-  yes_satis_2 <- dat %>% select(matches("_satis_why_comp"))
-  yes_satis_2 <- yes_satis_2 %>% select(!(matches("_oth")))
-  yes_satis_3 <- dat %>% select(matches("_satis_why_honor"))
-  yes_satis_3 <- yes_satis_3 %>% select(!(matches("_oth")))
-  yes_satis_4 <- dat %>% select(matches("_satis_why_revenge"))
-  yes_satis_4 <- yes_satis_4 %>% select(!(matches("_oth")))
-  yes_satis_5 <- dat %>% select(matches("_satis_why_return"))
-  yes_satis_5 <- yes_satis_5 %>% select(!(matches("_oth")))
-  yes_satis_6 <- dat %>% select(matches("_satis_why_reconcil"))
-  yes_satis_6 <- yes_satis_6 %>% select(!(matches("_oth")))
-  yes_satis_7 <- dat %>% select(matches("_satis_why_safer"))
-  yes_satis_7 <- yes_satis_7 %>% select(!(matches("_oth")))
-  yes_satis_8 <- dat %>% select(matches("_satis_why_tried"))
-  yes_satis_8 <- yes_satis_8 %>% select(!(matches("_oth")))
-  yes_satis_9 <- dat %>% select(matches("_satis_why_idk"))
-  yes_satis_9 <- yes_satis_9 %>% select(!(matches("_oth")))
-  yes_satis_10 <- dat %>% select(matches("_satis_why_rta"))
-  yes_satis_10 <- yes_satis_10 %>% select(!(matches("_oth")))
+.hss_sum_satis_why <- function(dat, year = NULL){
+  #General calculation of all reasons for satis (includes all variables, focus on sums)
+  yes_satis_1 <- dat %>% select(matches("_satis_why_caught")) %>% select(!(matches("_oth")))
+  yes_satis_2 <- dat %>% select(matches("_satis_why_comp")) %>% select(!(matches("_oth")))
+  yes_satis_3 <- dat %>% select(matches("_satis_why_honor")) %>% select(!(matches("_oth")))
+  yes_satis_4 <- dat %>% select(matches("_satis_why_revenge")) %>% select(!(matches("_oth")))
+  yes_satis_5 <- dat %>% select(matches("_satis_why_return")) %>% select(!(matches("_oth")))
+  yes_satis_6 <- dat %>% select(matches("_satis_why_reconcil")) %>% select(!(matches("_oth")))
+  yes_satis_7 <- dat %>% select(matches("_satis_why_safer")) %>% select(!(matches("_oth")))
+  yes_satis_8 <- dat %>% select(matches("_satis_why_tried")) %>% select(!(matches("_oth")))
+  yes_satis_9 <- dat %>% select(matches("_satis_why_idk")) %>% select(!(matches("_oth")))
+  yes_satis_10 <- dat %>% select(matches("_satis_why_rta")) %>% select(!(matches("_oth")))
+
+  #Distinction by year
+  incidents_2022 <- c("catt", "rob", "prison", "recruit",
+                      "kidnap", "assault", "kill", "bomb", "fmarr", "sex")
+  incidents_2023 <- c("catt", "rob", "prison", "recruit",
+                      "kidnap", "assault", "kill", "bomb", "fmarr", "sex", "narco")
+  incidents_names <- list(incidents_2022, incidents_2023)
+
+  #select proper incident collection
+  year_list <- function(incidents_names, year) {
+    if (year == "2022") {naam <- incidents_names[[1]]}
+    else if (year == "2023") {naam <- incidents_names[[2]]}
+    return(naam)
+  }
+
+  year_inc <- year_list(incidents_names, year)
 
   #Calculating the totals on an incident level
   incident_sums <- function(df){
@@ -35,11 +41,12 @@
       vals <- rbind(vals, temp)
     }
     vals_2 <- t(vals)
-    colnames(vals_2) <- c("catt", "rob", "prison", "recruit",
-                          "kidnap", "assault", "kill", "bomb", "fmarr", "sex", "narco")
+    colnames(vals_2) <- year_inc
     vals_3 <- as.data.frame(vals_2)
     return(vals_3)
   }
+
+
   df_list <- list(yes_satis_1, yes_satis_2, yes_satis_3, yes_satis_4,
                   yes_satis_5, yes_satis_6, yes_satis_7, yes_satis_8,
                   yes_satis_9, yes_satis_10)
@@ -68,10 +75,13 @@
                                      "Stolen goods, cattle or abducted people were returned",
                                      "Reconciliation with the perpetrator took place",
                                      "I feel safer now generally",
-                                     "At least they tried to help me", "I don't know", "Refuse to answer")
+                                     "At least they tried to help me",
+                                     "I don't know",
+                                     "Refused to answer")
+
   yes_satis_table <- yes_satis_table %>% dplyr::relocate(satis_why_all)
-  ft <- flextable(yes_satis_table)
-  ft <- autofit(ft)
+  ft <- flextable::flextable(yes_satis_table)
+  ft <- flextable::autofit(ft)
   print(ft)
   return(yes_satis_table)
 }
