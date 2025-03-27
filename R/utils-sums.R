@@ -271,15 +271,17 @@
 # Calculate percentages/counts related to contact (or lack of) about an incident
 # Function distinguishes between incident/household
 
-.hss_sum_inc_contact <- function(dat){
+.hss_sum_inc_contact <- function(dat, dictionary){
   print("-----------------------------------------------------------------", quote = FALSE)
   print("####################|   (Inc.)_contact   |#######################", quote = FALSE)
   print("-----------------------------------------------------------------", quote = FALSE)
 
   #subset variables related to incident contact
-  vars <- c("catt_contact", "rob_contact", "prison_contact", "recruit_contact",
-            "kidnap_contact", "assault_contact", "kill_contact", "bomb_contact",
-            "fmarr_contact", "sex_contact", "narco_contact")
+  var1 <- as.data.frame(dictionary[[1]][c(1:6)])
+  var2 <- var1 %>% filter(type == "yesnortaidk") %>% filter(grepl("_contact", r_name)) %>%
+    filter(!grepl("_oth", r_name))
+
+  vars <- var2[[4]]
 
   SC_contact <- subset(dat, select = c(vars)) #contact (Yes - once) / (No - all)
 
