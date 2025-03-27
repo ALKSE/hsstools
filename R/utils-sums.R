@@ -198,12 +198,14 @@
 # an incident that lead to contact
 # Function distinguishes between incident/household
 
-.hss_sum_inc_satis <- function(dat){
+.hss_sum_inc_satis <- function(dat, dictionary){
   #Were you satisfied with your contact?
-  security_incidents_satis_basic <- subset(dat, select = c("catt_satis", "rob_satis", "prison_satis",
-                                                           "recruit_satis","kidnap_satis",
-                                                           "assault_satis", "kill_satis", "bomb_satis",
-                                                           "fmarr_satis", "sex_satis", "narco_satis"))
+  var1 <- as.data.frame(dictionary[[1]][c(1:6)])
+  var2 <- var1 %>% filter(type == "yesnortaidk") %>% filter(grepl("_satis", r_name)) %>%
+    filter(!grepl("_oth", r_name))
+
+  vars <- var2$r_name
+  security_incidents_satis_basic <- subset(dat, select = vars)
 
   security_incidents_satis <- security_incidents_satis_basic[rowSums(is.na(security_incidents_satis_basic)) != ncol(security_incidents_satis_basic), ]
 
@@ -281,7 +283,7 @@
   var2 <- var1 %>% filter(type == "yesnortaidk") %>% filter(grepl("_contact", r_name)) %>%
     filter(!grepl("_oth", r_name))
 
-  vars <- var2[[4]]
+  vars <- var2$r_name
 
   SC_contact <- subset(dat, select = c(vars)) #contact (Yes - once) / (No - all)
 
