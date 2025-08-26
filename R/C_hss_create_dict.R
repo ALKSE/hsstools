@@ -16,8 +16,14 @@
 #'
 #' @rdname C_hss_create_dict
 C_hss_create_dict <- function(form, location = NULL, area = NULL) {
+
+  #Preliminary check to ensure that form is in working directory
+  if (!file.exists(form)) {
+    stop("File not found: ", form)
+  }
+
   dict <- list(
-    var = readxl::read_xls(path = form, sheet = 1) %>%
+    var = readxl::read_excel(path = form, sheet = 1) %>%
       janitor::clean_names() %>%
       tidyr::separate(
         col = type,
