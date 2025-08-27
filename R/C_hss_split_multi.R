@@ -24,8 +24,13 @@ C_hss_split_multi <- function(data, dict){
   }
 
   q <- 1:nrow(data)
+  #This function seeks to convert rows into a list of dfs for more efficient processing (each row becomes a df)
   first <- lapply(q, FUN = function(i) as.data.frame(x <- data[i,]))
-  second <- lapply(q, split_3)
+
+  # Use purrr::map instead of lapply to add progress bar to the function. Investigate utility over time as purr::map can be slower than lapply
+  #second <- lapply(q, split_3)
+
+  second <- purrr::map(q, split_3, .progress = TRUE)
   third <- data.table::rbindlist(second, use.names = TRUE, fill = TRUE)
   return(third)
 }
