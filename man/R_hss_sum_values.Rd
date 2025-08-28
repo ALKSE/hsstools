@@ -4,7 +4,7 @@
 \alias{R_hss_sum_values}
 \title{Calculate variable sums based on group}
 \usage{
-R_hss_sum_values(dat, group)
+R_hss_sum_values(dat, group, year = NULL, dictionary = NULL)
 }
 \arguments{
 \item{dat}{clean data-set}
