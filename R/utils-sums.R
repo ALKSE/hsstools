@@ -198,7 +198,7 @@
 # an incident that lead to contact
 # Function distinguishes between incident/household
 
-.hss_sum_inc_satis <- function(dat, dictionary){
+.hss_sum_inc_satis <- function(dat, dictionary = NULL){
   #Were you satisfied with your contact?
   var1 <- as.data.frame(dictionary[[1]][c(1:6)])
   var2 <- var1 %>% filter(type == "yesnortaidk") %>% filter(grepl("_satis", r_name)) %>%
@@ -273,7 +273,7 @@
 # Calculate percentages/counts related to contact (or lack of) about an incident
 # Function distinguishes between incident/household
 
-.hss_sum_inc_contact <- function(dat, dictionary){
+.hss_sum_inc_contact <- function(dat, dictionary = NULL){
   print("-----------------------------------------------------------------", quote = FALSE)
   print("####################|   (Inc.)_contact   |#######################", quote = FALSE)
   print("-----------------------------------------------------------------", quote = FALSE)
