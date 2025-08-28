@@ -12,7 +12,7 @@
 #'
 #' @rdname R_hss_sum_values
 
-R_hss_sum_values <- function(dat, group, year = NULL, dictionary = NULL){
+R_hss_sum_values <- function(dat, dictionary, group){
   if(group == "?")
   {
     print("Try the following:", quote = FALSE)
@@ -31,8 +31,14 @@ R_hss_sum_values <- function(dat, group, year = NULL, dictionary = NULL){
   else if (group == "_cont_who"){.hss_sum_cont_who(dat)}
   else if (group == "_vctms"){.hss_sum_vctms(dat)}
   else if (group == "_inc"){.hss_sum_incidents(dat)}
-  else if (group == "_inc_satis"){.hss_sum_inc_satis(dat, dictionary = NULL)}
-  else if (group == "_inc_cont"){.hss_sum_inc_contact(dat, dictionary = NULL)}
+  else if (group == "_inc_satis"){
+    dictionary <- dic
+    .hss_sum_inc_satis(dat, dictionary)
+    }
+  else if (group == "_inc_cont"){
+    dictionary <- dic
+    .hss_sum_inc_contact(dat, dictionary)
+    }
   else if (group == "_satis_whynot"){.hss_sum_satis_whynot(dat)}
   else if (group == "_satis_why"){.hss_sum_satis_why(dat, year = NULL)}
 
