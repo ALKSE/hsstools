@@ -35,10 +35,8 @@ R_hss_sum_values <- function(dat, dictionary, group){
     dictionary <- dic
     .hss_sum_inc_satis(dat, dictionary)
     }
-  else if (group == "_inc_cont"){
-    dictionary <- dic
-    .hss_sum_inc_contact(dat, dictionary)
-    }
+  else if ((group == "_inc_cont") & (!missing(dictionary))){.hss_sum_inc_contact(dat, dictionary)}
+
   else if (group == "_satis_whynot"){.hss_sum_satis_whynot(dat)}
   else if (group == "_satis_why"){.hss_sum_satis_why(dat, year = NULL)}
 
