@@ -5,14 +5,16 @@
 #' any issues, please input '?' into the function to list options.
 #'
 #' @param dat clean data-set
-#' @param group variable shothand used to select utility function
+#' @param dictionary dictionary df/list used as a reference
+#' @param year variable shorthand used to select the year of survey deployment. Options are: "2023+" & "2023-"
+#' @param group variable shorthand used to select utility function
 #'
 #' @return Text/Table providing required calculations for HSS outputs
 #' @export
 #'
 #' @rdname R_hss_sum_values
 
-R_hss_sum_values <- function(dat, dictionary, group){
+R_hss_sum_values <- function(dat, dictionary, year, group){
   if(group == "?")
   {
     print("Try the following:", quote = FALSE)
@@ -31,13 +33,14 @@ R_hss_sum_values <- function(dat, dictionary, group){
   else if (group == "_cont_who"){.hss_sum_cont_who(dat)}
   else if (group == "_vctms"){.hss_sum_vctms(dat)}
   else if (group == "_inc"){.hss_sum_incidents(dat)}
-  else if (group == "_inc_satis"){
-    dictionary <- dic
-    .hss_sum_inc_satis(dat, dictionary)
-    }
+
+
+  else if ((group == "_inc_satis") & (!missing(dictionary))){.hss_sum_inc_satis(dat, dictionary)}
   else if ((group == "_inc_cont") & (!missing(dictionary))){.hss_sum_inc_contact(dat, dictionary)}
 
   else if (group == "_satis_whynot"){.hss_sum_satis_whynot(dat)}
+
+
   else if (group == "_satis_why"){.hss_sum_satis_why(dat, year = NULL)}
 
 }

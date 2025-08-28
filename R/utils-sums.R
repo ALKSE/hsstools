@@ -26,8 +26,8 @@
 
   #select proper incident collection
   year_list <- function(incidents_names, year) {
-    if (year == "2022") {naam <- incidents_names[[1]]}
-    else if (year == "2023") {naam <- incidents_names[[2]]}
+    if (year == "2023+") {naam <- incidents_names[[1]]}
+    else if (year == "2022-") {naam <- incidents_names[[2]]}
     return(naam)
   }
 
