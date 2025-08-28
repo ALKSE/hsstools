@@ -4,7 +4,7 @@
 # Calculate sums on why an incident was resolved in a satisfactory way
 # Calculation includes breakdown by type of incident
 
-.hss_sum_satis_why <- function(dat, dictionary, year = NULL){
+.hss_sum_satis_why <- function(dat, dictionary, year){
   #General calculation of all reasons for satis (includes all variables, focus on sums)
   yes_satis_1 <- dat %>% select(matches("_satis_why_caught")) %>% select(!(matches("_oth")))
   yes_satis_2 <- dat %>% select(matches("_satis_why_comp")) %>% select(!(matches("_oth")))
