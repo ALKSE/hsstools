@@ -4,7 +4,7 @@
 # Calculate sums on why an incident was resolved in a satisfactory way
 # Calculation includes breakdown by type of incident
 
-.hss_sum_satis_why <- function(dat, dictionary, year){
+.hss_sum_satis_why <- function(dat, dictionary){
   #General calculation of all reasons for satis (includes all variables, focus on sums)
   yes_satis_1 <- dat %>% select(matches("_satis_why_caught")) %>% select(!(matches("_oth")))
   yes_satis_2 <- dat %>% select(matches("_satis_why_comp")) %>% select(!(matches("_oth")))
@@ -25,13 +25,13 @@
   incidents_names <- list(incidents_2022, incidents_2023)
 
   #select proper incident collection
-  year_list <- function(incidents_names, year) {
-    if (year == "2023+") {naam <- incidents_names[[1]]}
-    else if (year == "2023-") {naam <- incidents_names[[2]]}
+  year_list <- function(incidents_names) {
+    if (dat$date_simple[1] < "2023-01-01") {naam <- incidents_names[[1]]}
+    else if (dat$date_simple[1] > "2023-01-01") {naam <- incidents_names[[2]]}
     return(naam)
   }
 
-  year_inc <- year_list(incidents_names, year)
+  year_inc <- year_list(incidents_names)
 
   #Calculating the totals on an incident level
   incident_sums <- function(df){

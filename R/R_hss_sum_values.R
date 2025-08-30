@@ -14,7 +14,7 @@
 #'
 #' @rdname R_hss_sum_values
 
-R_hss_sum_values <- function(dat, dictionary, year, group){
+R_hss_sum_values <- function(dat, dictionary, group){
   if(group == "?")
   {
     print("Try the following:", quote = FALSE)
@@ -41,6 +41,6 @@ R_hss_sum_values <- function(dat, dictionary, year, group){
   else if (group == "_satis_whynot"){.hss_sum_satis_whynot(dat)}
 
 
-  else if (group == "_satis_why"){.hss_sum_satis_why(dat, dictionary, year = NULL)}
+  else if (group == "_satis_why"){.hss_sum_satis_why(dat, dictionary)}
 
 }
