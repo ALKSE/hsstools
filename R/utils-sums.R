@@ -102,7 +102,7 @@
 # Calculate sums on why an incident was NOT resolved in a satisfactory way
 # Calculation includes breakdown by type of incident
 
-.hss_sum_satis_whynot <- function(dat, year = NULL){
+.hss_sum_satis_whynot <- function(dat, dictionary){
   #General calculation of all reasons for no-contact (includes all variables, focus on sums)
   no_satis_1 <- dat %>% select(matches("satis_whynot_caught")) %>% select(!(matches("_oth")))
   no_satis_2 <- dat %>% select(matches("_satis_whynot_punished")) %>% select(!(matches("_oth")))
@@ -123,13 +123,13 @@
   incidents_names <- list(incidents_2022, incidents_2023)
 
   #select proper incident collection
-  year_list <- function(incidents_names, year) {
-    if (year == "2022") {naam <- incidents_names[[1]]}
-    else if (year == "2023") {naam <- incidents_names[[2]]}
+  year_list <- function(incidents_names) {
+    if (dat$date_simple[1] < "2023-01-01") {naam <- incidents_names[[1]]}
+    else if (dat$date_simple[1] > "2023-01-01") {naam <- incidents_names[[2]]}
     return(naam)
   }
 
-  year_inc <- year_list(incidents_names, year)
+  year_inc <- year_list(incidents_names)
 
   #Calculating the totals on an incident level
   incident_sums <- function(df){
@@ -411,7 +411,7 @@
 # Calculate percentages/counts related to who was contacted about an incident
 # Function uses incident-level rather than household-level
 
-.hss_sum_cont_who <- function(dat){
+.hss_sum_cont_who <- function(dat, dictionary){
   who_contact_1 <- dat %>% select(matches("cont_who_police"))
   who_contact_1 <- who_contact_1 %>% select(!(matches("_oth")))
   who_contact_2 <- dat %>% select(matches("cont_who_sspdf"))
@@ -472,7 +472,7 @@
 # Calculate percentages/counts related to why no contact was bade after an incident
 # Function uses incident-level rather than household-level
 
-.hss_sum_cont_whynot <- function(dat){
+.hss_sum_cont_whynot <- function(dat, dictionary){
   #General calculation of all reasons for no-contact (includes all variables, focus on sums)
   no_contact_1 <- dat %>% select(matches("cont_whynot_believe"))
   no_contact_1 <- no_contact_1 %>% select(!(matches("_oth")))
@@ -550,7 +550,7 @@
 # Calculate percentages/counts related to who was the perpetrator of an incident
 # Function uses incident-level rather than household-level
 
-.hss_sum_perp <- function(dat){
+.hss_sum_perp <- function(dat, dictionary){
   security_incidents_perp_base <- dat %>% select(matches("_perp"))
   security_incidents_perp <- security_incidents_perp_base %>% select(!(matches("secinc")))
 
@@ -585,7 +585,7 @@
 # Calculate percentages/counts related to experienced incidents
 # Function distinguishes between incident/household
 
-.hss_sum_incidents <- function(dat){
+.hss_sum_incidents <- function(dat, dictionary){
 
   #Determine which incidents have been recorded
   #At the moment, this is not a useful addition, but will help make the code
@@ -699,7 +699,7 @@
 # vctm sum function ------------------------------------------------
 # Calculate percentages/counts related to victimized groups
 
-.hss_sum_vctms <- function(dat){
+.hss_sum_vctms <- function(dat, dictionary){
   boys <- dat %>% select(matches("ms_boys"))
   girls <- dat %>% select(matches("ms_girls"))
   men <- dat %>% select(matches("ms_men"))

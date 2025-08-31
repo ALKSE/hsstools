@@ -1,12 +1,11 @@
 #' Calculate variable sums based on group
 #'
 #' This multipurpose function provides a selection of utility functions which can
-#' be used to calculate sums/disagregations necessary for HSS publications. In case of
-#' any issues, please input '?' into the function to list options.
+#' be used to calculate breakdowns and sums necessary for HSS publications. In case of
+#' any issues, please input '?' into the group parameter to list options.
 #'
 #' @param dat clean data-set
 #' @param dictionary dictionary df/list used as a reference
-#' @param year variable shorthand used to select the year of survey deployment. Options are: "2023+" & "2023-"
 #' @param group variable shorthand used to select utility function
 #'
 #' @return Text/Table providing required calculations for HSS outputs
