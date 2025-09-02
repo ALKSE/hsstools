@@ -4,14 +4,12 @@
 \alias{R_hss_sum_values}
 \title{Calculate variable sums based on group}
 \usage{
-R_hss_sum_values(dat, dictionary, year, group)
+R_hss_sum_values(dat, dictionary, group)
 }
 \arguments{
 \item{dat}{clean data-set}
 
 \item{dictionary}{dictionary df/list used as a reference}
-
-\item{year}{variable shorthand used to select the year of survey deployment. Options are: "2023+" & "2023-"}
 
 \item{group}{variable shorthand used to select utility function}
 }
@@ -20,6 +18,6 @@ Text/Table providing required calculations for HSS outputs
 }
 \description{
 This multipurpose function provides a selection of utility functions which can
-be used to calculate sums/disagregations necessary for HSS publications. In case of
-any issues, please input '?' into the function to list options.
+be used to calculate breakdowns and sums necessary for HSS publications. In case of
+any issues, please input '?' into the group parameter to list options.
 }

@@ -8,6 +8,8 @@
 #'
 A_hss_clean_audit <- function(dat) {
   out <- dat %>% dplyr::mutate(
+    #This division is conducted to manage the scientific notation used by ODK when
+    #outputting audit files
     diff_sec = (end - start) / 1000,
     diff_min = diff_sec / 60
   )
