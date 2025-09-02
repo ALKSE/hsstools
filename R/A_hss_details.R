@@ -59,8 +59,8 @@ A_hss_details <- function(dat, audit, name, max){
     filter(duration > 22)
 
   #This overview specifically presents the exclusions related to screen-time.
-  audit_proof_evidence <- subset(audit_proof_base, !audit_proof_base$instance_id %in%
-                                   audit_proof_advanced$instance_id)
+  audit_proof_evidence <- as.data.frame(subset(audit_proof_base, !audit_proof_base$instance_id %in%
+                                   audit_proof_advanced$instance_id))
 
 
   #Combine into a nice list
