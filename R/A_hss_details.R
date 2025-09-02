@@ -29,7 +29,7 @@ A_hss_details <- function(dat, audit, name, max){
 
   #Make sure that data is cleaned with the audit in-mind
   a <- subset(dat, deviceid == as.character(name))
-  b <- mutate(duration_temp = as.numeric(duration, "minutes"))
+  b <- mutate(duration_temp == as.numeric(duration, "minutes"))
   c <- b %>% dplyr::mutate(across(all_of(incidents), ~ if_else(.x == 1, 1, 0)),
                            tot_inc = rowSums(across(all_of(incidents)))) %>%
     filter(consent == 1 & consent2 == 1 & !(atmosphere_uncomf == 1 & atmosphere_interfered == 1) &
